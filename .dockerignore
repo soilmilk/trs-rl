@@ -1,0 +1,15 @@
+.git
+.github
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+runs/
+data/eval/*.jsonl
+*.tar.gz
+*.log
+.env
+.env.*
+aws_setup.sh

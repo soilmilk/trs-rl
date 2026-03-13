@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Training outputs (large — use S3 instead)
+runs/
+*.npz
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Generated eval data (regenerate with generate_eval.py)
+data/eval/*.jsonl
+
+# Logs
+*.log
+nohup.out
+
+# Secrets — NEVER commit these
+.env
+.env.*
+*.pem
+*.key
+aws-credentials*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

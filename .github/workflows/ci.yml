@@ -1,0 +1,35 @@
+name: TRS-RL CI
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sanity-checks:
+    name: Sanity Checks (CPU)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install CPU-only dependencies
+        run: |
+          pip install --upgrade pip
+          # Install torch CPU-only (much faster for CI, no CUDA needed for logic tests)
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install transformers peft datasets trl tqdm numpy
+          pip install -e ".[dev]"
+
+      - name: Run sanity checks
+        run: python3 scripts/sanity_check.py
+
+      - name: Run pytest
+        run: pytest scripts/sanity_check.py -v

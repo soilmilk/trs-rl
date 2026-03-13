@@ -1,0 +1,25 @@
+# TRS-RL pinned dependencies
+# Generated for CUDA 12.1 / H100
+
+# ── Core ML ────────────────────────────────────────────────────────────────────
+# torch is provided by the base NVIDIA image — do not reinstall
+transformers>=4.40.0
+peft>=0.10.0
+accelerate>=0.28.0
+datasets>=2.18.0
+trl>=0.8.6           # GRPOTrainer
+
+# ── Fast rollout inference ──────────────────────────────────────────────────────
+vllm>=0.4.2          # H100-optimised inference engine for GRPO rollouts
+
+# ── Data / utilities ────────────────────────────────────────────────────────────
+numpy>=1.26.0
+tqdm>=4.66.0
+einops>=0.7.0        # used by some model architectures
+
+# ── Experiment tracking (optional but recommended) ─────────────────────────────
+wandb>=0.17.0
+
+# ── Dev / testing ───────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-xdist>=3.5.0  # parallel tests

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "trs-rl"
+version = "1.0.0"
+description = "Term Rewriting Agent via Reinforcement Learning"
+requires-python = ">=3.10"
+
+dependencies = [
+    # Core ML stack for H100s
+    "torch>=2.2.0",
+    "transformers>=4.40.0",
+    "peft>=0.10.0",
+    "accelerate>=0.28.0",
+    "datasets>=2.18.0",
+    "trl>=0.8.0",         # GRPOTrainer
+
+    # Fast inference
+    "vllm>=0.4.0",        # optional but strongly recommended for rollouts
+
+    # Data / utilities
+    "tqdm",
+    "numpy",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-xdist",       # parallel test execution
+]
+tracking = [
+    "wandb",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rewritelang*", "generator*", "agent*", "training*"]
+
+[tool.pytest.ini_options]
+testpaths = ["scripts"]
+python_files = ["sanity_check.py"]
