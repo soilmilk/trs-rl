@@ -41,10 +41,6 @@ except ImportError:
     print("ERROR: boto3 not installed. Run: pip install boto3")
     sys.exit(1)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Configuration — edit these if needed
-# ─────────────────────────────────────────────────────────────────────────────
-
 CONFIG = {
     # Instance type — p3.2xlarge = 1x V100 (cheaper for testing)
     #                 p4d.24xlarge = 8x A100
@@ -63,8 +59,7 @@ CONFIG = {
     "storage_gb": 200,                   # EBS volume (models + checkpoints need space)
     "spot": False,                       # True = spot instance (70% cheaper, can be interrupted)
 
-    # Your GitHub repo — UPDATE THIS
-    "github_repo": "https://github.com/YOUR_USERNAME/trs-rl.git",
+    "github_repo": "https://github.com/soilmilk/trs-rl.git",
 
     # Where to store the SSH key locally
     "key_path": str(Path.home() / ".ssh" / "trs-rl-key.pem"),
@@ -173,7 +168,7 @@ def ensure_security_group(ec2, sg_name: str) -> str:
     print(f"  Creating security group: {sg_name}")
     response = ec2.create_security_group(
         GroupName=sg_name,
-        Description="TRS-RL training instance — SSH access",
+        Description="TRS-RL training instance - SSH access",
     )
     sg_id = response["GroupId"]
 
@@ -314,7 +309,7 @@ def cmd_launch(args):
     print(f"{'='*60}\n")
 
     # Setup infrastructure
-    ami_id = get_latest_dl_ami(ec2) if CONFIG["ami_id"] == "auto" else CONFIG["ami_id"]
+    ami_id = get_latest_dl_ami(ec2, CONFIG["region"]) if CONFIG["ami_id"] == "auto" else CONFIG["ami_id"]
     key_name = ensure_key_pair(ec2, CONFIG["key_name"], CONFIG["key_path"])
     sg_id = ensure_security_group(ec2, CONFIG["security_group"])
 
