@@ -197,7 +197,7 @@ def train(
         gradient_accumulation_steps = grad_accumulation,
         learning_rate            = learning_rate,
         num_generations          = group_size,
-        max_new_tokens           = max_new_tokens,
+        max_completion_length    = max_new_tokens,
         temperature              = temperature,
         kl_coeff                 = kl_coeff,
         save_steps               = save_every,
