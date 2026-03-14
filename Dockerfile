@@ -19,8 +19,10 @@ WORKDIR /workspace/trs-rl
 # ── Python dependencies (cached layer — copy requirements first) ───────────────
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
-
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir --force-reinstall \
+        numpy==1.24.4 \
+        pandas==2.0.3
 # ── Copy codebase ──────────────────────────────────────────────────────────────
 COPY . .
 

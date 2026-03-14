@@ -164,7 +164,7 @@ def train(
     # ── Model + LoRA ────────────────────────────────────────────────────────
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype=torch.bfloat16,
+        dtype=torch.bfloat16,
         device_map="auto",
         trust_remote_code=True,
     )
@@ -191,22 +191,22 @@ def train(
 
     # ── GRPO Config ──────────────────────────────────────────────────────────
     grpo_config = GRPOConfig(
-        output_dir               = output_dir,
-        max_steps                = max_steps,
-        per_device_train_batch_size = batch_size,
-        gradient_accumulation_steps = grad_accumulation,
-        learning_rate            = learning_rate,
-        num_generations          = group_size,
-        max_completion_length    = max_new_tokens,
-        temperature              = temperature,
-        kl_coeff                 = kl_coeff,
-        save_steps               = save_every,
-        logging_steps            = 10,
-        seed                     = seed,
-        bf16                     = True,
-        gradient_checkpointing   = True,
-        report_to                = "none",   # swap to "wandb" if you want tracking
-    )
+    output_dir                  = output_dir,
+    max_steps                   = max_steps,
+    per_device_train_batch_size = batch_size,
+    gradient_accumulation_steps = grad_accumulation,
+    learning_rate               = learning_rate,
+    num_generations             = group_size,
+    max_completion_length       = max_new_tokens,
+    temperature                 = temperature,
+    beta                        = kl_coeff,
+    save_steps                  = save_every,
+    logging_steps               = 10,
+    seed                        = seed,
+    bf16                        = True,
+    gradient_checkpointing      = True,
+    report_to                   = "none",
+)
 
     # ── Initial dataset ──────────────────────────────────────────────────────
     # We regenerate the dataset periodically as the curriculum advances
