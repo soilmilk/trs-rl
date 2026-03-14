@@ -7,6 +7,8 @@ Each domain is a list of Rule objects.
 Start with boolean (Phase 1-3), add arithmetic (Phase 4), abstract (Phase 5).
 """
 
+from __future__ import annotations
+from typing import Optional
 from .grammar import parse_expr
 from .verifier import Rule
 
@@ -62,7 +64,7 @@ DOMAIN_RULES: dict[str, list[Rule]] = {
 }
 
 
-def get_domain_rules(domain: str, n_rules: int | None = None) -> list[Rule]:
+def get_domain_rules(domain: str, n_rules: Optional[int] = None) -> list[Rule]:
     """
     Return rules for a domain, optionally truncated to n_rules.
     If n_rules is None, return all rules for the domain.
