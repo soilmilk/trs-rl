@@ -15,6 +15,7 @@ import os
 import json
 import random
 import logging
+from pathlib import Path
 from typing import Optional
 
 import torch
@@ -38,18 +39,71 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Dataset factory
+# Dataset factory — loads from pre-generated files if available,
+# otherwise falls back to on-the-fly generation
 # ---------------------------------------------------------------------------
+
+def load_phase_file(phase: int, train_data_dir: str) -> list[dict]:
+    """Load pre-generated instances for a given phase."""
+    path = Path(train_data_dir) / f"phase{phase}.jsonl"
+    if not path.exists():
+        return []
+    instances = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                instances.append(json.loads(line))
+    return instances
+
 
 def make_grpo_dataset(
     curriculum: CurriculumTracker,
     n_instances: int,
     seed_offset: int = 0,
     tokenizer=None,
+    train_data_dir: Optional[str] = None,
 ) -> Dataset:
-    rng = random.Random(seed_offset + curriculum.state.training_step)
-    instances = []
+    """
+    Build a HuggingFace Dataset with 'prompt' and '_instance_json' columns.
+    Loads from pre-generated phase files if train_data_dir is provided,
+    otherwise generates on the fly.
+    """
+    phase = curriculum.state.phase
     prompts   = []
+    inst_jsons = []
+
+    # ── Try loading from pre-generated files ──────────────────────────────
+    if train_data_dir:
+        pool = load_phase_file(phase, train_data_dir)
+        if pool:
+            logger.info(f"Loaded {len(pool)} pre-generated instances from phase{phase}.jsonl")
+            rng = random.Random(seed_offset + curriculum.state.training_step)
+            # Sample n_instances from the pool (with replacement if needed)
+            selected = rng.choices(pool, k=n_instances)
+
+            for d in selected:
+                inst = TRSInstance.from_dict(d)
+                msgs = make_chat_messages(inst)
+                if tokenizer is not None:
+                    prompt_str = tokenizer.apply_chat_template(
+                        msgs, tokenize=False, add_generation_prompt=True
+                    )
+                else:
+                    prompt_str = f"[SYSTEM]{SYSTEM}[USER]{msgs[1]['content']}"
+                prompts.append(prompt_str)
+                inst_jsons.append(json.dumps(d))
+
+            return Dataset.from_dict({
+                "prompt":         prompts,
+                "_instance_json": inst_jsons,
+            })
+        else:
+            logger.warning(f"No pre-generated file found for phase {phase} in {train_data_dir}, falling back to on-the-fly generation")
+
+    # ── Fallback: generate on the fly ─────────────────────────────────────
+    logger.info(f"Generating {n_instances} instances on the fly for phase {phase}...")
+    rng = random.Random(seed_offset + curriculum.state.training_step)
 
     for i in range(n_instances):
         kwargs = curriculum.get_instance_kwargs(rng)
@@ -70,12 +124,12 @@ def make_grpo_dataset(
         else:
             prompt_str = f"[SYSTEM]{SYSTEM}[USER]{msgs[1]['content']}"
 
-        instances.append(inst)
         prompts.append(prompt_str)
+        inst_jsons.append(json.dumps(inst.to_dict()))
 
     return Dataset.from_dict({
         "prompt":         prompts,
-        "_instance_json": [json.dumps(inst.to_dict()) for inst in instances],
+        "_instance_json": inst_jsons,
     })
 
 
@@ -110,6 +164,7 @@ def make_reward_fn(instances_by_prompt: dict):
 def train(
     model_name:       str   = "Qwen/Qwen2.5-1.5B-Instruct",
     output_dir:       str   = "runs/trs_rl",
+    train_data_dir:   str   = "data/train",       # pre-generated phase files
     max_steps:        int   = 8000,
     learning_rate:    float = 8e-6,
     batch_size:       int   = 4,
@@ -143,6 +198,7 @@ def train(
 
     logger.info(f"Starting TRS-RL training on {torch.cuda.device_count()} GPU(s)")
     logger.info(f"Model: {model_name}")
+    logger.info(f"Train data dir: {train_data_dir}")
 
     # ── Tokenizer ──────────────────────────────────────────────────────────
     tokenizer = AutoTokenizer.from_pretrained(
@@ -154,7 +210,6 @@ def train(
         tokenizer.pad_token = tokenizer.eos_token
 
     # ── Model ───────────────────────────────────────────────────────────────
-    # No device_map="auto" — GRPOTrainer handles placement via accelerate
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         dtype=torch.bfloat16,
@@ -202,12 +257,13 @@ def train(
         remove_unused_columns       = False,
     )
 
-    # ── Dataset ──────────────────────────────────────────────────────────────
+    # ── Dataset — loaded from pre-generated files ─────────────────────────
     dataset = make_grpo_dataset(
         curriculum,
-        n_instances = max_steps * batch_size,
-        seed_offset = seed,
-        tokenizer   = tokenizer,
+        n_instances    = max_steps * batch_size,
+        seed_offset    = seed,
+        tokenizer      = tokenizer,
+        train_data_dir = train_data_dir,
     )
 
     instances_map = {
