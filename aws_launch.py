@@ -45,7 +45,7 @@ CONFIG = {
     # Instance type — p3.2xlarge = 1x V100 (cheaper for testing)
     #                 p4d.24xlarge = 8x A100
     #                 p5.48xlarge  = 8x H100 (recommended)
-    "instance_type": "p3.2xlarge",       # START HERE for testing (~$3/hr)
+    "instance_type": "p5.48xlarge",    # 8x H100 (~$98/hr) — use for real training
     # "instance_type": "p4d.24xlarge",   # 8x A100 (~$32/hr)
     # "instance_type": "p5.48xlarge",    # 8x H100 (~$98/hr) — use for real training
 
@@ -279,7 +279,7 @@ docker run --gpus all \\
     --restart unless-stopped \\
     -d trs-rl \\
     python3 scripts/train.py \\
-        --model Qwen/Qwen2.5-1.5B-Instruct \\
+        --model Qwen/Qwen2.5-1.5B-Instruct \\ 
         --output-dir runs/trs_rl \\
         --max-steps 8000
 

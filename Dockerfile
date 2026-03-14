@@ -24,8 +24,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # ── Copy codebase ──────────────────────────────────────────────────────────────
 COPY . .
 
-# ── Install project in editable mode ──────────────────────────────────────────
-RUN pip install --no-cache-dir -e ".[dev]"
+#add source to pythonpath because we want to be able to import from the root of the repo
+ENV PYTHONPATH="/workspace/trs-rl:${PYTHONPATH}" 
 
 # ── Pre-create output directories ─────────────────────────────────────────────
 RUN mkdir -p runs data/eval
