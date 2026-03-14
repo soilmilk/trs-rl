@@ -69,7 +69,7 @@ def make_grpo_dataset(
     Loads from pre-generated phase files if train_data_dir is provided,
     otherwise generates on the fly.
     """
-    phase = curriculum.state.phase
+    phase = curriculum.state.current_phase
     prompts   = []
     inst_jsons = []
 
