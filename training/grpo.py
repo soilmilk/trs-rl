@@ -1,12 +1,10 @@
 """
 training/grpo.py
 
-GRPO training loop for H100 GPUs using HuggingFace TRL + vLLM.
+GRPO training loop for H100 GPUs using HuggingFace TRL.
 
-This replaces the MLX-GRPO backend from the design doc (which was Apple Silicon).
 On AWS H100s we use:
   - trl.GRPOTrainer (HuggingFace) for the RL loop
-  - vllm for fast rollout generation
   - LoRA via peft
 
 The reward function is our TRS verifier — the model never sees the proof trace.
@@ -16,9 +14,7 @@ from __future__ import annotations
 import os
 import json
 import random
-import time
 import logging
-from pathlib import Path
 from typing import Optional
 
 import torch
@@ -26,7 +22,6 @@ from datasets import Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import LoraConfig, get_peft_model, TaskType
 
-# TRL GRPOTrainer — install with: pip install trl>=0.8.0
 try:
     from trl import GRPOConfig, GRPOTrainer
     TRL_AVAILABLE = True
@@ -37,14 +32,13 @@ except ImportError:
 from generator.instance import TRSInstance, generate_instance
 from generator.curriculum import CurriculumTracker
 from agent.prompt import make_chat_messages, SYSTEM
-from agent.parser import parse_proof_from_output, extract_think_block
 from training.reward import compute_reward
 
 logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Dataset factory — generates instances on the fly
+# Dataset factory
 # ---------------------------------------------------------------------------
 
 def make_grpo_dataset(
@@ -53,10 +47,6 @@ def make_grpo_dataset(
     seed_offset: int = 0,
     tokenizer=None,
 ) -> Dataset:
-    """
-    Generate n_instances for the current curriculum phase.
-    Returns a HuggingFace Dataset with 'prompt' and '_instance_json' columns.
-    """
     rng = random.Random(seed_offset + curriculum.state.training_step)
     instances = []
     prompts   = []
@@ -67,7 +57,6 @@ def make_grpo_dataset(
         try:
             inst = generate_instance(**kwargs)
         except RuntimeError:
-            # Fallback: simpler instance if generation fails
             inst = generate_instance(
                 n_rules=3, max_depth=2, n_steps=1, domain="boolean",
                 seed=kwargs["seed"] + 99999,
@@ -91,18 +80,18 @@ def make_grpo_dataset(
 
 
 # ---------------------------------------------------------------------------
-# Reward function wrapper for GRPOTrainer
+# Reward function
 # ---------------------------------------------------------------------------
 
 def make_reward_fn(instances_by_prompt: dict):
     """
-    Returns a reward function compatible with trl.GRPOTrainer.
-    GRPOTrainer calls reward_fn(prompts, completions, **kwargs) -> list[float]
+    New TRL API: reward_fn(completions, prompts=None, **kwargs) -> list[float]
     """
-    def reward_fn(prompts: list[str], completions: list[str], **kwargs) -> list[float]:
+    def reward_fn(completions: list[str], prompts: list[str] = None, **kwargs) -> list[float]:
         rewards = []
-        for prompt, completion in zip(prompts, completions):
-            inst_json = instances_by_prompt.get(prompt)
+        for i, completion in enumerate(completions):
+            prompt = prompts[i] if prompts is not None else None
+            inst_json = instances_by_prompt.get(prompt) if prompt else None
             if inst_json is None:
                 rewards.append(0.0)
                 continue
@@ -138,7 +127,6 @@ def train(
     seed:             int   = 42,
     resume_from:      Optional[str] = None,
 ) -> None:
-    """Full GRPO training run."""
 
     if not TRL_AVAILABLE:
         raise ImportError("Install trl: pip install trl>=0.8.0")
@@ -157,25 +145,30 @@ def train(
     logger.info(f"Model: {model_name}")
 
     # ── Tokenizer ──────────────────────────────────────────────────────────
-    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name,
+        trust_remote_code=True,
+        padding_side="left",
+    )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # ── Model + LoRA ────────────────────────────────────────────────────────
+    # ── Model ───────────────────────────────────────────────────────────────
+    # No device_map="auto" — GRPOTrainer handles placement via accelerate
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         dtype=torch.bfloat16,
-        device_map="auto",
         trust_remote_code=True,
     )
 
+    # ── LoRA ────────────────────────────────────────────────────────────────
     lora_config = LoraConfig(
-        task_type       = TaskType.CAUSAL_LM,
-        r               = lora_rank,
-        lora_alpha      = lora_alpha,
-        lora_dropout    = lora_dropout,
-        target_modules  = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj"],
-        bias            = "none",
+        task_type      = TaskType.CAUSAL_LM,
+        r              = lora_rank,
+        lora_alpha     = lora_alpha,
+        lora_dropout   = lora_dropout,
+        target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj"],
+        bias           = "none",
     )
     model = get_peft_model(model, lora_config)
     model.print_trainable_parameters()
@@ -191,32 +184,32 @@ def train(
 
     # ── GRPO Config ──────────────────────────────────────────────────────────
     grpo_config = GRPOConfig(
-    output_dir                  = output_dir,
-    max_steps                   = max_steps,
-    per_device_train_batch_size = batch_size,
-    gradient_accumulation_steps = grad_accumulation,
-    learning_rate               = learning_rate,
-    num_generations             = group_size,
-    max_completion_length       = max_new_tokens,
-    temperature                 = temperature,
-    beta                        = kl_coeff,
-    save_steps                  = save_every,
-    logging_steps               = 10,
-    seed                        = seed,
-    bf16                        = True,
-    gradient_checkpointing      = True,
-    report_to                   = "none",
-)
-
-    # ── Initial dataset ──────────────────────────────────────────────────────
-    # We regenerate the dataset periodically as the curriculum advances
-    instances_per_step = batch_size
-    dataset = make_grpo_dataset(
-        curriculum, n_instances=max_steps * instances_per_step,
-        seed_offset=seed, tokenizer=tokenizer,
+        output_dir                  = output_dir,
+        max_steps                   = max_steps,
+        per_device_train_batch_size = batch_size,
+        gradient_accumulation_steps = grad_accumulation,
+        learning_rate               = learning_rate,
+        num_generations             = group_size,
+        max_completion_length       = max_new_tokens,
+        temperature                 = temperature,
+        beta                        = kl_coeff,
+        save_steps                  = save_every,
+        logging_steps               = 10,
+        seed                        = seed,
+        bf16                        = True,
+        gradient_checkpointing      = True,
+        report_to                   = "none",
+        remove_unused_columns       = False,
     )
 
-    # Build prompt → instance lookup for reward fn
+    # ── Dataset ──────────────────────────────────────────────────────────────
+    dataset = make_grpo_dataset(
+        curriculum,
+        n_instances = max_steps * batch_size,
+        seed_offset = seed,
+        tokenizer   = tokenizer,
+    )
+
     instances_map = {
         row["prompt"]: row["_instance_json"]
         for row in dataset
@@ -225,17 +218,16 @@ def train(
 
     # ── Trainer ──────────────────────────────────────────────────────────────
     trainer = GRPOTrainer(
-        model        = model,
-        reward_funcs = reward_fn,
-        args         = grpo_config,
-        train_dataset= dataset.remove_columns(["_instance_json"]),
-        tokenizer    = tokenizer,
+        model            = model,
+        reward_funcs     = reward_fn,
+        args             = grpo_config,
+        train_dataset    = dataset.remove_columns(["_instance_json"]),
+        processing_class = tokenizer,
     )
 
     logger.info("Starting training loop...")
     trainer.train(resume_from_checkpoint=resume_from)
 
-    # ── Save final ────────────────────────────────────────────────────────────
     trainer.save_model(f"{output_dir}/final")
     curriculum.save(f"{output_dir}/curriculum.json")
     logger.info(f"Training complete. Model saved to {output_dir}/final")
