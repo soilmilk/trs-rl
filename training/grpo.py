@@ -190,7 +190,7 @@ def train(
             dtype=torch.bfloat16,
             trust_remote_code=True,
         )
-        model = PeftModel.from_pretrained(base_model, resume_checkpoint)
+        model = PeftModel.from_pretrained(base_model, resume_checkpoint, is_trainable=True)
         logger.info("Checkpoint loaded successfully.")
     else:
         # Fresh model + new LoRA
