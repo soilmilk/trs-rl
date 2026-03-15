@@ -8,6 +8,12 @@ On AWS H100s we use:
   - LoRA via peft
 
 The reward function is our TRS verifier — the model never sees the proof trace.
+
+Changes in this version:
+  - Added --start-phase argument to control which phase data to load
+  - Added --resume-from-checkpoint to continue from a saved checkpoint
+  - Logs saved to disk via tee (run with 2>&1 | tee ~/phaseN_logs.txt)
+  - Fixed all TRL API changes (processing_class, max_completion_length, beta)
 """
 
 from __future__ import annotations
@@ -21,7 +27,7 @@ from typing import Optional
 import torch
 from datasets import Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from peft import LoraConfig, get_peft_model, TaskType
+from peft import LoraConfig, get_peft_model, TaskType, PeftModel
 
 try:
     from trl import GRPOConfig, GRPOTrainer
@@ -31,7 +37,7 @@ except ImportError:
     print("WARNING: trl not installed. Run: pip install trl>=0.8.0")
 
 from generator.instance import TRSInstance, generate_instance
-from generator.curriculum import CurriculumTracker
+from generator.curriculum import CurriculumTracker, PHASE_CONFIGS
 from agent.prompt import make_chat_messages, SYSTEM
 from training.reward import compute_reward
 
@@ -39,83 +45,44 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Dataset factory — loads from pre-generated files if available,
-# otherwise falls back to on-the-fly generation
+# Dataset factory — loads from pre-generated phase files
 # ---------------------------------------------------------------------------
 
 def load_phase_file(phase: int, train_data_dir: str) -> list[dict]:
     """Load pre-generated instances for a given phase."""
     path = Path(train_data_dir) / f"phase{phase}.jsonl"
     if not path.exists():
-        return []
+        raise FileNotFoundError(f"Phase file not found: {path}")
     instances = []
     with open(path) as f:
         for line in f:
             line = line.strip()
             if line:
                 instances.append(json.loads(line))
+    logger.info(f"Loaded {len(instances)} instances from {path}")
     return instances
 
 
 def make_grpo_dataset(
-    curriculum: CurriculumTracker,
+    phase: int,
     n_instances: int,
     seed_offset: int = 0,
     tokenizer=None,
-    train_data_dir: Optional[str] = None,
+    train_data_dir: str = "data/train",
 ) -> Dataset:
     """
     Build a HuggingFace Dataset with 'prompt' and '_instance_json' columns.
-    Loads from pre-generated phase files if train_data_dir is provided,
-    otherwise generates on the fly.
+    Loads from pre-generated phase files.
     """
-    phase = 2 #curriculum.state.current_phase
-    prompts   = []
+    pool = load_phase_file(phase, train_data_dir)
+    rng = random.Random(seed_offset)
+    selected = rng.choices(pool, k=n_instances)
+
+    prompts = []
     inst_jsons = []
 
-    # ── Try loading from pre-generated files ──────────────────────────────
-    if train_data_dir:
-        pool = load_phase_file(phase, train_data_dir)
-        if pool:
-            logger.info(f"Loaded {len(pool)} pre-generated instances from phase{phase}.jsonl")
-            rng = random.Random(seed_offset + curriculum.state.training_step)
-            # Sample n_instances from the pool (with replacement if needed)
-            selected = rng.choices(pool, k=n_instances)
-
-            for d in selected:
-                inst = TRSInstance.from_dict(d)
-                msgs = make_chat_messages(inst)
-                if tokenizer is not None:
-                    prompt_str = tokenizer.apply_chat_template(
-                        msgs, tokenize=False, add_generation_prompt=True
-                    )
-                else:
-                    prompt_str = f"[SYSTEM]{SYSTEM}[USER]{msgs[1]['content']}"
-                prompts.append(prompt_str)
-                inst_jsons.append(json.dumps(d))
-
-            return Dataset.from_dict({
-                "prompt":         prompts,
-                "_instance_json": inst_jsons,
-            })
-        else:
-            logger.warning(f"No pre-generated file found for phase {phase} in {train_data_dir}, falling back to on-the-fly generation")
-
-    # ── Fallback: generate on the fly ─────────────────────────────────────
-    logger.info(f"Generating {n_instances} instances on the fly for phase {phase}...")
-    rng = random.Random(seed_offset + curriculum.state.training_step)
-
-    for i in range(n_instances):
-        kwargs = curriculum.get_instance_kwargs(rng)
-        kwargs["seed"] = seed_offset + curriculum.state.training_step * 1000 + i
-        try:
-            inst = generate_instance(**kwargs)
-        except RuntimeError:
-            inst = generate_instance(
-                n_rules=3, max_depth=2, n_steps=1, domain="boolean",
-                seed=kwargs["seed"] + 99999,
-            )
-
+    for d in selected:
+        inst = TRSInstance.from_dict(d)
         msgs = make_chat_messages(inst)
         if tokenizer is not None:
             prompt_str = tokenizer.apply_chat_template(
@@ -123,9 +90,8 @@ def make_grpo_dataset(
             )
         else:
             prompt_str = f"[SYSTEM]{SYSTEM}[USER]{msgs[1]['content']}"
-
         prompts.append(prompt_str)
-        inst_jsons.append(json.dumps(inst.to_dict()))
+        inst_jsons.append(json.dumps(d))
 
     return Dataset.from_dict({
         "prompt":         prompts,
@@ -139,7 +105,7 @@ def make_grpo_dataset(
 
 def make_reward_fn(instances_by_prompt: dict):
     """
-    New TRL API: reward_fn(completions, prompts=None, **kwargs) -> list[float]
+    TRL API: reward_fn(completions, prompts=None, **kwargs) -> list[float]
     """
     def reward_fn(completions: list[str], prompts: list[str] = None, **kwargs) -> list[float]:
         rewards = []
@@ -162,25 +128,25 @@ def make_reward_fn(instances_by_prompt: dict):
 # ---------------------------------------------------------------------------
 
 def train(
-    model_name:       str   = "Qwen/Qwen2.5-1.5B-Instruct",
-    output_dir:       str   = "runs/trs_rl",
-    train_data_dir:   str   = "data/train",       # pre-generated phase files
-    max_steps:        int   = 8000,
-    learning_rate:    float = 8e-6,
-    batch_size:       int   = 4,
-    grad_accumulation:int   = 2,
-    group_size:       int   = 8,
-    max_new_tokens:   int   = 768,
-    temperature:      float = 0.9,
-    kl_coeff:         float = 0.04,
-    lora_rank:        int   = 16,
-    lora_alpha:       int   = 32,
-    lora_dropout:     float = 0.05,
-    save_every:       int   = 500,
-    eval_every:       int   = 250,
-    advance_threshold:float = 0.75,
-    seed:             int   = 42,
-    resume_from:      Optional[str] = None,
+    model_name:        str   = "Qwen/Qwen2.5-1.5B-Instruct",
+    output_dir:        str   = "runs/trs_rl_phase1",
+    train_data_dir:    str   = "data/train",
+    start_phase:       int   = 1,              # which phase data to load
+    resume_checkpoint: Optional[str] = None,   # path to checkpoint to resume from
+    max_steps:         int   = 2000,
+    learning_rate:     float = 8e-6,
+    batch_size:        int   = 4,
+    grad_accumulation: int   = 2,
+    group_size:        int   = 8,
+    max_new_tokens:    int   = 768,
+    temperature:       float = 0.9,
+    kl_coeff:          float = 0.04,
+    lora_rank:         int   = 16,
+    lora_alpha:        int   = 32,
+    lora_dropout:      float = 0.05,
+    save_every:        int   = 500,
+    eval_every:        int   = 250,
+    seed:              int   = 42,
 ) -> None:
 
     if not TRL_AVAILABLE:
@@ -189,18 +155,24 @@ def train(
     os.makedirs(output_dir, exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
+        format="[%(asctime)s] %(levelname)s %(filename)s:%(lineno)d: %(message)s",
         handlers=[
             logging.FileHandler(f"{output_dir}/train.log"),
             logging.StreamHandler(),
         ]
     )
 
-    logger.info(f"Starting TRS-RL training on {torch.cuda.device_count()} GPU(s)")
-    logger.info(f"Model: {model_name}")
-    logger.info(f"Train data dir: {train_data_dir}")
+    logger.info(f"{'='*60}")
+    logger.info(f"TRS-RL Training — Phase {start_phase}")
+    logger.info(f"Model:      {model_name}")
+    logger.info(f"Output dir: {output_dir}")
+    logger.info(f"Max steps:  {max_steps}")
+    logger.info(f"GPUs:       {torch.cuda.device_count()}")
+    if resume_checkpoint:
+        logger.info(f"Resuming from: {resume_checkpoint}")
+    logger.info(f"{'='*60}")
 
-    # ── Tokenizer ──────────────────────────────────────────────────────────
+    # ── Tokenizer ─────────────────────────────────────────────────────────
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
         trust_remote_code=True,
@@ -209,35 +181,37 @@ def train(
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # ── Model ───────────────────────────────────────────────────────────────
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        dtype=torch.bfloat16,
-        trust_remote_code=True,
-    )
+    # ── Model ─────────────────────────────────────────────────────────────
+    if resume_checkpoint:
+        # Load base model then apply saved LoRA weights
+        logger.info(f"Loading base model + LoRA from checkpoint...")
+        base_model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            dtype=torch.bfloat16,
+            trust_remote_code=True,
+        )
+        model = PeftModel.from_pretrained(base_model, resume_checkpoint)
+        logger.info("Checkpoint loaded successfully.")
+    else:
+        # Fresh model + new LoRA
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            dtype=torch.bfloat16,
+            trust_remote_code=True,
+        )
+        lora_config = LoraConfig(
+            task_type      = TaskType.CAUSAL_LM,
+            r              = lora_rank,
+            lora_alpha     = lora_alpha,
+            lora_dropout   = lora_dropout,
+            target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj"],
+            bias           = "none",
+        )
+        model = get_peft_model(model, lora_config)
 
-    # ── LoRA ────────────────────────────────────────────────────────────────
-    lora_config = LoraConfig(
-        task_type      = TaskType.CAUSAL_LM,
-        r              = lora_rank,
-        lora_alpha     = lora_alpha,
-        lora_dropout   = lora_dropout,
-        target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj"],
-        bias           = "none",
-    )
-    model = get_peft_model(model, lora_config)
     model.print_trainable_parameters()
 
-    # ── Curriculum ──────────────────────────────────────────────────────────
-    curriculum = CurriculumTracker(
-        advance_threshold = advance_threshold,
-        eval_interval     = eval_every,
-    )
-    if resume_from:
-        curriculum = CurriculumTracker.load(f"{resume_from}/curriculum.json")
-        logger.info(f"Resumed curriculum: {curriculum.summary()}")
-
-    # ── GRPO Config ──────────────────────────────────────────────────────────
+    # ── GRPO Config ───────────────────────────────────────────────────────
     grpo_config = GRPOConfig(
         output_dir                  = output_dir,
         max_steps                   = max_steps,
@@ -257,14 +231,16 @@ def train(
         remove_unused_columns       = False,
     )
 
-    # ── Dataset — loaded from pre-generated files ─────────────────────────
+    # ── Dataset ───────────────────────────────────────────────────────────
+    logger.info(f"Loading Phase {start_phase} dataset from {train_data_dir}...")
     dataset = make_grpo_dataset(
-        curriculum,
+        phase          = start_phase,
         n_instances    = max_steps * batch_size,
         seed_offset    = seed,
         tokenizer      = tokenizer,
         train_data_dir = train_data_dir,
     )
+    logger.info(f"Dataset ready: {len(dataset)} instances")
 
     instances_map = {
         row["prompt"]: row["_instance_json"]
@@ -272,7 +248,7 @@ def train(
     }
     reward_fn = make_reward_fn(instances_map)
 
-    # ── Trainer ──────────────────────────────────────────────────────────────
+    # ── Trainer ───────────────────────────────────────────────────────────
     trainer = GRPOTrainer(
         model            = model,
         reward_funcs     = reward_fn,
@@ -282,8 +258,9 @@ def train(
     )
 
     logger.info("Starting training loop...")
-    trainer.train(resume_from_checkpoint=resume_from)
+    trainer.train()
 
+    # ── Save ──────────────────────────────────────────────────────────────
     trainer.save_model(f"{output_dir}/final")
-    curriculum.save(f"{output_dir}/curriculum.json")
     logger.info(f"Training complete. Model saved to {output_dir}/final")
+    logger.info(f"Phase {start_phase} done.")
