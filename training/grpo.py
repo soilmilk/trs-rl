@@ -129,7 +129,7 @@ def make_reward_fn(instances_by_prompt: dict):
 
 def train(
     model_name:        str   = "Qwen/Qwen2.5-1.5B-Instruct",
-    output_dir:        str   = "runs/trs_rl_phase1",
+    output_dir:        str   = "runs/trs_rl_phase1_new",
     train_data_dir:    str   = "data/train",
     start_phase:       int   = 1,              # which phase data to load
     resume_checkpoint: Optional[str] = None,   # path to checkpoint to resume from
@@ -144,7 +144,7 @@ def train(
     lora_rank:         int   = 16,
     lora_alpha:        int   = 32,
     lora_dropout:      float = 0.05,
-    save_every:        int   = 20,
+    save_every:        int   = 10,
     eval_every:        int   = 250,
     seed:              int   = 42,
 ) -> None:
@@ -222,6 +222,7 @@ def train(
         max_completion_length       = max_new_tokens,
         temperature                 = temperature,
         beta                        = kl_coeff,
+        save_strategy               = "steps",
         save_steps                  = save_every,
         logging_steps               = 10,
         seed                        = seed,
