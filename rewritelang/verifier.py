@@ -7,7 +7,7 @@ Axiom 4 — Normal Form:
   E is in normal form iff no rule applies anywhere in E.
 
 Reward formula (from design doc):
-  R_total = 0.4 × (valid_steps / total_steps) + 0.6 × R_final
+  R_total = 0.2 × (valid_steps / total_steps) + 0.8 × R_final
 """
 
 from __future__ import annotations
@@ -60,8 +60,7 @@ def verify_proof(
       This is position-agnostic and generous — the model only needs to get
       the expression right, not specify exactly where.
 
-    Returns:
-      0.4 * (valid_steps / total_steps) + 0.6 * (1.0 if final == target else 0.0)
+   
     """
     if not proof_steps:
         return 0.0
@@ -99,7 +98,7 @@ def verify_proof(
     step_reward = valid_steps / len(proof_steps)
     final_reward = 1.0 if final_correct else 0.0
 
-    return 0.4 * step_reward + 0.6 * final_reward
+    return 0.2 * step_reward + 0.8 * final_reward
 
 
 def verify_proof_detailed(
@@ -172,7 +171,7 @@ def verify_proof_detailed(
     final_correct = expr_equal(current, target)
     step_reward = valid_steps / len(proof_steps) if proof_steps else 0.0
     final_reward = 1.0 if final_correct else 0.0
-    total_reward = 0.4 * step_reward + 0.6 * final_reward
+    total_reward = 0.2 * step_reward + 0.8 * final_reward
 
     return {
         "reward": total_reward,

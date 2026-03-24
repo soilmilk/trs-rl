@@ -6,8 +6,7 @@ compute_reward() — the single function called by the GRPO loop.
 Input:  model output string + TRSInstance
 Output: float in [0.0, 1.0]
 
-The reward has two components (from design doc):
-  R_total = 0.4 × (valid_steps / total_steps) + 0.6 × R_final
+
 """
 
 from __future__ import annotations

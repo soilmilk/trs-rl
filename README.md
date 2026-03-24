@@ -169,7 +169,7 @@ This means:
 ## Reward Signal
 
 ```
-R_total = 0.4 × (valid_steps / total_steps) + 0.6 × R_final
+R_total = 0.2 × (valid_steps / total_steps) + 0.8 × R_final
 ```
 
 - **60% weight on reaching normal form** — the actual goal
