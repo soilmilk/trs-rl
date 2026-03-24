@@ -24,9 +24,10 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+import wandb
 import torch
 from datasets import Dataset
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, TrainerCallback
 from peft import LoraConfig, get_peft_model, TaskType, PeftModel
 
 try:
@@ -42,6 +43,22 @@ from agent.prompt import make_chat_messages, SYSTEM
 from training.reward import compute_reward
 
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# Entropy collapse warning callback
+# ---------------------------------------------------------------------------
+
+class EntropyWarnCallback(TrainerCallback):
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        if logs is None:
+            return
+        entropy = logs.get("entropy")
+        if entropy is not None and state.global_step < 200 and entropy < 0.15:
+            logger.warning(
+                f"WARNING: Early entropy collapse at step {state.global_step}. "
+                f"entropy={entropy:.4f}. Consider stopping and reducing kl_coeff further."
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -129,28 +146,45 @@ def make_reward_fn(instances_by_prompt: dict):
 
 def train(
     model_name:        str   = "Qwen/Qwen2.5-1.5B-Instruct",
-    output_dir:        str   = "runs/trs_rl_phase1_new",
+    output_dir:        str   = "runs/trs_rl_phase1",
     train_data_dir:    str   = "data/train",
     start_phase:       int   = 1,              # which phase data to load
     resume_checkpoint: Optional[str] = None,   # path to checkpoint to resume from
     max_steps:         int   = 2000,
-    learning_rate:     float = 8e-6,
+    learning_rate:     float = 5e-6,
     batch_size:        int   = 4,
-    grad_accumulation: int   = 2,
+    grad_accumulation: int   = 4,
     group_size:        int   = 8,
-    max_new_tokens:    int   = 768,
-    temperature:       float = 0.9,
-    kl_coeff:          float = 0.04,
+    max_new_tokens:    int   = 1024,
+    temperature:       float = 0.95,
+    kl_coeff:          float = 0.02,
     lora_rank:         int   = 16,
     lora_alpha:        int   = 32,
     lora_dropout:      float = 0.05,
-    save_every:        int   = 10,
+    save_every:        int   = 250,
     eval_every:        int   = 250,
     seed:              int   = 42,
 ) -> None:
 
     if not TRL_AVAILABLE:
         raise ImportError("Install trl: pip install trl>=0.8.0")
+
+    if int(os.environ.get("LOCAL_RANK", 0)) == 0:
+        wandb.init(project="trs-rl", name=f"phase{start_phase}", config={
+            "model_name": model_name,
+            "start_phase": start_phase,
+            "max_steps": max_steps,
+            "learning_rate": learning_rate,
+            "batch_size": batch_size,
+            "grad_accumulation": grad_accumulation,
+            "group_size": group_size,
+            "max_new_tokens": max_new_tokens,
+            "temperature": temperature,
+            "kl_coeff": kl_coeff,
+            "lora_rank": lora_rank,
+            "lora_alpha": lora_alpha,
+            "lora_dropout": lora_dropout,
+        })
 
     os.makedirs(output_dir, exist_ok=True)
     logging.basicConfig(
@@ -222,13 +256,12 @@ def train(
         max_completion_length       = max_new_tokens,
         temperature                 = temperature,
         beta                        = kl_coeff,
-        save_strategy               = "steps",
         save_steps                  = save_every,
         logging_steps               = 10,
         seed                        = seed,
         bf16                        = True,
         gradient_checkpointing      = True,
-        report_to                   = "none",
+        report_to                   = "wandb",
         remove_unused_columns       = False,
     )
 
@@ -256,6 +289,7 @@ def train(
         args             = grpo_config,
         train_dataset    = dataset.remove_columns(["_instance_json"]),
         processing_class = tokenizer,
+        callbacks        = [EntropyWarnCallback()],
     )
 
     logger.info("Starting training loop...")
@@ -265,3 +299,5 @@ def train(
     trainer.save_model(f"{output_dir}/final")
     logger.info(f"Training complete. Model saved to {output_dir}/final")
     logger.info(f"Phase {start_phase} done.")
+    if int(os.environ.get("LOCAL_RANK", 0)) == 0:
+        wandb.finish()
