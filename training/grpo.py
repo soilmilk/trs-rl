@@ -202,6 +202,7 @@ def train(
     logger.info(f"Output dir: {output_dir}")
     logger.info(f"Max steps:  {max_steps}")
     logger.info(f"GPUs:       {torch.cuda.device_count()}")
+   
     if resume_checkpoint:
         logger.info(f"Resuming from: {resume_checkpoint}")
     logger.info(f"{'='*60}")
@@ -225,7 +226,7 @@ def train(
             trust_remote_code=True,
         )
         model = PeftModel.from_pretrained(base_model, resume_checkpoint, is_trainable=True)
-        logger.info("Checkpoint loaded successfully.")
+        logger.info(f"Loaded checkpoint from {resume_checkpoint}")
     else:
         # Fresh model + new LoRA
         model = AutoModelForCausalLM.from_pretrained(
