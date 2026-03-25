@@ -26,7 +26,25 @@ PROOF
 S1: <expression after step 1> RULE <rule number>
 S2: <expression after step 2> RULE <rule number>
 ...
-SN: <final normal form> RULE <rule number>"""
+SN: <final normal form> RULE <rule number>
+
+Example:
+RULE 1: and(T, x) => x
+RULE 2: and(F, x) => F
+
+START and(and(T, F), x)
+TARGET F
+
+<think>
+The start is and(and(T, F), x).
+RULE 1 fires on and(T, F) giving and(F, x).
+RULE 2 fires on and(F, x) giving F.
+F has no rules that apply, so it is in normal form.
+</think>
+
+PROOF
+S1: and(F, x) RULE 1
+S2: F RULE 2"""
 
 
 def make_prompt(instance: TRSInstance) -> str:
