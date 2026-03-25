@@ -33,7 +33,6 @@ RULE 1: and(T, x) => x
 RULE 2: and(F, x) => F
 
 START and(and(T, F), x)
-TARGET F
 
 <think>
 The start is and(and(T, F), x).
@@ -62,7 +61,6 @@ def make_prompt(instance: TRSInstance) -> str:
     return (
         f"{rules_str}\n\n"
         f"START {start_str}\n"
-        f"TARGET {target_str}"
     )
 
 
