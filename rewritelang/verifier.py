@@ -96,11 +96,7 @@ def verify_proof(
 
     final_correct = expr_equal(current, target)
     step_reward = valid_steps / len(proof_steps)
-    if final_correct:
-        final_reward = 1.0
-    else:
-        d = sum(1 for rule in rules if find_all_matches(current, rule.lhs))
-        final_reward = 1.0 / (1.0 + d)
+    final_reward = 1.0 if final_correct else 1.0 / (1.0 +  sum(1 for rule in rules if find_all_matches(current, rule.lhs)))
 
     return 0.4 * step_reward + 0.6 * final_reward
 
@@ -174,15 +170,9 @@ def verify_proof_detailed(
 
     final_correct = expr_equal(current, target)
     step_reward = valid_steps / len(proof_steps) if proof_steps else 0.0
-    
 
-    if final_correct:
-        final_reward = 1.0
-    else :
-        # Penalize based on how many rules could still apply to the final expression
-        d = sum(1 for rule in rules if find_all_matches(current, rule.lhs))
-        final_reward = 1.0 / (1.0 + d) 
-
+    #Make final reward more forgiving by giving partial credit based on how "close" the final expression is to the target.
+    final_reward = 1.0 if final_correct else 1.0 / (1.0 +  sum(1 for rule in rules if find_all_matches(current, rule.lhs)))
     total_reward = 0.4 * step_reward + 0.6 * final_reward
 
     return {
