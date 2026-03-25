@@ -40,7 +40,7 @@ def evaluate(
     model_name: str = "Qwen/Qwen2.5-1.5B-Instruct",
     n_samples: int = 100,
     max_new_tokens: int = 512,
-    temperature: float = 0.0,   # greedy for eval
+    temperature: float = 0.8,   # greedy for eval
 ):
     logger.info(f"Evaluating Phase {phase} checkpoint: {checkpoint_path}")
     logger.info(f"Eval file: {eval_file}")
@@ -94,8 +94,8 @@ def evaluate(
             outputs = model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
-                do_sample=False,        # greedy — deterministic
-                temperature=None,
+                do_sample=True,        # greedy — deterministic
+                temperature=0.8,
                 top_p=None,
                 pad_token_id=tokenizer.pad_token_id,
             )

@@ -170,7 +170,7 @@ def train(
         raise ImportError("Install trl: pip install trl>=0.8.0")
 
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
-        wandb.init(project="trs-rl", name=f"phase{start_phase}", config={
+        wandb.init(project="trs-rl", name=f"phase{start_phase}", resume="never", config={
             "model_name": model_name,
             "start_phase": start_phase,
             "max_steps": max_steps,
