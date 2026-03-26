@@ -24,6 +24,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 
+from rewritelang import expr_to_str
 from generator.instance import TRSInstance
 from agent.prompt import make_chat_messages
 from agent.parser import parse_proof_from_output
@@ -41,6 +42,8 @@ def evaluate(
     n_samples: int = 100,
     max_new_tokens: int = 512,
     temperature: float = 0.8,   # greedy for eval
+    save_failures: bool = False,
+    failures_output: str = "failures.json",
 ):
     logger.info(f"Evaluating Phase {phase} checkpoint: {checkpoint_path}")
     logger.info(f"Eval file: {eval_file}")
@@ -82,6 +85,7 @@ def evaluate(
 
     # ── Run evaluation ────────────────────────────────────────────────────
     results = []
+    failures = []
     for i, d in enumerate(instances):
         inst = TRSInstance.from_dict(d)
         msgs = make_chat_messages(inst)
@@ -113,6 +117,16 @@ def evaluate(
             "completion_length": len(completion.split()),
         })
 
+        if not solved:
+            failures.append({
+                "index": i,
+                "start": expr_to_str(inst.start),
+                "normal_form": expr_to_str(inst.normal_form),
+                "rules": [str(r) for r in inst.rules],
+                "completion": completion,
+                "reward": reward,
+            })
+
         if (i + 1) % 10 == 0:
             so_far = sum(r["solved"] for r in results)
             logger.info(f"  {i+1}/{len(instances)} — solve_rate so far: {so_far/(i+1):.3f}")
@@ -136,6 +150,11 @@ def evaluate(
     print(f"  Decision:     {'✅ ADVANCE to Phase 2' if solve_rate >= 0.75 else '❌ STAY on Phase 1'}")
     print("="*50)
 
+    if save_failures:
+        with open(failures_output, "w") as f:
+            json.dump(failures, f, indent=2)
+        logger.info(f"Saved {len(failures)} failures to {failures_output}")
+
     return solve_rate
 
 
@@ -147,6 +166,8 @@ def main():
     p.add_argument("--model",         default="Qwen/Qwen2.5-1.5B-Instruct")
     p.add_argument("--n-samples",     type=int, default=100)
     p.add_argument("--max-tokens",    type=int, default=512)
+    p.add_argument("--save-failures", action="store_true", default=False)
+    p.add_argument("--failures-output", default="failures.json")
     args = p.parse_args()
 
     evaluate(
@@ -156,6 +177,8 @@ def main():
         model_name      = args.model,
         n_samples       = args.n_samples,
         max_new_tokens  = args.max_tokens,
+        save_failures   = args.save_failures,
+        failures_output = args.failures_output,
     )
 
 
