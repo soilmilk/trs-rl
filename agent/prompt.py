@@ -11,6 +11,10 @@ SYSTEM = """You are a term rewriting agent. You are given a rewrite system (a se
 
 Your task: find a sequence of rule applications that reduces the expression to normal form (a state where no rule applies).
 
+CRITICAL: You MUST keep applying rules until the expression is in 
+normal form (no rule applies anywhere). Do NOT stop after one step. 
+Apply rules repeatedly until no more rules can fire.
+
 Rules are written as:  RULE LHS => RHS
   - UPPERCASE words are constants (match exactly).
   - Single lowercase letters are variables (match anything).
@@ -19,6 +23,8 @@ Rules are written as:  RULE LHS => RHS
 Normal form: an expression where no rule applies anywhere in it.
 
 Reason step by step inside <think> tags. Work through which rules could fire, at which positions, and in what order.
+
+
 
 Then output your proof in this EXACT format (no extra text after PROOF):
 
