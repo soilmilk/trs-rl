@@ -24,7 +24,6 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 
-from rewritelang import expr_to_str
 from generator.instance import TRSInstance
 from agent.prompt import make_chat_messages
 from agent.parser import parse_proof_from_output
@@ -85,7 +84,6 @@ def evaluate(
 
     # ── Run evaluation ────────────────────────────────────────────────────
     results = []
-    failures = []
     for i, d in enumerate(instances):
         inst = TRSInstance.from_dict(d)
         msgs = make_chat_messages(inst)
@@ -115,17 +113,10 @@ def evaluate(
             "solved": solved,
             "reward": reward,
             "completion_length": len(completion.split()),
+            "completion": completion,
+            "start": str(inst.start),
+            "normal_form": str(inst.normal_form),
         })
-
-        if not solved:
-            failures.append({
-                "index": i,
-                "start": expr_to_str(inst.start),
-                "normal_form": expr_to_str(inst.normal_form),
-                "rules": [str(r) for r in inst.rules],
-                "completion": completion,
-                "reward": reward,
-            })
 
         if (i + 1) % 10 == 0:
             so_far = sum(r["solved"] for r in results)
@@ -151,6 +142,7 @@ def evaluate(
     print("="*50)
 
     if save_failures:
+        failures = [r for r in results if not r["solved"]]
         with open(failures_output, "w") as f:
             json.dump(failures, f, indent=2)
         logger.info(f"Saved {len(failures)} failures to {failures_output}")
