@@ -13,68 +13,98 @@ Your task: find a sequence of rule applications that reduces the expression to n
 
 Rules are written as:  RULE LHS => RHS
   - UPPERCASE words are constants (match exactly).
-  - Single lowercase letters are variables (match anything).
+  - Single lowercase letters are variables (match anything — they absorb entire subexpressions).
   - Lowercase words followed by (...) are function symbols.
 
-Normal form: an expression where no rule applies anywhere in it.
+Normal form: an expression where no rule applies at ANY position — root, children, grandchildren, or deeper.
 
-CRITICAL RULES — YOU MUST FOLLOW THESE:
-1. After EVERY step, scan the entire expression for any rule that can still fire.
-2. If ANY rule can fire anywhere in the expression — you MUST apply it and continue.
-3. Only stop when you have checked every rule at every position and NONE apply.
-4. A proof that stops before normal form is WRONG and receives no credit.
-5. Do NOT write the final step until you have verified no rules apply.
+HOW TO CHECK FOR APPLICABLE RULES:
+At each step, for each rule, scan the ENTIRE TREE top-down:
+  - Does the rule fire at the root? If yes, apply it.
+  - If not, check each child. If a child matches, apply there.
+  - Keep checking until you find a match OR have checked every node.
 
-Reason step by step inside <think> tags:
-- Write out the current expression
-- Check each rule: can it fire anywhere?
-- If yes: apply it, write the new expression, check again
-- If no rules fire: write PROOF
+STOPPING RULE: Only declare normal form when you have checked every rule at every node and found NO match.
 
+Reason step by step inside <think> tags.
 Then output your proof in this EXACT format:
 
 PROOF
 S1: <expression after step 1> RULE <rule number>
-S2: <expression after step 2> RULE <rule number>
 ...
 SN: <final normal form> RULE <rule number>
 
-Example:
+--- EXAMPLE 1: Same rule fires twice, inner-node application ---
+
 RULE 1: not(not(x)) => x
 RULE 2: and(T, x) => x
 RULE 3: and(F, x) => F
 RULE 4: or(T, x) => T
 RULE 5: or(F, x) => x
 
-START not(not(and(T, and(F, not(not(T))))))
+START and(T, not(not(not(not(F)))))
+TARGET F
 
 <think>
-Current: not(not(and(T, and(F, not(not(T))))))
-Check rules: RULE 1 fires on not(not(and(T, and(F, not(not(T)))))) 
-Apply RULE 1: and(T, and(F, not(not(T))))
+Current: and(T, not(not(not(not(F)))))
+Check RULE 1 (not(not(x))=>x): root is 'and' — no match at root. Check children: left child is T — no. Right child is not(not(not(not(F)))) — YES, matches with x=not(not(F)). Fire RULE 1 on right child.
+Apply: and(T, not(not(F)))
 
-Current: and(T, and(F, not(not(T))))
-Check rules: RULE 1 fires on not(not(T))
-Apply RULE 1: and(T, and(F, T))
+Current: and(T, not(not(F)))
+Check RULE 1: root is 'and' — no. Right child is not(not(F)) — YES, matches with x=F. Fire RULE 1 on right child.
+Apply: and(T, F)
 
-Current: and(T, and(F, T))
-Check rules: RULE 2 fires on and(T, and(F, T))
-Apply RULE 2: and(F, T)
-
-Current: and(F, T)
-Check rules: RULE 3 fires on and(F, T)
-Apply RULE 3: F
+Current: and(T, F)
+Check RULE 1: root is 'and' — no. No children match. Rule 1: no.
+Check RULE 2 (and(T,x)=>x): root is 'and', left=T — YES, matches with x=F. Fire RULE 2 at root.
+Apply: F
 
 Current: F
-Check rules: RULE 1 — no. RULE 2 — no. RULE 3 — no. RULE 4 — no. RULE 5 — no.
-No rules fire. F is in normal form.
+Check RULE 1: no. RULE 2: no. RULE 3: no. RULE 4: no. RULE 5: no.
+No rule fires at any position. F is in normal form.
 </think>
 
 PROOF
-S1: and(T, and(F, not(not(T)))) RULE 1
-S2: and(T, and(F, T)) RULE 1
-S3: and(F, T) RULE 2
-S4: F RULE 3"""
+S1: and(T, not(not(F))) RULE 1
+S2: and(T, F) RULE 1
+S3: F RULE 2
+
+--- EXAMPLE 2: Variable x gets absorbed ---
+
+RULE 1: not(not(x)) => x
+RULE 2: and(T, x) => x
+RULE 3: and(F, x) => F
+RULE 4: or(T, x) => T
+RULE 5: or(F, x) => x
+
+START or(and(F, x), not(not(T)))
+TARGET T
+
+<think>
+Current: or(and(F, x), not(not(T)))
+Check RULE 1: root is 'or' — no. Left child is and(F,x) — no. Right child is not(not(T)) — YES, matches with x=T. Fire RULE 1 on right child.
+Apply: or(and(F, x), T)
+
+Current: or(and(F, x), T)
+Check RULE 1: no match anywhere.
+Check RULE 2: no 'and(T,...)' anywhere.
+Check RULE 3 (and(F,x)=>F): root is 'or' — no. Left child is and(F,x) — YES, matches with x=x (variable absorbs variable). Fire RULE 3 on left child.
+Apply: or(F, T)
+
+Current: or(F, T)
+Check RULE 1: no. RULE 2: no. RULE 3: no.
+Check RULE 4 (or(T,x)=>T): root is 'or', left=F — no.
+Check RULE 5 (or(F,x)=>x): root is 'or', left=F — YES, matches with x=T. Fire RULE 5 at root.
+Apply: T
+
+Current: T
+Check all rules: no match anywhere. T is in normal form.
+</think>
+
+PROOF
+S1: or(and(F, x), T) RULE 1
+S2: or(F, T) RULE 3
+S3: T RULE 5"""
 
 
 def make_prompt(instance: TRSInstance) -> str:
