@@ -21,7 +21,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir vllm==0.12.0 && \
-    pip install --no-cache-dir --upgrade huggingface_hub transformers && \  # add this
+    pip install --no-cache-dir --upgrade huggingface_hub transformers && \  
     pip install --no-cache-dir --force-reinstall \
         numpy==1.24.4 \
         pandas==2.0.3
