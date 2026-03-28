@@ -26,6 +26,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
         numpy==1.24.4 \
         pandas==2.0.3
 
+# ── Download model weights ────────────────────────────────────────────────────
+RUN huggingface-cli download Qwen/Qwen3.5-2B --local-dir /workspace/models/Qwen3.5-2B
+
 # ── Copy codebase ──────────────────────────────────────────────────────────────
 COPY . .
 

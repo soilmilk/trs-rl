@@ -14,7 +14,7 @@ from training.grpo import train
 
 def main():
     p = argparse.ArgumentParser(description="TRS-RL GRPO Training")
-    p.add_argument("--model",               default="Qwen/Qwen3.5-1.5B-Instruct")
+    p.add_argument("--model",               default="/workspace/models/Qwen3.5-2B")
     p.add_argument("--output-dir",          default="runs/qwen3.5")
     p.add_argument("--train-data-dir",      default="data/train")
     p.add_argument("--start-phase",         type=int,   default=1,    help="Which phase data to load (1-5)")

@@ -145,7 +145,7 @@ def make_reward_fn(instances_by_prompt: dict):
 # ---------------------------------------------------------------------------
 
 def train(
-    model_name:        str   = "Qwen/Qwen3.5-1.5B-Instruct",
+    model_name:        str   = "/workspace/models/Qwen3.5-2B",
     output_dir:        str   = "runs/qwen3.5",
     train_data_dir:    str   = "data/train",
     start_phase:       int   = 1,              # which phase data to load
@@ -212,6 +212,7 @@ def train(
         model_name,
         trust_remote_code=True,
         padding_side="left",
+        local_files_only=True,
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -224,6 +225,7 @@ def train(
             model_name,
             dtype=torch.bfloat16,
             trust_remote_code=True,
+            local_files_only=True,
         )
         model = PeftModel.from_pretrained(base_model, resume_checkpoint, is_trainable=True)
         logger.info(f"Loaded checkpoint from {resume_checkpoint}")
@@ -233,6 +235,7 @@ def train(
             model_name,
             dtype=torch.bfloat16,
             trust_remote_code=True,
+            local_files_only=True,
         )
         lora_config = LoraConfig(
             task_type      = TaskType.CAUSAL_LM,

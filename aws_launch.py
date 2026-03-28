@@ -279,7 +279,7 @@ docker run --gpus all \\
     --restart unless-stopped \\
     -d trs-rl \\
     python3 scripts/train.py \\
-        --model Qwen/Qwen3.5-1.5B-Instruct \\
+        --model /workspace/models/Qwen3.5-2B \\
         --output-dir runs/trs_rl \\
         --max-steps 8000
 
