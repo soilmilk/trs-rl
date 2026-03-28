@@ -12,7 +12,7 @@ echo "============================================================"
 echo ""
 
 # ── Parse args ────────────────────────────────────────────────────────────────
-MODEL="${1:-Qwen/Qwen2.5-1.5B-Instruct}"
+MODEL="${1:-Qwen/Qwen3.5-1.5B-Instruct}"
 MAX_STEPS="${2:-8000}"
 OUTPUT_DIR="runs/trs_rl_$(date +%Y%m%d_%H%M%S)"
 

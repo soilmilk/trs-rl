@@ -3,7 +3,7 @@
 
 # ── Core ML ────────────────────────────────────────────────────────────────────
 # torch is provided by the base NVIDIA image — do not reinstall
-transformers>=4.40.0
+transformers>=4.51.0
 peft>=0.10.0
 accelerate>=0.28.0
 datasets>=2.18.0

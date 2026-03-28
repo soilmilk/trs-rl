@@ -37,7 +37,7 @@ def evaluate(
     checkpoint_path: str,
     eval_file: str,
     phase: int,
-    model_name: str = "Qwen/Qwen2.5-1.5B-Instruct",
+    model_name: str = "Qwen/Qwen3.5-1.5B-Instruct",
     n_samples: int = 100,
     max_new_tokens: int = 512,
     temperature: float = 0.8,   # greedy for eval
@@ -155,7 +155,7 @@ def main():
     p.add_argument("--checkpoint",    required=True,  help="Path to LoRA checkpoint")
     p.add_argument("--eval-file",     required=True,  help="Path to eval JSONL file")
     p.add_argument("--phase",         type=int, default=1)
-    p.add_argument("--model",         default="Qwen/Qwen2.5-1.5B-Instruct")
+    p.add_argument("--model",         default="Qwen/Qwen3.5-1.5B-Instruct")
     p.add_argument("--n-samples",     type=int, default=100)
     p.add_argument("--max-tokens",    type=int, default=512)
     p.add_argument("--save-failures", action="store_true", default=False)

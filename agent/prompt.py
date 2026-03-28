@@ -26,8 +26,7 @@ At each step, for each rule, scan the ENTIRE TREE top-down:
 
 STOPPING RULE: Only declare normal form when you have checked every rule at every node and found NO match.
 
-Reason step by step inside <think> tags.
-Then output your proof in this EXACT format:
+Output your proof in this EXACT format:
 
 PROOF
 S1: <expression after step 1> RULE <rule number>
@@ -45,25 +44,6 @@ RULE 5: or(F, x) => x
 START and(T, not(not(not(not(F)))))
 TARGET F
 
-<think>
-Current: and(T, not(not(not(not(F)))))
-Check RULE 1 (not(not(x))=>x): root is 'and' — no match at root. Check children: left child is T — no. Right child is not(not(not(not(F)))) — YES, matches with x=not(not(F)). Fire RULE 1 on right child.
-Apply: and(T, not(not(F)))
-
-Current: and(T, not(not(F)))
-Check RULE 1: root is 'and' — no. Right child is not(not(F)) — YES, matches with x=F. Fire RULE 1 on right child.
-Apply: and(T, F)
-
-Current: and(T, F)
-Check RULE 1: root is 'and' — no. No children match. Rule 1: no.
-Check RULE 2 (and(T,x)=>x): root is 'and', left=T — YES, matches with x=F. Fire RULE 2 at root.
-Apply: F
-
-Current: F
-Check RULE 1: no. RULE 2: no. RULE 3: no. RULE 4: no. RULE 5: no.
-No rule fires at any position. F is in normal form.
-</think>
-
 PROOF
 S1: and(T, not(not(F))) RULE 1
 S2: and(T, F) RULE 1
@@ -79,27 +59,6 @@ RULE 5: or(F, x) => x
 
 START or(and(F, x), not(not(T)))
 TARGET T
-
-<think>
-Current: or(and(F, x), not(not(T)))
-Check RULE 1: root is 'or' — no. Left child is and(F,x) — no. Right child is not(not(T)) — YES, matches with x=T. Fire RULE 1 on right child.
-Apply: or(and(F, x), T)
-
-Current: or(and(F, x), T)
-Check RULE 1: no match anywhere.
-Check RULE 2: no 'and(T,...)' anywhere.
-Check RULE 3 (and(F,x)=>F): root is 'or' — no. Left child is and(F,x) — YES, matches with x=x (variable absorbs variable). Fire RULE 3 on left child.
-Apply: or(F, T)
-
-Current: or(F, T)
-Check RULE 1: no. RULE 2: no. RULE 3: no.
-Check RULE 4 (or(T,x)=>T): root is 'or', left=F — no.
-Check RULE 5 (or(F,x)=>x): root is 'or', left=F — YES, matches with x=T. Fire RULE 5 at root.
-Apply: T
-
-Current: T
-Check all rules: no match anywhere. T is in normal form.
-</think>
 
 PROOF
 S1: or(and(F, x), T) RULE 1
