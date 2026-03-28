@@ -20,17 +20,19 @@ WORKDIR /workspace/trs-rl
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir vllm==0.12.0 && \
     pip install --no-cache-dir --force-reinstall \
         numpy==1.24.4 \
         pandas==2.0.3
+
 # ── Copy codebase ──────────────────────────────────────────────────────────────
 COPY . .
 
-#add source to pythonpath because we want to be able to import from the root of the repo
-ENV PYTHONPATH="/workspace/trs-rl:${PYTHONPATH}" 
+# Add source to pythonpath
+ENV PYTHONPATH="/workspace/trs-rl:${PYTHONPATH}"
 
 # ── Pre-create output directories ─────────────────────────────────────────────
 RUN mkdir -p runs data/eval
 
-# ── Default command: run sanity checks (override for training) ─────────────────
+# ── Default command ────────────────────────────────────────────────────────────
 CMD ["python3", "scripts/sanity_check.py"]
