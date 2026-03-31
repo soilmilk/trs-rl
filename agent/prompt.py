@@ -62,11 +62,7 @@ RULE 4: or(T, x) => T
 RULE 5: or(F, x) => x
 START or(and(F, x), not(not(T)))
 TARGET T
-<think>
-The root is or(...). Check rule 4: or(T, x) — root is or(and(F,x), ...) not or(T,...). No match at root.
-Check children. Left child: and(F, x). Rule 3 matches: and(F, x) => F. Apply there.
-Note: x is a variable — and(F, x) becomes F, the variable x is absorbed and gone.
-</think>
+
 PROOF
 S1: or(F, not(not(T))) RULE 3
 S2: or(F, T) RULE 1
@@ -80,9 +76,7 @@ RULE 4: or(T, x) => T
 RULE 5: or(F, x) => x
 START not(not(and(T, F)))
 TARGET F
-<think>
-Root is not(not(...)). Rule 1 fires at root. Strip the outer wrapper first.
-</think>
+
 PROOF
 S1: and(T, F) RULE 1
 S2: F RULE 2"""
