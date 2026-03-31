@@ -24,10 +24,12 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 
+from rewritelang import expr_to_str
 from generator.instance import TRSInstance
 from agent.prompt import make_chat_messages
-from agent.parser import parse_proof_from_output
+from agent.parser import parse_proof_from_output, extract_think_block
 from training.reward import compute_reward
+from training.emergence import emergence_report
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -86,11 +88,14 @@ def evaluate(
 
     # ── Run evaluation ────────────────────────────────────────────────────
     results = []
+    all_think_texts = []
+    all_parsed_proofs = []
+    all_instances = []
     for i, d in enumerate(instances):
         inst = TRSInstance.from_dict(d)
         msgs = make_chat_messages(inst)
         prompt = tokenizer.apply_chat_template(
-            msgs, tokenize=False, add_generation_prompt=True
+            msgs, tokenize=False, add_generation_prompt=True, enable_thinking=True
         )
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
@@ -108,6 +113,26 @@ def evaluate(
             outputs[0][inputs["input_ids"].shape[1]:],
             skip_special_tokens=True
         )
+
+        # Extract and print think trace
+        think_start = completion.find("<think>")
+        think_end = completion.find("</think>")
+        if think_start != -1 and think_end != -1:
+            think_trace = completion[think_start + 7:think_end].strip()
+            print(f"\n{'='*60}")
+            print(f"Instance {i} | start: {expr_to_str(inst.start)}")
+            print(f"{'─'*60}")
+            print(f"THINK: {think_trace}")
+            print(f"{'='*60}")
+        else:
+            print(f"\nInstance {i} | No <think> block found")
+
+        # Collect for emergence analysis
+        think_text = extract_think_block(completion)
+        parsed_proof = parse_proof_from_output(completion, n_rules=len(inst.rules))
+        all_think_texts.append(think_text)
+        all_parsed_proofs.append(parsed_proof)
+        all_instances.append(inst)
 
         reward = compute_reward(completion, inst)
         solved = reward >= 0.99
@@ -142,6 +167,37 @@ def evaluate(
     print(f"  Threshold:    0.75 (advance if above)")
     print(f"  Decision:     {'✅ ADVANCE to Phase 2' if solve_rate >= 0.75 else '❌ STAY on Phase 1'}")
     print("="*50)
+
+    # ── Emergence Analysis ─────────────────────────────────────────────
+    completions_raw = [r["completion"] for r in results]
+    report = emergence_report(
+        outputs       = completions_raw,
+        parsed_proofs = all_parsed_proofs,
+        instances     = all_instances,
+        think_texts   = all_think_texts,
+    )
+
+    think_lengths = [len(t.split()) for t in all_think_texts if t]
+    mean_think_len = sum(think_lengths) / len(think_lengths) if think_lengths else 0.0
+    think_present = sum(1 for t in all_think_texts if t)
+
+    print(f"\n{'='*50}")
+    print(f"  Emergence Analysis")
+    print(f"{'='*50}")
+    print(f"  Think blocks found:        {think_present}/{n}")
+    print(f"  Mean think length:         {mean_think_len:.1f} words")
+    print(f"  LO alignment (mean):       {report['lo_alignment_mean']:.4f}")
+    print(f"  Innermost alignment (mean):{report['innermost_alignment_mean']:.4f}")
+    print(f"  Reflection rate:           {report['reflection_rate']:.4f} ({report['reflection_rate']*100:.1f}%)")
+    print(f"  Reflection count (mean):   {report['reflection_count_mean']:.2f}")
+    print(f"  Proofs analysed:           {report['n_proofs_analysed']}")
+
+    if report['rule_frequency']:
+        print(f"  Rule frequency distribution:")
+        for idx, freq in enumerate(report['rule_frequency']):
+            if freq > 0:
+                print(f"    RULE {idx+1}: {freq:.3f}")
+    print(f"{'='*50}")
 
     if save_failures:
         failures = [r for r in results if not r["solved"]]
