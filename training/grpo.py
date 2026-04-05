@@ -103,7 +103,7 @@ def make_grpo_dataset(
         msgs = make_chat_messages(inst)
         if tokenizer is not None:
             prompt_str = tokenizer.apply_chat_template(
-                msgs, tokenize=False, add_generation_prompt=True
+                msgs, tokenize=False, add_generation_prompt=True, enable_thinking=True
             )
         else:
             prompt_str = f"[SYSTEM]{SYSTEM}[USER]{msgs[1]['content']}"

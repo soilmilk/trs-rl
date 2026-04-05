@@ -41,7 +41,7 @@ def evaluate(
     phase: int,
     model_name: str = "/workspace/models/Qwen3.5-2B",
     n_samples: int = 100,
-    max_new_tokens: int = 1536,
+    max_new_tokens: int = 512,
     temperature: float = 0.8,   # greedy for eval
     save_failures: bool = False,
     failures_output: str = "failures.json",
@@ -110,16 +110,14 @@ def evaluate(
                 pad_token_id=tokenizer.pad_token_id,
             )
 
-        # Decode WITHOUT skip_special_tokens so <think>...</think> is preserved
-        raw_completion = tokenizer.decode(
-            outputs[0][inputs["input_ids"].shape[1]:],
-            skip_special_tokens=False
-        )
-        # Strip only EOS/pad tokens manually
-        for tok in [tokenizer.eos_token, tokenizer.pad_token, "<|endoftext|>", "<|im_end|>"]:
-            if tok:
-                raw_completion = raw_completion.replace(tok, "")
-        completion = raw_completion.strip()
+        # Decode with skip_special_tokens=False to preserve <think> tags
+        raw_ids = outputs[0][inputs["input_ids"].shape[1]:]
+        completion = tokenizer.decode(raw_ids, skip_special_tokens=False)
+        # Strip EOS/pad tokens but keep <think>...</think>
+        for special_tok in [tokenizer.eos_token, tokenizer.pad_token]:
+            if special_tok:
+                completion = completion.replace(special_tok, "")
+        completion = completion.strip()
 
         # Extract and print think trace
         think_start = completion.find("<think>")
@@ -128,17 +126,11 @@ def evaluate(
             think_trace = completion[think_start + 7:think_end].strip()
             print(f"\n{'='*60}")
             print(f"Instance {i} | start: {expr_to_str(inst.start)}")
-            print(f"  target: {expr_to_str(inst.normal_form)}")
             print(f"{'─'*60}")
-            print(f"THINK ({len(think_trace.split())} words):")
-            print(f"  {think_trace[:500]}{'...' if len(think_trace) > 500 else ''}")
-            print(f"{'─'*60}")
-            # Print the PROOF portion
-            proof_portion = completion[think_end + 8:].strip()
-            print(f"PROOF: {proof_portion[:300]}{'...' if len(proof_portion) > 300 else ''}")
+            print(f"THINK: {think_trace}")
             print(f"{'='*60}")
         else:
-            print(f"\nInstance {i} | No <think> block | output: {completion[:200]}")
+            print(f"\nInstance {i} | No <think> block found")
 
         # Collect for emergence analysis
         think_text = extract_think_block(completion)
@@ -205,18 +197,6 @@ def evaluate(
     print(f"  Reflection count (mean):   {report['reflection_count_mean']:.2f}")
     print(f"  Proofs analysed:           {report['n_proofs_analysed']}")
 
-    # Additional Section 9.1 metrics
-    parse_rate = sum(1 for p in all_parsed_proofs if p) / n
-    partial_step_rates = []
-    for proof, inst in zip(all_parsed_proofs, all_instances):
-        if proof:
-            from rewritelang import verify_proof_detailed
-            detail = verify_proof_detailed(inst.rules, inst.start, proof, inst.normal_form)
-            partial_step_rates.append(detail["valid_steps"] / detail["total_steps"] if detail["total_steps"] > 0 else 0.0)
-
-    print(f"  Parse rate:                {parse_rate:.4f} ({parse_rate*100:.1f}%)")
-    print(f"  Partial step rate (mean):  {sum(partial_step_rates)/len(partial_step_rates):.4f}" if partial_step_rates else "  Partial step rate (mean):  N/A")
-
     if report['rule_frequency']:
         print(f"  Rule frequency distribution:")
         for idx, freq in enumerate(report['rule_frequency']):
@@ -231,8 +211,6 @@ def evaluate(
             "n_samples": n,
             "solve_rate": solve_rate,
             "mean_reward": mean_reward,
-            "parse_rate": parse_rate,
-            "partial_step_rate_mean": sum(partial_step_rates) / len(partial_step_rates) if partial_step_rates else 0.0,
             "think_blocks_found": think_present,
             "mean_think_length_words": mean_think_len,
             "lo_alignment_mean": report["lo_alignment_mean"],
@@ -262,7 +240,7 @@ def main():
     p.add_argument("--phase",         type=int, default=1)
     p.add_argument("--model",         default="/workspace/models/Qwen3.5-2B")
     p.add_argument("--n-samples",     type=int, default=100)
-    p.add_argument("--max-tokens",    type=int, default=1536)
+    p.add_argument("--max-tokens",    type=int, default=512)
     p.add_argument("--save-failures", action="store_true", default=False)
     p.add_argument("--failures-output", default="failures.json")
     p.add_argument("--emergence-output", default=None, help="Save emergence report as JSON")
