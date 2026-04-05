@@ -67,7 +67,12 @@ def evaluate(
         trust_remote_code=True,
         local_files_only=True,
     )
-    model = PeftModel.from_pretrained(base_model, checkpoint_path)
+    if checkpoint_path and checkpoint_path != "baseline":
+        model = PeftModel.from_pretrained(base_model, checkpoint_path)
+        logger.info(f"Loaded LoRA checkpoint from {checkpoint_path}")
+    else:
+        model = base_model
+        logger.info("Running BASELINE (no LoRA checkpoint)")
     model.eval()
     logger.info("Model loaded.")
 
@@ -235,7 +240,8 @@ def evaluate(
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--checkpoint",    required=True,  help="Path to LoRA checkpoint")
+    p.add_argument("--checkpoint",    default=None,   help="Path to LoRA checkpoint (omit or 'baseline' for zero-shot)")
+    p.add_argument("--baseline",      action="store_true", help="Run zero-shot baseline without LoRA")
     p.add_argument("--eval-file",     required=True,  help="Path to eval JSONL file")
     p.add_argument("--phase",         type=int, default=1)
     p.add_argument("--model",         default="/workspace/models/Qwen3.5-2B")
@@ -246,8 +252,14 @@ def main():
     p.add_argument("--emergence-output", default=None, help="Save emergence report as JSON")
     args = p.parse_args()
 
+    checkpoint = args.checkpoint
+    if args.baseline:
+        checkpoint = "baseline"
+    elif checkpoint is None:
+        p.error("--checkpoint is required unless --baseline is set")
+
     evaluate(
-        checkpoint_path = args.checkpoint,
+        checkpoint_path = checkpoint,
         eval_file       = args.eval_file,
         phase           = args.phase,
         model_name      = args.model,
