@@ -27,7 +27,7 @@ from peft import PeftModel
 from rewritelang import expr_to_str
 from generator.instance import TRSInstance
 from agent.prompt import make_chat_messages
-from agent.parser import parse_proof_from_output, extract_think_block
+from agent.parser import parse_proof_from_output
 from training.reward import compute_reward
 from training.emergence import emergence_report
 
@@ -125,21 +125,23 @@ def evaluate(
                 completion = completion.replace(special_tok, "")
         completion = completion.strip()
 
-        # Extract and print think trace
-        think_start = completion.find("<think>")
-        think_end = completion.find("</think>")
-        if think_start != -1 and think_end != -1:
-            think_trace = completion[think_start + 7:think_end].strip()
+        # Extract think trace: everything before "PROOF" is the reasoning
+        # (tags get stripped by skip_special_tokens, but content remains)
+        proof_idx = completion.upper().find("PROOF")
+        if proof_idx > 0:
+            think_text = completion[:proof_idx].strip()
+        else:
+            think_text = ""
+
+        if think_text:
             print(f"\n{'='*60}")
             print(f"Instance {i} | start: {expr_to_str(inst.start)}")
             print(f"{'─'*60}")
-            print(f"THINK: {think_trace}")
+            print(f"THINK ({len(think_text.split())} words):")
+            print(f"  {think_text[:400]}{'...' if len(think_text) > 400 else ''}")
             print(f"{'='*60}")
         else:
-            print(f"\nInstance {i} | No <think> block found")
-
-        # Collect for emergence analysis
-        think_text = extract_think_block(completion)
+            print(f"\nInstance {i} | No think trace (direct PROOF output)")
         parsed_proof = parse_proof_from_output(completion, n_rules=len(inst.rules))
         all_think_texts.append(think_text)
         all_parsed_proofs.append(parsed_proof)

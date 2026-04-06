@@ -229,8 +229,12 @@ def emergence_report(
 
     for proof, instance, think in zip(parsed_proofs, instances, think_texts):
         if proof:
-            lo = lo_alignment_score(proof, instance)
-            inn= innermost_alignment_score(proof, instance)
+            # Filter out steps with None expressions (failed parses)
+            valid_proof = [(e, idx) for e, idx in proof if e is not None and idx >= 0]
+            if not valid_proof:
+                continue
+            lo = lo_alignment_score(valid_proof, instance)
+            inn= innermost_alignment_score(valid_proof, instance)
             if lo  >= 0: lo_scores.append(lo)
             if inn >= 0: in_scores.append(inn)
 
