@@ -45,6 +45,7 @@ def evaluate(
     temperature: float = 0.8,   # greedy for eval
     save_failures: bool = False,
     failures_output: str = "failures.json",
+    save_results: str = None,
     emergence_output: str = None,
 ):
     logger.info(f"Evaluating Phase {phase} checkpoint: {checkpoint_path}")
@@ -229,6 +230,11 @@ def evaluate(
             json.dump(emergence_data, f, indent=2)
         logger.info(f"Saved emergence report to {emergence_output}")
 
+    if save_results:
+        with open(save_results, "w") as f:
+            json.dump(results, f, indent=2)
+        logger.info(f"Saved {len(results)} results to {save_results}")
+
     if save_failures:
         failures = [r for r in results if not r["solved"]]
         with open(failures_output, "w") as f:
@@ -249,6 +255,7 @@ def main():
     p.add_argument("--max-tokens",    type=int, default=512)
     p.add_argument("--save-failures", action="store_true", default=False)
     p.add_argument("--failures-output", default="failures.json")
+    p.add_argument("--save-results", default=None, help="Save ALL results (solved+unsolved) as JSON")
     p.add_argument("--emergence-output", default=None, help="Save emergence report as JSON")
     args = p.parse_args()
 
@@ -267,6 +274,7 @@ def main():
         max_new_tokens  = args.max_tokens,
         save_failures    = args.save_failures,
         failures_output  = args.failures_output,
+        save_results     = args.save_results,
         emergence_output = args.emergence_output,
     )
 
