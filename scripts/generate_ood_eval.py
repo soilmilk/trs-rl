@@ -2,14 +2,12 @@
 """
 scripts/generate_ood_eval.py
 
-Generate out-of-distribution eval instances at depth 10-15 and 20+ steps.
-These are beyond any training phase to test generalization.
+Generate 200 out-of-distribution eval instances harder than any training phase.
+  max_depth=14, n_steps=28, n_rules=9, domain=boolean, seeds 10000-10199.
 
 Usage:
-    python3 scripts/generate_ood_eval.py \
-        --output data/eval/ood.jsonl \
-        --n-instances 200 \
-        --seed 9999
+    python3 scripts/generate_ood_eval.py
+    python3 scripts/generate_ood_eval.py --output data/eval/ood.jsonl
 """
 
 import sys
@@ -26,50 +24,62 @@ def main():
     p = argparse.ArgumentParser(description="Generate OOD eval instances")
     p.add_argument("--output", default="data/eval/ood.jsonl")
     p.add_argument("--n-instances", type=int, default=200)
-    p.add_argument("--seed", type=int, default=9999)
-    p.add_argument("--min-steps", type=int, default=20)
-    p.add_argument("--max-steps", type=int, default=30)
+    p.add_argument("--seed-start", type=int, default=10000,
+                   help="First seed (instances use seeds seed_start..seed_start+n_instances-1)")
+    p.add_argument("--n-steps", type=int, default=28)
     p.add_argument("--n-rules", type=int, default=9)
-    p.add_argument("--max-depth", type=int, default=12)
+    p.add_argument("--max-depth", type=int, default=14)
     p.add_argument("--domain", default="boolean")
     args = p.parse_args()
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
     generated = 0
-    seed = args.seed
     failures = 0
+    instances = []
+
+    print(f"Generating {args.n_instances} OOD instances...")
+    print(f"  max_depth={args.max_depth}, n_steps={args.n_steps}, "
+          f"n_rules={args.n_rules}, domain={args.domain}")
+    print(f"  seeds: {args.seed_start}–{args.seed_start + args.n_instances - 1}")
 
     with open(args.output, "w") as f:
-        while generated < args.n_instances:
-            n_steps = args.min_steps + (seed % (args.max_steps - args.min_steps + 1))
+        for i in range(args.n_instances):
+            seed = args.seed_start + i
             try:
                 inst = generate_instance(
                     n_rules=args.n_rules,
                     max_depth=args.max_depth,
-                    n_steps=n_steps,
+                    n_steps=args.n_steps,
                     domain=args.domain,
                     seed=seed,
                 )
-                # Verify it's actually OOD: depth >= 10 or steps >= 20
-                if inst.start.depth() >= 8 or len(inst.proof) >= 15:
-                    f.write(json.dumps(inst.to_dict()) + "\n")
-                    generated += 1
-                    if generated % 20 == 0:
-                        print(f"  Generated {generated}/{args.n_instances} "
-                              f"(depth={inst.start.depth()}, steps={len(inst.proof)})")
-            except RuntimeError:
+                d = inst.to_dict()
+                f.write(json.dumps(d) + "\n")
+                instances.append(inst)
+                generated += 1
+                if generated % 20 == 0:
+                    print(f"  Generated {generated}/{args.n_instances} "
+                          f"(depth={inst.start.depth()}, steps={len(inst.proof)})")
+            except RuntimeError as e:
                 failures += 1
+                print(f"  Seed {seed} failed: {e}")
 
-            seed += 1
-            if failures > args.n_instances * 10:
-                print(f"WARNING: Too many failures ({failures}). "
-                      f"Generated {generated}/{args.n_instances}. "
-                      "Consider reducing min-steps or n-rules.")
-                break
+    # ── Summary ──────────────────────────────────────────────────────────
+    print(f"\n{'='*50}")
+    print(f"  OOD Generation Summary")
+    print(f"{'='*50}")
+    print(f"  Count:      {generated} instances ({failures} failures)")
+    print(f"  Output:     {args.output}")
 
-    print(f"\nDone. Saved {generated} OOD instances to {args.output}")
-    print(f"  ({failures} generation failures skipped)")
+    if instances:
+        depths = [inst.start.depth() for inst in instances]
+        steps = [len(inst.proof) for inst in instances]
+        print(f"  Depth:      mean={sum(depths)/len(depths):.1f}  "
+              f"min={min(depths)}  max={max(depths)}")
+        print(f"  Steps:      mean={sum(steps)/len(steps):.1f}  "
+              f"min={min(steps)}  max={max(steps)}")
+    print(f"{'='*50}")
 
 
 if __name__ == "__main__":

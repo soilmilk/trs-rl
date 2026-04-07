@@ -47,10 +47,15 @@ def evaluate(
     failures_output: str = "failures.json",
     save_results: str = None,
     emergence_output: str = None,
+    output_file: str = None,
 ):
-    logger.info(f"Evaluating Phase {phase} checkpoint: {checkpoint_path}")
-    logger.info(f"Eval file: {eval_file}")
-    logger.info(f"Samples: {n_samples}")
+    is_zeroshot = (not checkpoint_path) or checkpoint_path == "baseline"
+    mode_str = "ZERO-SHOT (no LoRA)" if is_zeroshot else f"CHECKPOINT: {checkpoint_path}"
+    logger.info(f"{'='*50}")
+    logger.info(f"  Mode: {mode_str}")
+    logger.info(f"  Eval file: {eval_file}")
+    logger.info(f"  Phase: {phase}  |  Samples: {n_samples}")
+    logger.info(f"{'='*50}")
 
     # ── Load model + checkpoint ───────────────────────────────────────────
     logger.info("Loading model...")
@@ -73,7 +78,7 @@ def evaluate(
         logger.info(f"Loaded LoRA checkpoint from {checkpoint_path}")
     else:
         model = base_model
-        logger.info("Running BASELINE (no LoRA checkpoint)")
+        logger.info("Running ZERO-SHOT baseline (no LoRA checkpoint)")
     model.eval()
     logger.info("Model loaded.")
 
@@ -190,20 +195,26 @@ def evaluate(
         think_texts   = all_think_texts,
     )
 
-    think_lengths = [len(t.split()) for t in all_think_texts if t]
-    mean_think_len = sum(think_lengths) / len(think_lengths) if think_lengths else 0.0
     think_present = sum(1 for t in all_think_texts if t)
+    has_think = think_present > 0
 
     print(f"\n{'='*50}")
-    print(f"  Emergence Analysis")
+    print(f"  Emergence Analysis{'' if has_think else ' (no-think mode)'}")
     print(f"{'='*50}")
-    print(f"  Think blocks found:        {think_present}/{n}")
-    print(f"  Mean think length:         {mean_think_len:.1f} words")
+    print(f"  Proofs analysed:           {report['n_proofs_analysed']}")
     print(f"  LO alignment (mean):       {report['lo_alignment_mean']:.4f}")
     print(f"  Innermost alignment (mean):{report['innermost_alignment_mean']:.4f}")
-    print(f"  Reflection rate:           {report['reflection_rate']:.4f} ({report['reflection_rate']*100:.1f}%)")
-    print(f"  Reflection count (mean):   {report['reflection_count_mean']:.2f}")
-    print(f"  Proofs analysed:           {report['n_proofs_analysed']}")
+
+    if has_think:
+        think_lengths = [len(t.split()) for t in all_think_texts if t]
+        mean_think_len = sum(think_lengths) / len(think_lengths) if think_lengths else 0.0
+        print(f"  Think blocks found:        {think_present}/{n}")
+        print(f"  Mean think length:         {mean_think_len:.1f} words")
+        print(f"  Reflection rate:           {report['reflection_rate']:.4f} ({report['reflection_rate']*100:.1f}%)")
+        print(f"  Reflection count (mean):   {report['reflection_count_mean']:.2f}")
+    else:
+        mean_think_len = 0.0
+        print(f"  Think blocks found:        0/{n} (think-dependent metrics skipped)")
 
     if report['rule_frequency']:
         print(f"  Rule frequency distribution:")
@@ -219,15 +230,19 @@ def evaluate(
             "n_samples": n,
             "solve_rate": solve_rate,
             "mean_reward": mean_reward,
-            "think_blocks_found": think_present,
-            "mean_think_length_words": mean_think_len,
             "lo_alignment_mean": report["lo_alignment_mean"],
             "innermost_alignment_mean": report["innermost_alignment_mean"],
-            "reflection_rate": report["reflection_rate"],
-            "reflection_count_mean": report["reflection_count_mean"],
             "rule_frequency": report["rule_frequency"],
             "n_proofs_analysed": report["n_proofs_analysed"],
+            "has_think": has_think,
         }
+        if has_think:
+            emergence_data.update({
+                "think_blocks_found": think_present,
+                "mean_think_length_words": mean_think_len,
+                "reflection_rate": report["reflection_rate"],
+                "reflection_count_mean": report["reflection_count_mean"],
+            })
         with open(emergence_output, "w") as f:
             json.dump(emergence_data, f, indent=2)
         logger.info(f"Saved emergence report to {emergence_output}")
@@ -242,6 +257,22 @@ def evaluate(
         with open(failures_output, "w") as f:
             json.dump(failures, f, indent=2)
         logger.info(f"Saved {len(failures)} failures to {failures_output}")
+
+    if output_file:
+        output_data = {
+            "mode": "zero-shot" if is_zeroshot else "checkpoint",
+            "checkpoint": checkpoint_path,
+            "phase": phase,
+            "eval_file": eval_file,
+            "n_samples": n,
+            "solve_rate": solve_rate,
+            "mean_reward": mean_reward,
+            "mean_length": mean_length,
+            "results": results,
+        }
+        with open(output_file, "w") as f:
+            json.dump(output_data, f, indent=2)
+        logger.info(f"Saved full output to {output_file}")
 
     return solve_rate
 
@@ -259,13 +290,12 @@ def main():
     p.add_argument("--failures-output", default="failures.json")
     p.add_argument("--save-results", default=None, help="Save ALL results (solved+unsolved) as JSON")
     p.add_argument("--emergence-output", default=None, help="Save emergence report as JSON")
+    p.add_argument("--output-file", default=None, help="Save full evaluation output (results + emergence) as JSON")
     args = p.parse_args()
 
     checkpoint = args.checkpoint
-    if args.baseline:
-        checkpoint = "baseline"
-    elif checkpoint is None:
-        p.error("--checkpoint is required unless --baseline is set")
+    if args.baseline or checkpoint is None:
+        checkpoint = None  # triggers zero-shot mode in evaluate()
 
     evaluate(
         checkpoint_path = checkpoint,
@@ -278,6 +308,7 @@ def main():
         failures_output  = args.failures_output,
         save_results     = args.save_results,
         emergence_output = args.emergence_output,
+        output_file      = args.output_file,
     )
 
 
