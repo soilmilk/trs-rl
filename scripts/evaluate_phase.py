@@ -48,11 +48,13 @@ def evaluate(
     save_results: str = None,
     emergence_output: str = None,
     output_file: str = None,
+    enable_thinking: bool = True,
 ):
     is_zeroshot = (not checkpoint_path) or checkpoint_path == "baseline"
     mode_str = "ZERO-SHOT (no LoRA)" if is_zeroshot else f"CHECKPOINT: {checkpoint_path}"
     logger.info(f"{'='*50}")
     logger.info(f"  Mode: {mode_str}")
+    logger.info(f"  Thinking: {'ON' if enable_thinking else 'OFF'}")
     logger.info(f"  Eval file: {eval_file}")
     logger.info(f"  Phase: {phase}  |  Samples: {n_samples}")
     logger.info(f"{'='*50}")
@@ -107,7 +109,7 @@ def evaluate(
         inst = TRSInstance.from_dict(d)
         msgs = make_chat_messages(inst)
         prompt = tokenizer.apply_chat_template(
-            msgs, tokenize=False, add_generation_prompt=True, enable_thinking=True
+            msgs, tokenize=False, add_generation_prompt=True, enable_thinking=enable_thinking
         )
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
 
@@ -291,6 +293,7 @@ def main():
     p.add_argument("--save-results", default=None, help="Save ALL results (solved+unsolved) as JSON")
     p.add_argument("--emergence-output", default=None, help="Save emergence report as JSON")
     p.add_argument("--output-file", default=None, help="Save full evaluation output (results + emergence) as JSON")
+    p.add_argument("--no-think", action="store_true", help="Disable thinking (for no_think checkpoints)")
     args = p.parse_args()
 
     checkpoint = args.checkpoint
@@ -309,6 +312,7 @@ def main():
         save_results     = args.save_results,
         emergence_output = args.emergence_output,
         output_file      = args.output_file,
+        enable_thinking  = not args.no_think,
     )
 
 
