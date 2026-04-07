@@ -30,6 +30,7 @@ def main():
     p.add_argument("--seed",                type=int,   default=42)
     p.add_argument("--eval-every",          type=int,   default=250)
     p.add_argument("--save-every",          type=int,   default=500)
+    p.add_argument("--no-think",            action="store_true", help="Disable thinking in chat template (for no_think training)")
     args = p.parse_args()
 
     train(
@@ -49,6 +50,7 @@ def main():
         seed              = args.seed,
         eval_every        = args.eval_every,
         save_every        = args.save_every,
+        enable_thinking   = not args.no_think,
     )
 
 

@@ -86,6 +86,7 @@ def make_grpo_dataset(
     seed_offset: int = 0,
     tokenizer=None,
     train_data_dir: str = "data/train",
+    enable_thinking: bool = True,
 ) -> Dataset:
     """
     Build a HuggingFace Dataset with 'prompt' and '_instance_json' columns.
@@ -103,7 +104,7 @@ def make_grpo_dataset(
         msgs = make_chat_messages(inst)
         if tokenizer is not None:
             prompt_str = tokenizer.apply_chat_template(
-                msgs, tokenize=False, add_generation_prompt=True, enable_thinking=True
+                msgs, tokenize=False, add_generation_prompt=True, enable_thinking=enable_thinking
             )
         else:
             prompt_str = f"[SYSTEM]{SYSTEM}[USER]{msgs[1]['content']}"
@@ -164,6 +165,7 @@ def train(
     save_every:        int   = 250,
     eval_every:        int   = 250,
     seed:              int   = 42,
+    enable_thinking:   bool  = True,
 ) -> None:
 
     if not TRL_AVAILABLE:
@@ -199,6 +201,7 @@ def train(
     logger.info(f"{'='*60}")
     logger.info(f"TRS-RL Training — Phase {start_phase}")
     logger.info(f"Model:      {model_name}")
+    logger.info(f"Thinking:   {'ON' if enable_thinking else 'OFF'}")
     logger.info(f"Output dir: {output_dir}")
     logger.info(f"Max steps:  {max_steps}")
     logger.info(f"GPUs:       {torch.cuda.device_count()}")
@@ -272,11 +275,12 @@ def train(
     # ── Dataset ───────────────────────────────────────────────────────────
     logger.info(f"Loading Phase {start_phase} dataset from {train_data_dir}...")
     dataset = make_grpo_dataset(
-        phase          = start_phase,
-        n_instances    = max_steps * batch_size,
-        seed_offset    = seed,
-        tokenizer      = tokenizer,
-        train_data_dir = train_data_dir,
+        phase           = start_phase,
+        n_instances     = max_steps * batch_size,
+        seed_offset     = seed,
+        tokenizer       = tokenizer,
+        train_data_dir  = train_data_dir,
+        enable_thinking = enable_thinking,
     )
     logger.info(f"Dataset ready: {len(dataset)} instances")
 
