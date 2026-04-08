@@ -47,13 +47,16 @@ def main():
         for i in range(args.n_instances):
             seed = args.seed_start + i
             try:
-                inst = generate_instance(
+                kwargs = dict(
                     n_rules=args.n_rules,
                     max_depth=args.max_depth,
                     n_steps=args.n_steps,
                     domain=args.domain,
                     seed=seed,
                 )
+                if args.domain == "mixed":
+                    kwargs["domains_for_mixed"] = ["boolean", "arithmetic", "abstract"]
+                inst = generate_instance(**kwargs)
                 d = inst.to_dict()
                 f.write(json.dumps(d) + "\n")
                 instances.append(inst)
