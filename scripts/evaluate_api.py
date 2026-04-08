@@ -195,7 +195,7 @@ def evaluate(
         inst = TRSInstance.from_dict(d)
         msgs = make_chat_messages(inst)
 
-        completion = inference_fn(msgs)
+        completion = inference_fn(msgs) or ""
 
         reward = compute_reward(completion, inst)
         solved = reward >= 0.99
