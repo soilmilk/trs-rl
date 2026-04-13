@@ -26,8 +26,17 @@ At each step, for each rule, scan the ENTIRE TREE top-down:
 
 STOPPING RULE: Only declare normal form when you have checked every rule at every node and found NO match.
 
-Output your proof in this EXACT format:
+BEFORE writing your proof, reason briefly inside <think> tags. Cover:
+  - Which redex you will rewrite first and why.
+  - Any choice points where multiple rules could fire — which you picked and why.
+  - A quick check that your final expression has no applicable rules.
+Keep the think block concise. Do not re-derive every step — just flag decisions and verify the end state.
 
+Output in this EXACT format:
+
+<think>
+[Brief reasoning: first redex, choice points, final normal form check.]
+</think>
 PROOF
 S1: <expression after step 1> RULE <rule number>
 ...
@@ -44,6 +53,10 @@ RULE 5: or(F, x) => x
 START and(T, not(not(not(not(F)))))
 TARGET F
 
+<think>
+Root is and(T, ...) — Rule 2 fires at root but the inner argument is not yet reduced.
+Innermost applicable redex: not(not(F)) deep inside. Apply Rule 1 twice to strip the double nots, then Rule 2 at root. No choice points. Final state F — no rule applies to a bare constant.
+</think>
 PROOF
 S1: and(T, not(not(F))) RULE 1
 S2: and(T, F) RULE 1
@@ -60,6 +73,11 @@ RULE 5: or(F, x) => x
 START or(and(F, x), not(not(T)))
 TARGET T
 
+<think>
+Root is or(...). Left child is and(F, x) — Rule 3 fires, x is a variable so it is absorbed entirely, result is F.
+Right child is not(not(T)) — Rule 1 fires, result is T.
+After S1 and S2: or(F, T). Rule 5 fires at root. Final state T — bare constant, no rules apply.
+</think>
 PROOF
 S1: or(and(F, x), T) RULE 1
 S2: or(F, T) RULE 3
