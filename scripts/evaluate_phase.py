@@ -117,8 +117,8 @@ def evaluate(
             outputs = model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
-                do_sample=True,        # greedy — deterministic
-                temperature=0.8,
+                do_sample=True,
+                temperature=temperature,
                 top_p=None,
                 pad_token_id=tokenizer.pad_token_id,
             )
@@ -288,6 +288,7 @@ def main():
     p.add_argument("--model",         default="/workspace/models/Qwen3.5-2B")
     p.add_argument("--n-samples",     type=int, default=100)
     p.add_argument("--max-tokens",    type=int, default=512)
+    p.add_argument("--temperature",   type=float, default=0.8)
     p.add_argument("--save-failures", action="store_true", default=False)
     p.add_argument("--failures-output", default="failures.json")
     p.add_argument("--save-results", default=None, help="Save ALL results (solved+unsolved) as JSON")
@@ -307,6 +308,7 @@ def main():
         model_name      = args.model,
         n_samples       = args.n_samples,
         max_new_tokens  = args.max_tokens,
+        temperature     = args.temperature,
         save_failures    = args.save_failures,
         failures_output  = args.failures_output,
         save_results     = args.save_results,
