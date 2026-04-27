@@ -63,7 +63,7 @@ def call_api(
     api_key: str,
     max_tokens: int = 1024,
     temperature: float = 0.8,
-    max_retries: int = 3,
+    max_retries: int = 6,
 ) -> str:
     """Call an OpenAI-compatible chat completion API."""
     import requests
@@ -88,6 +88,11 @@ def call_api(
                 json=payload,
                 timeout=120,
             )
+            if resp.status_code == 429:
+                wait = 30 * (attempt + 1)
+                logger.warning(f"Rate limited (attempt {attempt+1}). Waiting {wait}s...")
+                time.sleep(wait)
+                continue
             resp.raise_for_status()
             data = resp.json()
             return data["choices"][0]["message"]["content"]
