@@ -122,6 +122,13 @@ def evaluate(
             if line:
                 problems.append(json.loads(line))
 
+    if not problems:
+        raise RuntimeError(
+            f"No problems loaded from {eval_file}. "
+            "Did you run data/generate_aime26.py? "
+            "On Docker: ensure the file exists in the mounted data/ directory."
+        )
+
     random.seed(42)
     if len(problems) > n_samples:
         problems = random.sample(problems, n_samples)
