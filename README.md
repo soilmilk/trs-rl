@@ -187,3 +187,68 @@ The experiment succeeds if ANY of these hold:
 4. Think trace length grows with proof complexity
 
 If none hold → also publishable (strong negative result).
+
+---
+
+## Math Benchmark Suite (AIME / AMC / Putnam)
+
+For the TRS-RL paper we benchmark transfer to standard math contest datasets,
+following the SATURN paper convention. The pipeline supports the base model
+and the trained checkpoint with thinking ON or OFF.
+
+### Datasets
+
+| Benchmark | Source | N problems | Answer type |
+|-----------|--------|------------|-------------|
+| AIME 2026 | `evalscope/aime26` (or HF mirrors) | 30 | integer 0-999 |
+| AMC 12 (2022/23) | `AI-MO/aimo-validation-amc` | 83 | integer |
+| Putnam | `amitayusht/PutnamBench` | 271 (numerical-answer subset) | free-form |
+
+Generate all datasets with:
+```bash
+python3 data/generate_aime26.py
+python3 data/generate_amc.py
+python3 data/generate_putnam.py
+```
+
+### Single-benchmark runs
+
+```bash
+# Base model on AMC
+python3 scripts/evaluate_amc.py \
+    --eval-file data/eval/amc.jsonl \
+    --output-file results/amc_base.json
+
+# Phase 5 checkpoint on AIME, thinking ON
+python3 scripts/evaluate_aime.py \
+    --checkpoint runs/.../phase5/checkpoint-XXXX \
+    --eval-file data/eval/aime26.jsonl \
+    --output-file results/aime_phase5_think_on.json
+
+# Phase 5 checkpoint on Putnam, thinking OFF
+python3 scripts/evaluate_putnam.py \
+    --checkpoint runs/.../phase5/checkpoint-XXXX \
+    --no-think \
+    --eval-file data/eval/putnam.jsonl \
+    --output-file results/putnam_phase5_think_off.json
+```
+
+### Run everything (recommended)
+
+```bash
+# Base only
+bash scripts/run_all_benchmarks.sh
+
+# Base + Phase 5 (think ON and OFF) = 9 JSONs total
+bash scripts/run_all_benchmarks.sh runs/.../phase5/checkpoint-XXXX
+```
+
+Results go to `results/<timestamp>/` with the naming pattern
+`<benchmark>_<mode>.json` (e.g., `aime_phase5_think_on.json`).
+
+### Notes on Putnam grading
+
+Putnam answers are often free-form (fractions, expressions, yes/no), so the
+grader uses normalized string matching with a substring fallback rather than
+strict integer equality. This is approximate — for final paper numbers we may
+want LLM-as-judge. SATURN itself only reports AMC/AIME, so Putnam is bonus.
