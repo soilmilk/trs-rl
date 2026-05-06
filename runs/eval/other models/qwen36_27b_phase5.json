@@ -1,0 +1,460 @@
+{
+  "model": "openrouter:qwen/qwen3.6-27b",
+  "n_samples": 50,
+  "solve_rate": 0.12,
+  "mean_reward": 0.16251244703009404,
+  "mean_length": 66.54,
+  "parse_rate": 0.38,
+  "results": [
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(add(and(add(mul(and(ZERO, T), x), T), or(F, and(and(mul(ZERO, x), or(F, T)), T))), and(not(not(T)), and(or(T, x), T))), T)",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(T, not(not(and(T, and(add(and(T, ZERO), and(add(not(not(ZERO)), not(and(add(ZERO, not(and(and(and(and(T, T), not(F)), T), or(F, F)))), and(not(not(T)), T)))), T)), T)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "not(not(not(not(and(not(not(and(T, not(not(and(T, or(or(F, F), T))))))), or(F, not(not(add(add(ZERO, ZERO), not(not(T)))))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(and(not(F), or(F, add(ZERO, or(and(F, T), add(ZERO, or(F, and(T, and(and(T, or(F, not(not(not(F))))), not(and(T, not(and(x, F)))))))))))), T)",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(x, and(x, or(and(x, F), and(or(and(and(x, not(not(or(F, F)))), x), and(not(and(not(not(and(not(F), F))), x)), and(x, F))), T))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(not(not(and(T, and(add(ZERO, T), T)))), not(not(add(not(not(or(F, and(not(not(ZERO)), T)))), F))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(or(and(F, x), or(T, x)), and(and(and(add(and(T, ZERO), T), not(not(T))), not(not(T))), and(T, and(T, or(F, T)))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 62,
+      "completion": "PROOF\nS1: not(not(add(add(ZERO, mul(ZERO, x)), and(T, not(not(add(ZERO, add(ZERO, T)))))))) RULE 1\nS2: not(not(add(add(ZERO, mul(ZERO, x)), and(T, not(not(add(ZERO, T))))))) RULE 10\nS3: not(not(add(add(ZERO, mul(ZERO, x)), and(T, not(not(T)))))) RULE 10\nS4: not(not(add(add(ZERO, mul(ZERO, x)), and(T, T)))) RULE 1\nS5: not(not(add(add(ZERO, mul(ZERO, x)), T))) RULE 2\nS6: not(not(add(add(ZERO, ZERO), T))) RULE 12\nS7: not(not(add(ZERO, T))) RULE 10\nS8: not(not(T)) RULE 10\nS9: T RULE 1",
+      "start": "not(not(add(add(ZERO, mul(ZERO, x)), and(T, not(not(add(ZERO, add(ZERO, not(not(T))))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 9
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 130,
+      "completion": "PROOF\nS1: add(mul(add(and(add(ZERO, or(F, T)), ZERO), ZERO), x), not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 2\nS2: add(mul(add(and(add(ZERO, T), ZERO), ZERO), x), not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 4\nS3: add(mul(add(and(T, ZERO), ZERO), ZERO), x), not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 10\nS4: add(mul(add(ZERO, ZERO), ZERO), x), not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 2\nS5: add(mul(add(ZERO, ZERO), x), not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 10\nS6: add(mul(ZERO, x), not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 10\nS7: add(ZERO, not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 12\nS8: add(x, not(not(not(not(and(x, and(or(F, not(T)), x)))))) RULE 10\nS9: add(x, not(not(not(not(and(x, and(or(F, F), x)))))) RULE 6\nS10: add(x, not(not(not(not(and(x, and(F, x)))))) RULE 5\nS11: add(x, not(not(not(not(and(x, F))))) RULE 3\nS12: add(x, not(not(not(not(F))))) RULE 9\nS13: add(x, not(not(not(T)))) RULE 7\nS14: add(x, not(not(F))) RULE 6\nS15: add(x, not(T)) RULE 7\nS16: add(x, F) RULE 6",
+      "start": "add(mul(add(and(add(ZERO, or(F, and(T, T))), ZERO), ZERO), x), not(not(not(not(and(x, and(or(F, not(T)), x)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 16
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(or(and(or(not(T), add(add(mul(add(ZERO, ZERO), x), ZERO), not(not(add(or(and(or(F, F), x), and(ZERO, T)), or(F, T)))))), and(T, add(add(ZERO, ZERO), T))), x), x)",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.025,
+      "completion_length": 464,
+      "completion": "<think>\nThe start expression is `not(not(not(not(or(not(not(F)), not(not(or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F)))))))))))))))))`.\nThe top-level structure is four nested `not`s wrapping an `or`.\n1.  **Peel outer nots**: The term starts with `not(not(...))`. Rule 1 (`not(not(x)) => x`) applies at the root. Applying it twice removes the four outer `not`s, leaving the `or` expression.\n2.  **Simplify Left Argument**: The left argument of `or` is `not(not(F))`. Rule 1 reduces this to `F`.\n3.  **Simplify Root or**: Now we have `or(F, ...)`. Rule 5 (`or(F, x) => x`) applies at the root, reducing to the right argument.\n4.  **Peel inner nots**: The right argument is `not(not(or(...)))`. Rule 1 applies, reducing to `or(...)`.\n5.  **Simplify inner or**: The first argument of this `or` is `or(F, F)`. Rule 5 reduces this to `F`.\n6.  **Simplify root or**: Now `or(F, ...)` at root. Rule 5 reduces to the second argument `and(and(T, T), ...)`.\n7.  **Simplify inner and**: The first argument `and(T, T)`. Rule 2 (`and(T, x) => x`) reduces this to `T`.\n8.  **Simplify root and**: Now `and(T, ...)` at root. Rule 2 reduces to the second argument `or(F, or(F, ...))`.\n9.  **Simplify nested ors**: `or(F, or(F, ...))` reduces via Rule 5 twice to `not(not(add(...)))`.\n10. **Peel nots**: `not(not(add(...)))` reduces via Rule 1 to `add(...)`.\n11. **Simplify add**: `add(ZERO, ...)` reduces via Rule 10 to `...`.\n12. **Simplify inner and**: We reach `and(not(and(F, add(ZERO, T))), not(not(not(F))))`. The inner `and(F, add(ZERO, T))` matches Rule 3 (`and(F, x) => F`), becoming `F`.\n13. **Simplify not**: `not(F)` reduces via Rule 7 to `T`.\n14. **Simplify root and**: `and(T, ...)` reduces via Rule 2 to `...`.\n15. **Final reduction**: We are left with `not(not(not(F)))`. Rule 1 reduces `not(not(not(F)))` to `not(F)`. Rule 7 reduces `not(F)` to `T`.\nPROOF\nS1: not(not(or(not(not(F)), not(not(or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))))))))))) RULE 1\nS2: or(not(not(F)), not(not(or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F)))))))))))))) RULE 1\nS3: or(F, not(not(or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F)))))))))))))) RULE 1\nS4: not(not(or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F)))))))))))))) RULE 5\nS5: or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))))))) RULE 1\nS6: or(F, and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))))))) RULE 5\nS7: and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))))))) RULE 5\nS8: and(T, or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))))))) RULE 2\nS9: or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F)))))))))) RULE 2\nS10: or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F)))))))) RULE 5\nS11: not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))) RULE 5\nS12: add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))) RULE 1\nS13: and(not(and(F, add(ZERO, T))), not(not(not(F)))) RULE 10\nS14: and(not(F), not(not(not(F)))) RULE 3\nS15: and(T, not(not(not(F)))) RULE 7\nS16: not(not(not(F))) RULE 2\nS17: not(F) RULE 1\nS18: T RULE 7",
+      "start": "not(not(not(not(or(not(not(F)), not(not(or(or(F, F), and(and(T, T), or(F, or(F, not(not(add(ZERO, and(not(and(F, add(ZERO, T))), not(not(not(F))))))))))))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 18
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(and(or(add(ZERO, or(F, F)), and(add(not(not(or(F, add(ZERO, ZERO)))), or(T, x)), T)), not(not(not(or(F, add(ZERO, not(or(F, T)))))))), x)",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.4285714285714286,
+      "completion_length": 143,
+      "completion": "PROOF\nS1: and(and(and(T, or(or(or(F, and(and(T, or(and(x, F), and(T, T))), and(T, T))), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 10\nS2: and(and(and(T, or(or(or(F, and(and(T, or(F, and(T, T))), and(T, T))), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 9\nS3: and(and(and(T, or(or(or(F, and(and(T, or(F, T)), and(T, T))), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 8\nS4: and(and(and(T, or(or(or(F, and(and(T, T), and(T, T))), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 5\nS5: and(and(and(T, or(or(or(F, and(T, and(T, T))), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 8\nS6: and(and(and(T, or(or(or(F, and(T, T)), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 8\nS7: and(and(and(T, or(or(or(F, T), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 8\nS8: and(and(and(T, or(or(T, x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x) RULE 5\nS9: and(and(and(T, or(T, x)), and(or(F, and(x, and(not(not(F)), T))), x)), x",
+      "start": "and(and(and(add(ZERO, T), or(or(or(F, and(and(T, or(and(x, F), and(T, T))), and(T, T))), x), x)), and(or(F, and(x, and(not(not(F)), T))), x)), x)",
+      "normal_form": "F",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 198,
+      "completion": "First redex: `add(ZERO, ...)` at the left child of the root matches Rule 10. Applying it simplifies the left subtree significantly.\nChoice points: After simplifying the left side, we encounter nested `and` expressions with `F` and variables. Following the top-down, left-to-right scan strategy, we reduce `and(T, F)` using Rule 9, then `and(F, x)` using Rule 3, then `and(x, F)` using Rule 9 twice. Finally, the root becomes `and(F, ...)` which matches Rule 3, collapsing everything to `F`. The right subtree is never reduced because it gets absorbed by the variable `x` in Rule 3 at the root, which is correct and efficient.\nFinal normal form check: The result is the constant `F`. No rules have `F` on their LHS, and no function symbols are present, so no rule can apply. Normal form is reachedPROOF\nS1: and(and(x, and(x, and(and(T, F), x))), and(or(T, x), and(T, and(or(T, x), not(not(T)))))) RULE 10\nS2: and(and(x, and(x, and(F, x))), and(or(T, x), and(T, and(or(T, x), not(not(T)))))) RULE 9\nS3: and(and(x, and(x, F)), and(or(T, x), and(T, and(or(T, x), not(not(T)))))) RULE 3\nS4: and(and(x, F), and(or(T, x), and(T, and(or(T, x), not(not(T)))))) RULE 9\nS5: and(F, and(or(T, x), and(T, and(or(T, x), not(not(T)))))) RULE 9\nS6: F RULE 3",
+      "start": "and(add(ZERO, and(x, and(x, and(and(T, F), x)))), and(or(T, x), and(T, and(or(T, x), not(not(T))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 6
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "add(not(not(and(T, not(not(ZERO))))), and(T, not(and(and(not(F), T), not(not(not(or(add(ZERO, or(F, not(not(and(x, F))))), or(T, x)))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(T, not(not(not(and(and(or(T, x), and(add(ZERO, and(T, T)), not(T))), or(F, add(or(F, add(ZERO, and(ZERO, T))), T)))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.025,
+      "completion_length": 173,
+      "completion": "PROOF\nS1: and(and(and(add(or(F, add(ZERO, not(not(ZERO)))), and(T, T)), T), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 5\nS2: and(and(and(add(add(ZERO, not(not(ZERO))), and(T, T)), T), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 5\nS3: and(and(and(add(not(not(ZERO)), and(T, T)), T), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 10\nS4: and(and(and(add(ZERO, and(T, T)), T), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 1\nS5: and(and(and(add(ZERO, T), T), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 2\nS6: and(and(and(T, T), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 10\nS7: and(and(T, T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 2\nS8: and(T, T), and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 2\nS9: and(T, and(and(T, and(not(not(T)), T)), or(and(x, F), T))) RULE 2\nS10: and(T, and(and(T, and(T, T)), or(and(x, F), T))) RULE 1\nS11: and(T, and(and(T, T), or(and(x, F), T))) RULE 2\nS12: and(T, and(T, or(and(x, F), T))) RULE 2\nS13: and(T, and(T, or(F, T))) RULE 9\nS14: and(T, and(T, T)) RULE 5\nS15: and(T, T) RULE 2\nS16: T RULE 2",
+      "start": "and(and(and(add(or(or(F, F), add(ZERO, not(not(ZERO)))), and(T, T)), T), T), and(and(T, and(not(not(T)), T)), or(and(x, F), T)))",
+      "normal_form": "T",
+      "n_parsed_steps": 16
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "add(mul(not(or(add(ZERO, not(not(F))), or(F, or(F, add(ZERO, not(and(add(ZERO, ZERO), T))))))), x), T)",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.14,
+      "completion_length": 146,
+      "completion": "PROOF\nS1: not(not(and(and(not(add(ZERO, and(and(T, not(not(T))), T))), add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 2\nS2: not(not(and(and(not(add(ZERO, and(and(T, T), T))), add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 1\nS3: not(not(and(and(not(add(ZERO, and(T, T))), add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 2\nS4: not(not(and(and(not(add(ZERO, T)), add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 2\nS5: not(not(and(and(not(T)), add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 10\nS6: not(not(and(and(F, add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 6\nS7: not(not(and(and(F, add(ZERO, not(and(T, F)))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 1\nS8: not(not(and(and(F, add(ZERO, not(and(T, F)))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 1\nS9: not(not(and(and(F, add(ZERO, not(F))), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 7\nS10: not(not(and(and(F, add(ZERO, T)), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 10\nS11: not(not(and(and(F, T), or(not(not(not(not(add(ZERO, T))))), x)))) RULE 3\nS12: not(not(and(F, or(not(not(not(not(add(ZERO, T))))), x)))) RULE 3\nS13: not(not(and(F, or(not(not(not(not(T)))), x)))) RULE 10\nS14: not(not(and(F, or(not(not(T)), x)))) RULE 1\nS15: not(not(and(F, or(T, x)))) RULE 1\nS16: not(not(and(F, T))) RULE 4",
+      "start": "not(not(and(and(not(add(ZERO, and(and(T, not(not(and(T, T)))), T))), add(ZERO, not(and(T, not(not(F)))))), or(not(not(not(not(add(ZERO, T))))), x))))",
+      "normal_form": "F",
+      "n_parsed_steps": 16
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(or(and(F, x), and(and(and(and(T, and(T, T)), not(T)), T), or(F, not(not(add(ZERO, or(F, not(not(not(F)))))))))), x)",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "not(not(and(and(or(and(T, add(mul(ZERO, x), not(not(and(or(add(ZERO, or(F, F)), T), T))))), x), and(not(T), x)), x)))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.09166666666666667,
+      "completion_length": 184,
+      "completion": "PROOF\nS1: not(not(and(or(and(or(add(mul(ZERO, x), and(and(add(ZERO, not(not(T))), T), F)), T), T), x), not(not(or(and(F, x), and(T, not(or(F, F))))))))) RULE 10\nS2: not(not(and(or(and(or(add(mul(ZERO, x), and(and(add(ZERO, T), T), F)), T), T), x), not(not(or(and(F, x), and(T, not(or(F, F))))))))) RULE 1\nS3: not(not(and(or(and(or(add(mul(ZERO, x), and(and(add(ZERO, T), T), F)), T), T), x), not(not(or(F, and(T, not(or(F, F))))))))) RULE 3\nS4: not(not(and(or(and(or(add(mul(ZERO, x), and(and(add(ZERO, T), T), F)), T), T), x), not(not(or(F, and(T, not(F))))))))) RULE 5\nS5: not(not(and(or(and(or(add(ZERO, and(and(add(ZERO, T), T), F)), T), T), x), not(not(or(F, and(T, not(F))))))))) RULE 12\nS6: not(not(and(or(and(or(add(ZERO, and(and(T, T), F)), T), T), x), not(not(or(F, and(T, not(F))))))))) RULE 10\nS7: not(not(and(or(and(or(add(ZERO, and(T, F)), T), T), x), not(not(or(F, and(T, not(F))))))))) RULE 2\nS8: not(not(and(or(and(or(add(ZERO, F), T), T), x), not(not(or(F, and(T, not(F))))))))) RULE 9\nS9: not(not(and(or(and(or(F, T), T), x), not(not(or(F, and(T, not(F))))))))) RULE 10\nS10: not(not(and(or(and(or(F, T), T), x), not(not(or(F, and(T, T)))))))) RULE 7\nS11: not(not(and(or(and(T, T), x), not(not(or(F, and(T, T)))))))) RULE 4\nS12: not(not(and(or(T, x), not(not(or(F, and(T, T)))))))) RULE 2\nS13: not(not(and(or(T, x), not(not(or(F, T))))))) RULE 2\nS14: not(not(and(T, not(not(or(F, T))))))) RULE 4\nS15: not(not(and(T, not(not(T))))) RULE 4\nS16: not(not(and(T, T))) RULE 1\nS17: not(not(T)) RULE 2\nS18: T RULE 1",
+      "start": "not(not(and(or(and(or(add(mul(add(ZERO, ZERO), x), and(and(add(ZERO, not(not(T))), T), F)), T), T), x), not(not(or(and(F, x), and(T, not(or(F, F)))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 18
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(x, or(add(and(and(or(F, ZERO), T), T), F), add(ZERO, and(and(or(F, T), not(add(ZERO, not(add(not(add(mul(ZERO, x), not(ZERO))), or(and(F, x), F)))))), or(T, x)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "add(mul(and(T, ZERO), x), and(and(not(and(or(not(not(T)), x), T)), add(ZERO, add(and(T, ZERO), T))), x))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "not(and(not(and(T, and(and(and(T, T), T), or(F, not(and(T, not(and(add(and(and(or(add(ZERO, F), or(F, ZERO)), T), or(and(F, x), not(F))), T), T)))))))), T))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.022222222222222223,
+      "completion_length": 52,
+      "completion": "PROOF\nS1: and(not(not(not(add(or(F, add(ZERO, ZERO)), or(F, and(T, and(F, T)))))), not(add(mul(ZERO, x), and(not(not(not(F))), or(or(F, T), x))))) RULE 10\nS2: and(not(not(not(add(add(ZERO, ZERO), or(F, and(T, and(F, T)))))), not(add(mul(ZERO, x), and(not(not(not(F))), or(or(F, T), x))))) RULE 5\nS3: and(not(not(not(add(ZERO, or(F, and(T, and(F, T)))))), not(add(mul(ZERO, x), and(not(not(not(F))), or(or(F, T), x))))) RULE 10\nS4: and(not(not(not(or(F, and(T, and(F, T))))), not(add(m",
+      "start": "and(not(not(not(add(ZERO, add(or(F, add(ZERO, ZERO)), or(F, and(T, and(F, T)))))))), not(add(mul(ZERO, x), and(not(not(not(F))), or(or(F, T), x)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 3
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(F, add(and(T, not(not(and(T, ZERO)))), not(not(not(add(or(and(or(F, F), T), not(or(F, and(T, not(ZERO))))), not(not(not(or(F, not(not(not(not(F))))))))))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.22666666666666668,
+      "completion_length": 123,
+      "completion": "PROOF\nS1: not(and(or(and(F, x), and(not(not(add(ZERO, not(or(F, F))))), T)), not(or(and(F, x), and(T, not(T)))))) RULE 9\nS2: not(and(or(F, and(not(not(add(ZERO, not(or(F, F))))), T)), not(or(and(F, x), and(T, not(T)))))) RULE 3\nS3: not(and(or(F, and(not(not(add(ZERO, not(F)))), T)), not(or(and(F, x), and(T, not(T)))))) RULE 5\nS4: not(and(or(F, and(not(not(add(ZERO, T))), T)), not(or(and(F, x), and(T, not(T)))))) RULE 7\nS5: not(and(or(F, and(not(not(T)), T)), not(or(and(F, x), and(T, not(T)))))) RULE 10\nS6: not(and(or(F, and(T, T)), not(or(and(F, x), and(T, not(T)))))) RULE 1\nS7: not(and(or(F, T), not(or(and(F, x), and(T, not(T)))))) RULE 2\nS8: not(and(T, not(or(and(F, x), and(T, not(T)))))) RULE 4\nS9: not(and(T, not(or(F, and(T, not(T)))))) RULE 3\nS10: not(and(T, not(or(F, and(T, F))))) RULE 6\nS11: not(and(T, not(or(F, F)))) RULE 9\nS12: not(and(T, not(F))) RULE 5\nS13: not(and(T, T)) RULE 7\nS14: not(T) RULE 2\nS15: F RULE 6",
+      "start": "not(and(or(and(and(x, F), x), and(not(not(add(ZERO, not(or(F, F))))), T)), not(or(and(F, x), and(T, not(T))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 15
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 73,
+      "completion": "PROOF\nS1: and(and(or(F, add(ZERO, and(F, T))), not(and(x, add(ZERO, F)))), not(and(and(x, or(not(T), and(F, x))), or(F, not(F))))) RULE 1\nS2: and(and(add(ZERO, and(F, T)), not(and(x, add(ZERO, F)))), not(and(and(x, or(not(T), and(F, x))), or(F, not(F))))) RULE 5\nS3: and(and(and(F, T), not(and(x, add(ZERO, F)))), not(and(and(x, or(not(T), and(F, x))), or(F, not(F))))) RULE 10\nS4: and(and(F, not(and(x, add(ZERO, F)))), not(and(and(x, or(not(T), and(F, x))), or(F, not(F))))) RULE 3\nS5: and(F, not(and(and(x, or(not(T), and(F, x))), or(F, not(F))))) RULE 3\nS6: F RULE 3",
+      "start": "and(not(not(and(or(F, add(ZERO, and(F, T))), not(and(x, add(ZERO, F)))))), not(and(and(x, or(not(T), and(F, x))), or(F, not(F)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 6
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(add(ZERO, add(mul(or(and(x, F), ZERO), x), and(T, add(ZERO, or(add(and(T, ZERO), F), and(not(not(and(or(F, F), x))), and(not(not(add(ZERO, T))), or(F, T)))))))), F)",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(T, and(not(not(or(not(not(T)), x))), add(and(not(not(and(not(and(F, T)), add(ZERO, add(ZERO, ZERO))))), T), not(not(and(T, or(and(F, x), and(and(T, not(F)), T))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(or(not(not(not(add(ZERO, not(and(T, F)))))), and(T, not(or(F, and(T, and(and(not(not(T)), add(ZERO, and(add(ZERO, not(and(T, T))), T))), or(F, T))))))), x)",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(and(x, or(and(F, T), and(F, x))), not(not(or(and(x, F), add(ZERO, add(ZERO, or(F, not(not(add(not(not(or(F, ZERO))), and(T, T)))))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.2733333333333333,
+      "completion_length": 79,
+      "completion": "PROOF\nS1: or(and(and(x, and(or(F, not(add(ZERO, and(and(not(not(T)), T), or(F, add(ZERO, T)))))), and(not(add(ZERO, not(T))), T))), x), F) RULE 9\nS2: or(and(and(x, and(or(F, not(add(ZERO, and(and(T, T), or(F, add(ZERO, T)))))), and(not(add(ZERO, not(T))), T))), x), F) RULE 1\nS3: or(and(and(x, and(or(F, not(add(ZERO, and(T, or(F, add(ZERO, T)))))), and(not(add(ZERO, not(T))), T))), x), F) RULE 2\nS4: or(and(and(x, and(or(F, not(add(ZERO, and(T, or(F, T)))))), and(not(add(ZERO, not(T))), T))), x), F) RULE 10\nS5: or(and(and(x, and(or(F, not(add(ZERO, and(T, T))))), and(not(add(ZERO, not(T))), T))), x), F) RULE 5\nS6: or(and(and(x, and(or(F, not(add(ZERO",
+      "start": "or(and(and(x, and(or(F, not(add(ZERO, and(and(not(not(T)), T), or(F, add(ZERO, T)))))), and(not(add(ZERO, not(T))), T))), x), and(x, F))",
+      "normal_form": "F",
+      "n_parsed_steps": 5
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(and(x, and(or(add(ZERO, and(or(F, T), not(or(F, or(F, not(T)))))), x), not(not(and(F, or(and(F, T), T)))))), and(or(not(not(add(ZERO, T))), x), T))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(and(x, add(add(ZERO, add(ZERO, ZERO)), not(add(ZERO, T)))), or(F, and(T, and(T, T))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(and(x, and(F, x)), and(x, and(not(not(and(T, and(or(not(not(T)), x), F)))), or(and(x, F), not(and(x, add(and(not(F), mul(ZERO, x)), F)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(and(T, and(T, not(add(and(not(and(not(ZERO), T)), T), or(F, not(not(add(ZERO, T)))))))), T)",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.22823529411764706,
+      "completion_length": 158,
+      "completion": "PROOF\nS1: not(add(or(not(not(and(F, x))), not(not(ZERO))), not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T)))) RULE 5\nS2: not(add(or(and(F, x), not(not(ZERO))), not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T)))) RULE 1\nS3: not(add(or(F, not(not(ZERO))), not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T)))) RULE 3\nS4: not(add(not(not(ZERO)), not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T)))) RULE 5\nS5: not(add(ZERO, not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T)))) RULE 1\nS6: not(not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T))) RULE 10\nS7: and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T) RULE 1\nS8: and(and(or(not(or(F, or(F, not(not(or(T, x)))))), T), T), T) RULE 10\nS9: and(and(or(not(or(F, or(F, not(not(or(T, x)))))), T), T) RULE 8\nS10: and(or(not(or(F, or(F, not(not(or(T, x)))))), T), T) RULE 8\nS11: or(not(or(F, or(F, not(not(or(T, x)))))), T) RULE 8\nS12: or(not(or(F, not(not(or(T, x))))), T) RULE 5\nS13: or(not(not(not(not(or(T, x)))))), T) RULE 5\nS14: or(not(not(or(T, x))), T) RULE 1\nS15: or(or(T, x), T) RULE 1\nS16: or(T, T) RULE 4\nS17: T RULE 4",
+      "start": "not(or(F, add(or(not(not(and(F, x))), not(not(ZERO))), not(and(and(add(ZERO, or(not(or(F, or(F, not(not(or(T, x)))))), T)), T), T)))))",
+      "normal_form": "T",
+      "n_parsed_steps": 17
+    },
+    {
+      "solved": false,
+      "reward": 0.42500000000000004,
+      "completion_length": 169,
+      "completion": "\n\nThe expression is deeply nested. I will apply rules top-down, left-to-right to systematically reduce it.\n- Left side `add(ZERO, T)` reduces via Rule 10 to `T`.\n- Then `or(F, ZERO)` reduces via Rule 5 to `ZERO`.\n- `and(T, ZERO)` reduces via Rule 2 to `ZERO`.\n- Right side `and(x, F)` reduces via Rule 9 to `F`.\n- `or(F, and(...))` reduces via Rule 5, stripping the `or`.\n- `and(T, not(...))` reduces via Rule 2, stripping the `and`.\n- Deep inside, `and(F, T)` reduces via Rule 3 to `F`.\n- Two nested `add(ZERO, ...)` calls reduce via Rule 10 to `F`.\n- `and(T, T)` reduces via Rule 2 to `T`.\n- `and(F, T)` reduces via Rule 3 to `F`.\n- `not(not(F))` reduces via Rule 1 to `F`.\n- Finally, `add(ZERO, F)` reduces via Rule 10 to `F`.\nNo rules apply to the bare constant `F`, so it is in normal formPROOF\nS1: add(and(T, or(F, ZERO)), or(and(x, F), and(T, not(not(and(add(ZERO, add(ZERO, and(F, T))), and(T, T))))))) RULE 10\nS2: add(and(T, ZERO), or(and(x, F),",
+      "start": "add(and(add(ZERO, T), or(F, ZERO)), or(and(x, F), and(T, not(not(and(add(ZERO, add(ZERO, and(F, T))), and(T, T)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 1
+    },
+    {
+      "solved": false,
+      "reward": 0.09047619047619047,
+      "completion_length": 96,
+      "completion": "PROOF\nS1: and(T, not(not(or(F, and(not(not(not(and(and(T, add(ZERO, and(and(T, T), and(T, T)))), not(and(T, or(F, F))))))), T))))) RULE 4\nS2: not(not(or(F, and(not(not(not(and(and(T, add(ZERO, and(and(T, T), and(T, T)))), not(and(T, or(F, F))))))), T))))) RULE 2\nS3: or(F, and(not(not(not(and(and(T, add(ZERO, and(and(T, T), and(T, T)))), not(and(T, or(F, F))))))), T)) RULE 1\nS4: and(not(not(not(and(and(T, add(ZERO, and(and(T, T), and(T, T)))), not(and(T, or(F, F))))))), T) RULE 5\nS5: not(not(not(and(and(T, add(ZERO, and(and(T, T), and(T, T)))), not(and(T, or(F, F))))))) RULE 8\nS6: not(not(not(and(add(ZERO, and(and(T, T), and(T, T))), not(and(T, or(F, F))))))) RULE 2\nS7: not(not(not(and(and(and(T, T), and(T, T)), not(and(T, or(F, F))))))) RULE 10\nS8: not(not(not(and(and(T, and(T, T)), not(and(T, or(F",
+      "start": "and(or(T, x), not(not(or(F, and(not(not(not(and(and(T, add(ZERO, and(and(T, T), and(T, T)))), not(and(T, or(F, F))))))), T)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 7
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "add(and(add(add(ZERO, and(T, ZERO)), and(and(T, T), add(ZERO, add(ZERO, ZERO)))), and(T, T)), or(add(ZERO, F), and(and(T, T), T)))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "or(F, or(F, add(not(not(and(add(ZERO, not(not(and(T, not(not(and(T, T))))))), and(not(not(and(T, and(T, and(ZERO, T))))), T)))), or(F, add(not(not(ZERO)), F)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 303,
+      "completion": "<think>\nThe expression is a complex boolean logic tree. I will simplify it by targeting redexes (sub-expressions matching rules) systematically.\n\n1.  **Root and Right Branch:** The expression ends with `and(..., and(T, T))`. I will first reduce `and(T, T)` to `T` (Rule 2). This turns the root `and(..., T)` into a match for Rule 8 (`and(x, T) => x`), collapsing the outer `and` and removing the right branch entirely.\n2.  **Deep Nested NOTs:** Inside the remaining structure, there is `not(not(not(not(T))))`. I will apply Rule 1 (`not(not(x)) => x`) twice to reduce this to `T`.\n3.  **Boolean Simplification:** With constants exposed, I will reduce `and(T, T)` (Rule 2) and `or(F, T)` (Rule 5). This simplifies the middle section significantly.\n4.  **Double NOT Cancellation:** The expression will eventually expose a `not(not(...))` pattern, which I will collapse using Rule 1.\n5.  **Absorption:** I will handle the variable `x` by reducing `and(F, T)` to `F` (Rule 3) and then `and(x, F)` to `F` (Rule 9).\n6.  **Final Reduction:** The expression reduces to `not(T)`, which becomes `F` (Rule 6). `F` is a constant with no applicable rules.\nPROOF\nS1: and(not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, and(T, and(not(not(not(not(T)))), T))))), T) RULE 2\nS2: not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, and(T, and(not(not(not(not(T)))), T))))) RULE 8\nS3: not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, and(T, and(not(not(T)), T))))) RULE 1\nS4: not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, and(T, and(T, T))))) RULE 1\nS5: not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, and(T, T)))) RULE 2\nS6: not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, T))) RULE 2\nS7: not(and(not(or(and(x, and(F, T)), not(or(F, T)))), T)) RULE 5\nS8: not(not(or(and(x, and(F, T)), not(or(F, T))))) RULE 8\nS9: or(and(x, and(F, T)), not(or(F, T))) RULE 1\nS10: or(and(x, F), not(or(F, T))) RULE 3\nS11: or(F, not(or(F, T))) RULE 9\nS12: not(or(F, T)) RULE 5\nS13: not(T) RULE 5\nS14: F RULE 6",
+      "start": "and(not(and(not(or(and(x, and(F, T)), not(or(F, T)))), or(F, and(T, and(not(not(not(not(T)))), T))))), and(T, T))",
+      "normal_form": "F",
+      "n_parsed_steps": 14
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 228,
+      "completion": "The starting expression is a deeply nested boolean and arithmetic structure. I will reduce it by targeting clear redexes from the outside-in where possible, following standard term rewriting.\n1. `add(ZERO, T)` at the far right matches Rule 10, reducing to `T`.\n2. The new `or(F, T)` matches Rule 5, reducing to `T`.\n3. The outer `and(..., T)` matches Rule 8, dropping the second argument.\n4. Inside the remaining expression, `not(not(not(not(F))))` matches Rule 1 twice, stripping down to `F`.\n5. This creates `and(F, T)`, which matches Rule 3, reducing to `F`.\n6. The parent `and(..., F)` now matches Rule 9, reducing to `F`.\n7. The outermost `or(F, F)` matches Rule 5, reducing to `F`.\nNo rules apply to the bare constant `F`, so it is in normal formPROOF\nS1: and(or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), and(not(not(not(not(F)))), T)), or(F, T)) RULE 10\nS2: and(or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), and(not(not(not(not(F)))), T)), T) RULE 5\nS3: or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), and(not(not(not(not(F)))), T)) RULE 8\nS4: or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), and(not(not(F)), T)) RULE 1\nS5: or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), and(F, T)) RULE 1\nS6: or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), F) RULE 3\nS7: or(F, F) RULE 9\nS8: F RULE 5",
+      "start": "and(or(and(or(and(or(F, and(T, or(F, T))), and(and(or(F, T), T), T)), x), F), and(not(not(not(not(F)))), T)), or(F, add(ZERO, T)))",
+      "normal_form": "F",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 147,
+      "completion": "PROOF\nS1: and(not(not(and(not(not(T)), and(or(F, and(T, or(F, T))), F)))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 7\nS2: and(not(not(and(T, and(or(F, and(T, or(F, T))), F)))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 1\nS3: and(not(not(and(T, and(or(F, and(T, T)), F)))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 5\nS4: and(not(not(and(T, and(or(F, T), F)))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 2\nS5: and(not(not(and(T, and(T, F)))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 5\nS6: and(not(not(and(T, F))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 2\nS7: and(not(not(F)), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 2\nS8: and(F, add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F)))) RULE 1\nS9: and(F, add(ZERO, or(or(F, and(F, T)), not(F)))) RULE 10\nS10: and(F, add(ZERO, or(or(F, F), not(F)))) RULE 3\nS11: and(F, add(ZERO, or(F, not(F)))) RULE 5\nS12: and(F, add(ZERO, or(F, T))) RULE 7\nS13: and(F, add(ZERO, T)) RULE 5\nS14: and(F, T) RULE 10\nS15: F RULE 3",
+      "start": "and(not(not(and(not(not(not(F))), and(or(F, and(T, or(F, T))), F)))), add(ZERO, or(or(F, and(add(ZERO, F), T)), not(F))))",
+      "normal_form": "F",
+      "n_parsed_steps": 15
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "not(not(not(not(add(ZERO, not(not(and(T, not(not(add(ZERO, not(and(T, not(not(T)))))))))))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(or(and(or(and(and(T, and(T, T)), or(F, add(ZERO, T))), x), add(add(ZERO, or(or(F, and(x, F)), ZERO)), T)), x), T)",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 0,
+      "completion": "",
+      "start": "and(or(not(not(not(T))), not(and(and(F, T), x))), or(F, and(T, or(F, add(ZERO, T)))))",
+      "normal_form": "T",
+      "n_parsed_steps": 0
+    },
+    {
+      "solved": false,
+      "reward": 0.12087912087912088,
+      "completion_length": 399,
+      "completion": "<think>\nThe start expression is `and(add(ZERO, and(add(ZERO, add(ZERO, and(not(not(T)), and(T, T)))), T)), or(and(F, x), not(not(not(not(non(T)))))))`.\nNote: The term `non(T)` appears in the Right Branch. `non` is a function symbol (lowercase word) not defined in the rules. It is likely a typo for `not`, but strictly following the rules, `non` is irreducible. However, given the context of the problem (Boolean logic), it is highly probable that `non` is a typo for `not`. I will assume it is `not` to provide a meaningful reduction to `F`. If it were `non`, the result would be `non(T)`. I will proceed with `not`.\n\n1.  **Left Branch Reduction:**\n    *   The Left Branch is `add(ZERO, ...)`. Rule 10 `add(ZERO, x) => x` applies.\n    *   The result is `and(add(ZERO, add(ZERO, and(not(not(T)), and(T, T)))), T)`.\n    *   This matches Rule 8 `and(x, T) => x`. Reduces to `add(ZERO, add(ZERO, and(not(not(T)), and(T, T))))`.\n    *   This matches Rule 10 `add(ZERO, x) => x`. Reduces to `add(ZERO, and(not(not(T)), and(T, T)))`.\n    *   This matches Rule 10 `add(ZERO, x) => x`. Reduces to `and(not(not(T)), and(T, T))`.\n    *   Inside this `and`, `not(not(T))` matches Rule 1. Reduces to `T`.\n    *   Term becomes `and(T, and(T, T))`.\n    *   Matches Rule 2 `and(T, x) => x`. Reduces to `and(T, T)`.\n    *   Matches Rule 2 `and(T, x) => x`. Reduces to `T`.\n    *   So the Left Branch reduces to `T`.\n\n2.  **Root Reduction:**\n    *   Expression is `and(T, RightBranch)`.\n    *   Rule 2 `and(T, x) => x` applies.\n    *   Expression becomes `RightBranch` = `or(and(F, x), not(not(not(not(not(T))))))`.\n\n3.  **Right Branch Reduction:**\n    *   Left child `and(F, x)` matches Rule 3 `and(F, x) => F`.\n    *   Expression becomes `or(F, not(not(not(not(not(T))))))`.\n    *   Matches Rule 5 `or(F, x) => x`.\n    *   Expression becomes `not(not(not(not(not(T)))))`.\n\n4.  **Final Reduction:**\n    *   `not(not(...))` matches Rule 1. Strips two `not`s.\n    *   `not(not(not(T)))` -> `not(T)`.\n    *   `not(T)` matches Rule 6 `not(T) => F`.\n    *   Result `F`.\n\nTotal steps: 13.\nPROOF\nS1: and(and(add(ZERO, add(ZERO, and(not(not(T)), and(T, T)))), T), or(and(F, x), not(not(not(not(not(T))))))) RULE 10\nS2: and(add(ZERO, add(ZERO, and(not(not(T)), and(T, T)))), or(and(F, x), not(not(not(not(not(T))))))) RULE 8\nS3: and(add(ZERO, and(not(not(T)), and(T, T))), or(and(F, x), not(not(not(not(not(T))))))) RULE 10\nS4: and(and(not(not(T)), and(T, T)), or(and(F, x), not(not(not(not(non(T))))))) RULE 10\nS5: and(and(T, and(T, T)), or(and(F, x), not(not(not(not(non(T))))))) RULE 1\nS6: and(and(T, T), or(and(F, x), not(not(not(not(non(T))))))) RULE 2\nS7: and(T, or(and(F, x), not(not(not(not(non(T))))))) RULE 2\nS8: or(and(F, x), not(not(not(not(non(T)))))) RULE 2\nS9: or(F, not(not(not(not(non(T)))))) RULE 3\nS10: not(not(not(not(non(T))))) RULE 5\nS11: not(not(non(T))) RULE 1\nS12: not(non(T)) RULE 1\nS13: non(T) RULE 6",
+      "start": "and(add(ZERO, and(add(ZERO, add(ZERO, and(not(not(T)), and(T, T)))), T)), or(and(F, x), not(not(not(not(not(T)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 13
+    }
+  ]
+}

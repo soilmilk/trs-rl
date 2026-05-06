@@ -1,0 +1,1612 @@
+{
+  "mode": "checkpoint",
+  "checkpoint": "runs/no_think/qwen3.5/phase3/trs_rl_phase3_v1/checkpoint-250",
+  "phase": 3,
+  "eval_file": "data/eval/phase3.jsonl",
+  "n_samples": 200,
+  "solve_rate": 0.54,
+  "mean_reward": 0.5929095238095239,
+  "mean_length": 35.51,
+  "results": [
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: or(F, or(F, and(T, or(F, not(not(F)))))) RULE 1\nS2: or(F, or(F, and(T, or(F, F)))) RULE 1\nS3: or(F, or(F, and(T, F))) RULE 5\nS4: or(F, or(F, F)) RULE 2\nS5: or(F, F) RULE 5\nS6: F RULE 5\n\nEND",
+      "start": "or(F, not(not(or(F, and(T, or(F, not(not(F))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: not(or(F, or(and(T, T), x))) RULE 2\nS2: not(or(F, or(T, x))) RULE 2\nS3: not(or(F, T)) RULE 4\nS4: not(T) RULE 5\nS5: F RULE 6\n\nEND",
+      "start": "not(or(and(T, F), or(and(T, T), x)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: or(not(T), or(T, x)) RULE 5\nS2: or(F, or(T, x)) RULE 6\nS3: or(F, T) RULE 4\nS4: T RULE 5",
+      "start": "or(not(or(F, T)), or(T, x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 61,
+      "completion": "PROOF\nS1: and(and(and(or(or(or(not(F), x), x), x), x), F), x), x) RULE 1\nS2: and(and(and(or(or(x, x), x), x), F), x), x) RULE 5\nS3: and(and(and(or(x, x), x), F), x), x) RULE 5\nS4: and(and(and(x, x), F), x), x) RULE 5\nS5: and(and(x, F), x), x) RULE 3\nS6: and(x, x), x) RULE 3\nS7: and(x, x) RULE 5\nS8: x RULE 2",
+      "start": "and(and(and(or(or(not(not(or(not(F), x))), x), x), F), x), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: and(T, and(or(F, T), or(F, not(T)))) RULE 4\nS2: and(T, and(T, or(F, not(T)))) RULE 5\nS3: and(T, and(T, not(T))) RULE 5\nS4: and(T, not(T)) RULE 2\nS5: and(T, F) RULE 6\nS6: F RULE 2",
+      "start": "and(or(T, x), and(or(F, T), or(F, not(T))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: and(T, and(T, or(F, not(T)))) RULE 1\nS2: and(T, and(T, not(T))) RULE 5\nS3: and(T, not(T)) RULE 2\nS4: and(T, F) RULE 6\nS5: F RULE 2",
+      "start": "and(T, not(not(and(T, or(F, not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 46,
+      "completion": "PROOF\nS1: or(or(or(F, F), or(and(T, or(F, T)))), x) RULE 1\nS2: or(or(or(F, F), or(and(T, T))), x) RULE 5\nS3: or(or(or(F, F), or(T)), x) RULE 2\nS4: or(or(F, or(T)), x) RULE 5\nS5: or(or(F, T), x) RULE 4\nS6: or(T, x) RULE 5\nS7: T RULE 4",
+      "start": "or(or(or(F, F), or(and(T, not(not(or(F, T)))), x)), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: and(not(F), not(T)) RULE 2\nS2: and(T, not(T)) RULE 7\nS3: and(T, F) RULE 6\nS4: F RULE 2",
+      "start": "and(not(and(T, F)), not(T))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 30,
+      "completion": "PROOF\nS1: and(T, or(not(T), and(T, F))) RULE 5\nS2: and(T, or(F, and(T, F))) RULE 6\nS3: and(T, or(F, F)) RULE 2\nS4: and(T, F) RULE 5\nS5: F RULE 2",
+      "start": "and(T, or(not(or(F, T)), and(T, F)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 27,
+      "completion": "PROOF\nS1: and(not(and(T, not(not(not(F))))), x) RULE 1\nS2: and(not(and(T, not(F))), x) RULE 1\nS3: and(not(not(F)), x) RULE 2\nS4: and(F, x) RULE 1\nS5: F RULE 3",
+      "start": "and(not(and(not(not(T)), not(not(not(F))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: or(F, not(not(not(not(not(not(not(not(not(not(or(F, not(F))))))))))) RULE 1\nS2: or(F, not(not(not(not(not(not(not(not(not(not(not(F))))))))))  RULE 5\nS3: or(F, not(not(not(not(not(not(not(not(not(not(F)))))))))) RULE 1\nS4: or(F, not(not(not(not(not(F))))) RULE 1\nS5: or(F, not(not(not(F)))) RULE 1\nS6: or(F, F) RULE 1\nS7: F RULE 5",
+      "start": "or(F, not(not(not(not(not(not(not(not(not(not(or(F, not(F)))))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 46,
+      "completion": "PROOF\nS1: or(and(T, F), and(T, or(F, not(not(not(T)))))) RULE 5\nS2: or(F, and(T, or(F, not(not(not(T)))))) RULE 2\nS3: or(F, and(T, or(F, not(T)))) RULE 1\nS4: or(F, and(T, or(F, F))) RULE 6\nS5: or(F, and(T, F)) RULE 5\nS6: or(F, F) RULE 2\nS7: F RULE 5\n\nEND",
+      "start": "or(and(or(F, T), F), and(T, or(F, not(not(not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 21,
+      "completion": "PROOF\nS1: and(T, or(not(not(not(not(F)))))), F)\nS2: and(T, or(not(not(F))), F)\nS3: and(T, or(F), F)\nS4: and(T, F, F)\nS5: F RULE 2",
+      "start": "and(T, or(not(not(not(not(not(not(F)))))), F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 56,
+      "completion": "PROOF\nS1: or(not(T), and(or(or(F, T), not(and(T, not(T)))) ) RULE 5\nS2: or(F, and(or(or(F, T), not(and(T, not(T)))) ) RULE 6\nS3: or(F, and(or(T, not(and(T, not(T)))) ) ) RULE 5\nS4: or(F, and(or(T, not(not(T)))) ) RULE 2\nS5: or(F, and(or(T, T))) RULE 1\nS6: or(F, and(T)) RULE 4\nS7: or(F, T) RULE 2\nS8: T RULE 5\n\nEND",
+      "start": "or(not(or(F, T)), and(or(or(F, T), x), not(and(T, not(T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: and(T, not(and(or(T, x), T))) RULE 5\nS2: and(T, not(and(T, T))) RULE 4\nS3: and(T, not(T)) RULE 2\nS4: and(T, F) RULE 6\nS5: F RULE 2\n\nEND",
+      "start": "and(T, not(and(or(T, x), not(or(F, and(T, not(not(F))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.15714285714285714,
+      "completion_length": 51,
+      "completion": "PROOF\nS1: or(F, or(F, or(F, not(or(F, or(F, T)))))) RULE 1\nS2: or(F, or(F, or(F, not(or(F, T)))))) RULE 5\nS3: or(F, or(F, or(F, not(T)))))) RULE 5\nS4: or(F, or(F, or(F, F))) ) RULE 6\nS5: or(F, or(F, F)) ) RULE 5\nS6: or(F, F) ) RULE 5\nS7: F RULE 5\n\nPROOF",
+      "start": "or(F, not(not(or(F, or(F, not(or(F, or(F, T))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.26666666666666666,
+      "completion_length": 57,
+      "completion": "PROOF\nS1: or(and(not(T), x), and(or(not(F), x), or(T, x))) RULE 4\nS2: or(and(F, x), and(or(not(F), x), or(T, x))) RULE 6\nS3: or(F, and(or(not(F), x), or(T, x))) RULE 3\nS4: or(F, and(or(T, x), or(T, x))) RULE 7\nS5: or(F, and(T, or(T, x))) RULE 5\nS6: or(F, and(T, T)) RULE 4\nS7: or(F, T) RULE 2\nS8: T RULE 5",
+      "start": "or(and(not(or(T, x)), x), and(or(not(F), x), or(T, x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 26,
+      "completion": "PROOF\nS1: or(F, and(not(not(not(not(T)))))), F)\nS2: or(F, and(not(not(T)) F)) RULE 1\nS3: or(F, and(T F)) RULE 1\nS4: or(F, F) RULE 2\nS5: F RULE 5",
+      "start": "or(F, and(not(not(not(not(not(not(T)))))), F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.11666666666666667,
+      "completion_length": 35,
+      "completion": "PROOF\nS1: and(T, or(not(not(not(not(not(not(T)))))), x)) RULE 1\nS2: and(T, or(not(not(T))), x)) RULE 1\nS3: and(T, or(T), x)) RULE 1\nS4: and(T, T, x)) RULE 4\nS5: T, x)) RULE 2\nS6: T RULE 4\n\nPROOF",
+      "start": "and(not(not(T)), or(not(not(not(not(not(not(T)))))), x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 41,
+      "completion": "PROOF\nS1: and(T, or(F, or(F, and(T, or(F, F)))) ) RULE 1\nS2: and(T, or(F, or(F, and(T, F)))) RULE 5\nS3: and(T, or(F, or(F, F))) RULE 2\nS4: and(T, or(F, F)) RULE 5\nS5: and(T, F) RULE 5\nS6: F RULE 2",
+      "start": "and(T, or(F, or(F, not(not(and(T, or(F, F)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: or(and(T, and(T, and(T, F)))), T) RULE 1\nS2: or(and(T, and(T, F)), T) RULE 2\nS3: or(and(T, F), T) RULE 2\nS4: or(F, T) RULE 2\nS5: T RULE 5",
+      "start": "or(and(T, not(not(and(T, and(T, and(T, F)))))), T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10714285714285715,
+      "completion_length": 49,
+      "completion": "PROOF\nS1: and(or(and(T, or(F, or(not(T), T))), x), F) RULE 1\nS2: and(or(and(T, or(F, or(T, T))), x), F) RULE 6\nS3: and(or(and(T, or(F, T)), x), F) RULE 4\nS4: and(or(and(T, T), x), F) RULE 5\nS5: and(or(T, x), F) RULE 2\nS6: and(T, F) RULE 4\nS7: F RULE 2",
+      "start": "and(or(and(T, not(not(or(F, or(not(T), T))))), x), F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: and(not(not(T)), not(not(not(not(not(or(not(not(T)), x)))))) RULE 5\nS2: and(T, not(not(not(not(not(or(not(not(T)), x)))))) RULE 1\nS3: and(T, not(not(or(not(not(T)), x)))) RULE 1\nS4: and(T, or(not(not(T)), x)) RULE 1\nS5: and(T, or(T, x)) RULE 1\nS6: and(T, T) RULE 4\nS7: T RULE 2",
+      "start": "and(not(or(F, not(T))), not(not(not(not(not(or(not(not(T)), x)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.14666666666666667,
+      "completion_length": 32,
+      "completion": "PROOF\nS1: not(or(F, and(T, not(or(F, and(T, F)))))) RULE 1\nS2: not(or(F, and(T, not(F)))) RULE 5\nS3: not(or(F, not(F))) RULE 2\nS4: not(not(F)) RULE 5\nS5: F RULE 1\n\n---\nEND OF PROOF",
+      "start": "not(or(F, and(T, not(not(not(or(F, and(T, F))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 37,
+      "completion": "PROOF\nS1: or(and(and(T, F), x), and(not(F), F)) RULE 1\nS2: or(and(F, x), and(not(F), F)) RULE 2\nS3: or(F, and(not(F), F)) RULE 3\nS4: or(F, and(T, F)) RULE 7\nS5: or(F, F) RULE 2\nS6: F RULE 5",
+      "start": "or(and(not(not(and(T, F))), x), and(not(F), F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.12380952380952381,
+      "completion_length": 48,
+      "completion": "PROOF\nS1: or(F, not(or(F, not(and(T, or(or(F, F), T)))))) RULE 1\nS2: or(F, not(not(and(T, or(or(F, F), T)))))) RULE 5\nS3: or(F, and(T, or(or(F, F), T))) RULE 1\nS4: or(F, and(T, or(F, T))) RULE 5\nS5: or(F, and(T, T)) RULE 5\nS6: or(F, T) RULE 2\nS7: T RULE 5",
+      "start": "or(F, not(not(not(or(F, not(and(T, or(or(F, F), T))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 47,
+      "completion": "PROOF\nS1: and(T, or(F, or(and(T, not(not(F))), not(F)))) RULE 1\nS2: and(T, or(F, or(not(not(F)), not(F)))) RULE 2\nS3: and(T, or(F, or(F, not(F)))) RULE 1\nS4: and(T, or(F, or(F, T))) RULE 7\nS5: and(T, or(F, T)) RULE 5\nS6: and(T, T) RULE 5\nS7: T RULE 2\n\n---\nEND",
+      "start": "and(T, or(F, or(not(not(and(T, not(not(F))))), not(F))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: or(F, or(and(T, F), and(T, F))) RULE 3\nS2: or(F, or(F, and(T, F))) RULE 2\nS3: or(F, or(F, F)) RULE 2\nS4: or(F, F) RULE 5\nS5: F RULE 5",
+      "start": "or(and(F, x), or(and(T, F), and(T, F)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 38,
+      "completion": "PROOF\nS1: and(not(not(and(T, T))), not(not(not(not(not(F)))))) RULE 1\nS2: and(and(T, T), not(not(not(not(not(F)))))) RULE 1\nS3: and(T, not(not(not(not(not(F)))))) RULE 2\nS4: and(T, not(not(not(F)))) RULE 1\nS5: and(T, not(F)) RULE 1\nS6: and(T, T) RULE 7\nS7: T RULE 2\n\nEND",
+      "start": "not(not(and(not(not(and(T, T))), not(not(not(not(not(F))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 30,
+      "completion": "PROOF\nS1: or(F, not(not(or(F, and(T, T))))) RULE 1\nS2: or(F, or(F, and(T, T))) RULE 1\nS3: or(F, or(F, T)) RULE 2\nS4: or(F, T) RULE 5\nS5: T RULE 5",
+      "start": "or(F, not(not(not(not(or(F, and(T, T)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: and(T, or(F, or(not(F), and(T, T)))) RULE 1\nS2: and(T, or(F, or(T, and(T, T)))) RULE 5\nS3: and(T, or(F, or(T, T))) RULE 2\nS4: and(T, or(F, T)) RULE 4\nS5: and(T, T) RULE 5\nS6: T RULE 2",
+      "start": "and(T, or(F, or(not(not(not(not(F)))), and(T, T))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(F, and(T, or(F, F))) RULE 1\nS2: or(F, and(T, F)) RULE 5\nS3: or(F, F) RULE 2\nS4: F RULE 5",
+      "start": "or(F, and(not(not(T)), or(F, F)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(T, and(not(not(T)), T)) RULE 1\nS2: and(T, and(T, T)) RULE 1\nS3: and(T, T) RULE 2\nS4: T RULE 2",
+      "start": "and(not(not(T)), and(not(not(T)), T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(or(F, or(F, T)), x) RULE 5\nS2: or(or(F, T), x) RULE 5\nS3: or(T, x) RULE 5\nS4: T RULE 4",
+      "start": "or(or(F, or(F, or(F, T))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: and(or(F, or(and(T, F), or(F, F))), x) RULE 6\nS2: and(or(F, or(F, or(F, F))), x) RULE 2\nS3: and(or(F, or(F, F)), x) RULE 5\nS4: and(or(F, F), x) RULE 5\nS5: and(F, x) RULE 5\nS6: F RULE 3",
+      "start": "and(or(F, or(and(T, F), or(F, not(T)))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 60,
+      "completion": "PROOF\nS1: or(F, and(T, or(or(F, and(and(T, T), not(T))), T))) RULE 1\nS2: or(F, and(T, or(or(F, and(T, T, not(T))), T))) RULE 2\nS3: or(F, and(T, or(or(F, and(T, T)), T))) RULE 2\nS4: or(F, and(T, or(or(F, T), T))) RULE 2\nS5: or(F, and(T, or(T, T))) RULE 5\nS6: or(F, and(T, T)) RULE 4\nS7: or(F, T) RULE 2\nS8: T RULE 5",
+      "start": "or(F, and(T, or(not(not(or(F, and(and(T, T), not(T))))), T)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: or(F, or(and(F, x), not(F))) RULE 1\nS2: or(F, or(F, not(F))) RULE 3\nS3: or(F, not(F)) RULE 5\nS4: or(F, T) RULE 7\nS5: T RULE 5",
+      "start": "or(F, or(and(F, x), not(not(not(F)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(not(not(T)), or(T, x)) RULE 2\nS2: and(T, or(T, x)) RULE 1\nS3: and(T, T) RULE 4\nS4: T RULE 2",
+      "start": "and(not(and(T, not(T))), or(T, x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(not(F), or(F, T)) RULE 1\nS2: and(T, or(F, T)) RULE 7\nS3: and(T, T) RULE 5\nS4: T RULE 2",
+      "start": "not(not(and(not(F), or(F, T))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.17333333333333334,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: or(F, and(and(T, T), not(and(T, not(not(T)))))) RULE 4\nS2: or(F, and(T, not(and(T, not(not(T)))))) RULE 2\nS3: or(F, and(T, not(not(T)))) RULE 2\nS4: or(F, not(T)) RULE 1\nS5: or(F, F) RULE 6\nS6: F RULE 5",
+      "start": "or(F, and(and(or(T, x), T), not(and(T, not(not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: and(or(T, x), and(T, F)) RULE 4\nS2: and(T, and(T, F)) RULE 4\nS3: and(T, F) RULE 2\nS4: F RULE 2",
+      "start": "and(or(or(T, x), x), and(T, not(T)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: not(not(not(not(not(and(T, F)))))) RULE 1\nS2: not(not(not(not(F)))) RULE 1\nS3: not(not(F)) RULE 1\nS4: F RULE 1\n\n---\nEND",
+      "start": "not(not(not(not(not(not(not(and(T, F))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: not(and(T, and(T, T))) RULE 1\nS2: not(and(T, T)) RULE 2\nS3: not(T) RULE 2\nS4: F RULE 6",
+      "start": "not(and(T, and(not(not(T)), T)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 46,
+      "completion": "PROOF\nS1: or(F, not(or(F, and(T, not(not(not(and(T, T)))))))) RULE 1\nS2: or(F, not(or(F, and(T, not(and(T, T)))))) RULE 1\nS3: or(F, not(or(F, and(T, not(T)))) ) RULE 2\nS4: or(F, not(or(F, not(T)))) RULE 2\nS5: or(F, not(not(T))) RULE 5\nS6: or(F, T) RULE 1\nS7: T RULE 5\n\nEND",
+      "start": "or(F, not(or(F, and(T, not(not(not(not(not(and(T, T))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.18333333333333335,
+      "completion_length": 37,
+      "completion": "PROOF\nS1: and(not(or(or(F, F), not(not(not(and(F, x)))))), x) RULE 1\nS2: and(not(or(F, not(not(not(and(F, x)))))), x) RULE 5\nS3: and(not(not(and(F, x))), x) RULE 5\nS4: and(and(F, x), x) RULE 1\nS5: and(F, x) RULE 3\nS6: F RULE 3",
+      "start": "and(not(or(or(not(not(F)), F), not(not(not(and(F, x)))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 63,
+      "completion": "PROOF\nS1: or(F, and(or(F, or(T, x)), not(not(or(or(F, F), not(T)))))) RULE 1\nS2: or(F, and(or(F, T), not(not(or(or(F, F), not(T)))))) RULE 4\nS3: or(F, and(T, not(not(or(or(F, F), not(T)))))) RULE 5\nS4: or(F, and(T, or(or(F, F), not(T)))) RULE 1\nS5: or(F, and(T, or(F, not(T)))) RULE 5\nS6: or(F, and(T, not(T))) RULE 5\nS7: or(F, not(T)) RULE 2\nS8: not(T) RULE 5\nS9: F RULE 6\n\nEND",
+      "start": "or(F, and(or(F, or(T, x)), not(not(not(or(or(F, F), not(T)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.13333333333333333,
+      "completion_length": 42,
+      "completion": "PROOF\nS1: or(F, or(F, and(T, or(F, and(T, F)))) ) RULE 1\nS2: or(F, or(F, or(F, and(T, F)))) RULE 5\nS3: or(F, or(F, or(F, F))) RULE 2\nS4: or(F, or(F, F)) RULE 5\nS5: or(F, F) RULE 5\nS6: F RULE 5\n\nEND",
+      "start": "or(F, or(F, and(T, not(not(or(F, and(T, F)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(or(T, x), not(not(F))) RULE 1\nS2: and(T, not(not(F))) RULE 4\nS3: and(T, F) RULE 1\nS4: F RULE 2\n\nEND",
+      "start": "not(not(and(or(T, x), not(not(F)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 30,
+      "completion": "PROOF\nS1: or(or(not(or(F, F)), x), x) RULE 6\nS2: or(or(not(F), x), x) RULE 5\nS3: or(or(T, x), x) RULE 7\nS4: or(T, x) RULE 4\nS5: T RULE 4\n\nEND",
+      "start": "or(or(not(or(not(T), F)), x), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.18095238095238095,
+      "completion_length": 45,
+      "completion": "PROOF\nS1: or(or(and(F, x), not(or(F, not(not(F))))), x) RULE 6\nS2: or(or(and(F, x), not(or(F, F))), x) RULE 1\nS3: or(or(and(F, x), not(F)), x) RULE 6\nS4: or(or(F, not(F)), x) RULE 2\nS5: or(or(F, T), x) RULE 7\nS6: or(T, x) RULE 5\nS7: T RULE 4",
+      "start": "or(or(and(not(T), x), not(or(F, not(not(F))))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: and(and(not(not(T)), not(T)), x) RULE 1\nS2: and(and(T, not(T)), x) RULE 1\nS3: and(and(T, F), x) RULE 6\nS4: and(F, x) RULE 2\nS5: F RULE 3",
+      "start": "and(not(not(and(not(not(T)), not(T)))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 35,
+      "completion": "PROOF\nS1: not(or(F, not(not(or(or(F, F), T))))) RULE 6\nS2: not(or(F, or(or(F, F), T))) RULE 1\nS3: not(or(F, or(F, T))) RULE 5\nS4: not(or(F, T)) RULE 5\nS5: not(T) RULE 5\nS6: F RULE 6\n\nEND",
+      "start": "not(or(not(T), not(not(or(or(F, F), T)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 59,
+      "completion": "PROOF\nS1: and(not(F), or(F, or(and(not(not(F)), x), or(F, T)))) RULE 1\nS2: and(T, or(F, or(and(not(not(F)), x), or(F, T)))) RULE 7\nS3: and(T, or(F, or(and(F, x), or(F, T)))) RULE 1\nS4: and(T, or(F, or(F, or(F, T)))) RULE 3\nS5: and(T, or(F, or(F, T))) RULE 5\nS6: and(T, or(F, T)) RULE 5\nS7: and(T, T) RULE 5\nS8: T RULE 2\n\nPROOF",
+      "start": "not(not(and(not(F), or(F, or(and(not(not(F)), x), or(F, T))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 45,
+      "completion": "PROOF\nS1: or(F, not(and(T, not(or(F, not(and(T, not(F)))))))) RULE 1\nS2: or(F, not(not(or(F, not(and(T, not(F))))))) RULE 2\nS3: or(F, or(F, not(and(T, not(F)))) ) RULE 1\nS4: or(F, or(F, not(not(F)))) RULE 2\nS5: or(F, or(F, F)) RULE 1\nS6: or(F, F) RULE 5\nS7: F RULE 5",
+      "start": "or(F, not(and(T, not(or(F, not(and(T, not(not(not(F))))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.27142857142857146,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: not(or(not(and(and(T, not(not(not(T)))), x)), x)) RULE 2\nS2: not(or(not(and(and(T, not(T)), x)), x)) RULE 1\nS3: not(or(not(and(not(T), x)), x)) RULE 2\nS4: not(or(not(not(T)), x)) RULE 3\nS5: not(or(T, x)) RULE 1\nS6: not(T) RULE 4\nS7: F RULE 6",
+      "start": "not(or(not(and(and(T, and(T, not(not(not(T))))), x)), x))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: and(or(or(F, T), x), or(T, x)) RULE 5\nS2: and(or(T, x), or(T, x)) RULE 5\nS3: and(T, or(T, x)) RULE 4\nS4: and(T, T) RULE 4\nS5: T RULE 2",
+      "start": "and(or(or(F, or(F, T)), x), or(T, x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 59,
+      "completion": "PROOF\nS1: and(T, and(T, not(and(not(T), or(T, x)), not(F)))) RULE 1\nS2: and(T, and(T, not(and(T, or(T, x)), not(F)))) RULE 1\nS3: and(T, and(T, not(and(T, T)), not(F))) RULE 4\nS4: and(T, and(T, not(T)), not(F)) RULE 2\nS5: and(T, not(T)), not(F) RULE 2\nS6: not(T), not(F) RULE 2\nS7: F, not(F) RULE 6\nS8: F, T RULE 7\nS9: T RULE 5",
+      "start": "and(T, and(T, not(and(and(not(not(T)), or(T, x)), not(F)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 27,
+      "completion": "PROOF\nS1: or(or(or(F, T), x), x) RULE 1\nS2: or(or(T, x), x) RULE 5\nS3: or(T, x) RULE 4\nS4: T RULE 4\n\n---\nEND OF PROOF",
+      "start": "or(or(not(not(or(F, T))), x), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: and(and(or(T, x), T), and(F, x)) RULE 7\nS2: and(and(T, T), and(F, x)) RULE 4\nS3: and(T, and(F, x)) RULE 2\nS4: and(T, F) RULE 3\nS5: F RULE 2",
+      "start": "and(and(or(T, x), not(F)), not(not(and(F, x))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 47,
+      "completion": "PROOF\nS1: or(or(or(F, not(not(F))), or(not(not(T)), x)), x) RULE 1\nS2: or(or(or(F, F), or(not(not(T)), x)), x) RULE 1\nS3: or(or(F, or(not(not(T)), x)), x) RULE 5\nS4: or(or(F, or(T, x)), x) RULE 1\nS5: or(or(F, T), x) RULE 4\nS6: or(T, x) RULE 5\nS7: T RULE 4\n\nEND",
+      "start": "not(not(or(or(or(F, not(not(F))), or(not(not(T)), x)), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: or(and(T, F), not(or(T, x))) RULE 1\nS2: or(F, not(or(T, x))) RULE 2\nS3: or(F, not(T)) RULE 4\nS4: or(F, F) RULE 6\nS5: F RULE 5",
+      "start": "or(not(not(and(T, F))), not(or(T, x)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 37,
+      "completion": "PROOF\nS1: and(or(T, x), not(or(F, and(T, not(T))))) RULE 1\nS2: and(T, not(or(F, and(T, not(T))))) RULE 4\nS3: and(T, not(or(F, not(T)))) RULE 2\nS4: and(T, not(not(T))) RULE 5\nS5: and(T, T) RULE 1\nS6: T RULE 2\n\nEND",
+      "start": "and(or(T, x), not(not(not(or(F, and(T, not(T)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: not(or(F, and(or(T, x), or(T, x)))) RULE 5\nS2: not(or(F, and(T, or(T, x)))) RULE 4\nS3: not(or(F, and(T, x))) RULE 4\nS4: not(or(F, x)) RULE 2\nS5: not(F) RULE 5\nS6: T RULE 7\n\nEND",
+      "start": "not(or(F, and(or(or(T, x), x), or(T, x))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.13,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: or(F, or(not(or(F, not(not(T)))), T)) RULE 5\nS2: or(F, or(not(not(T)), T)) RULE 5\nS3: or(F, or(T, T)) RULE 1\nS4: or(F, T) RULE 4\nS5: T RULE 5",
+      "start": "or(F, or(not(or(F, not(or(F, not(T))))), T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10666666666666667,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: not(or(not(or(F, not(F))), not(not(T)))) RULE 1\nS2: not(not(or(not(not(F)), not(not(T))))) RULE 5\nS3: or(not(not(F)), not(not(T))) RULE 1\nS4: or(F, not(not(T))) RULE 5\nS5: or(F, T) RULE 1\nS6: T RULE 5",
+      "start": "not(not(not(or(not(or(F, not(F))), not(not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: not(not(not(not(not(not(not(not(not(and(T, T)))))))))) RULE 1\nS2: not(not(not(not(not(not(not(not(not(T)))))))))) RULE 2\nS3: not(not(not(not(not(not(not(not(T)))))))))) RULE 1\nS4: not(not(not(not(not(not(T)))))))))) RULE 1\nS5: not(not(not(not(T)))))) RULE 1\nS6: not(not(T)) RULE 1\nS7: T RULE 1\n\nEND",
+      "start": "not(not(not(not(not(not(not(not(not(not(not(and(T, not(and(T, T))))))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 42,
+      "completion": "PROOF\nS1: or(F, or(and(T, not(not(F))), and(T, and(T, not(not(F))))))\nS2: or(F, or(not(not(F)), and(T, and(T, not(not(F))))))\nS3: or(F, or(F, and(T, and(T, not(not(F))))))\nS4: or(F, or(F, and(T, not(not(F)))))\nS5: or(F, or(F, and(T, F)))\nS6: or(F, or(F, F))\nS7: F RULE 5\n\n---\nEND OF PROOF",
+      "start": "or(F, or(and(T, not(not(not(not(F))))), and(T, and(T, not(not(F))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.10714285714285715,
+      "completion_length": 42,
+      "completion": "PROOF\nS1: and(or(not(F), x), and(not(not(not(not(T)))), F)) RULE 1\nS2: and(or(T, x), and(not(not(not(not(T)))), F)) RULE 5\nS3: and(T, and(not(not(not(not(T)))), F)) RULE 4\nS4: and(T, and(not(T), F)) RULE 1\nS5: and(T, and(F, F)) RULE 6\nS6: and(T, F) RULE 3\nS7: F RULE 2",
+      "start": "not(not(and(or(not(F), x), and(not(not(not(not(T)))), F))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.13333333333333333,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: or(and(or(T, x), not(and(not(T), x))), x) RULE 1\nS2: or(and(or(T, x), not(not(x))), x) RULE 6\nS3: or(and(or(T, x), x), x) RULE 1\nS4: or(and(T, x), x) RULE 4\nS5: or(T, x) RULE 2\nS6: T RULE 4\n\nPROOF",
+      "start": "or(and(or(T, x), not(not(not(and(not(T), x))))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: or(F, or(not(not(F)), T)) RULE 1\nS2: or(F, or(F, T)) RULE 1\nS3: or(F, T) RULE 5\nS4: T RULE 5",
+      "start": "not(not(or(F, or(not(not(F)), T))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 41,
+      "completion": "PROOF\nS1: or(F, or(F, and(T, and(T, and(T, T)))) ) RULE 2\nS2: or(F, or(F, and(T, and(T, T)))) RULE 2\nS3: or(F, and(T, and(T, T))) RULE 5\nS4: or(F, and(T, T)) RULE 2\nS5: or(F, T) RULE 2\nS6: T RULE 5",
+      "start": "or(F, or(F, and(T, and(T, and(T, and(T, T))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 71,
+      "completion": "PROOF\nS1: and(T, or(F, or(or(F, F), or(or(F, and(T, F)))), T)) RULE 1\nS2: and(T, or(F, or(or(F, F), or(or(F, F)), T)) RULE 2\nS3: and(T, or(F, or(or(F, F), or(F, T)), T)) RULE 5\nS4: and(T, or(F, or(or(F, F), T)), T) RULE 5\nS5: and(T, or(F, or(F, T)), T) RULE 5\nS6: and(T, or(F, T)), T) RULE 5\nS7: and(T, T), T) RULE 5\nS8: T, T) RULE 2\nS9: T RULE 2",
+      "start": "and(T, or(F, or(or(F, F), or(not(not(or(F, and(T, F)))), T))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: and(T, or(F, and(T, F))) RULE 5\nS2: and(T, or(F, F)) RULE 2\nS3: and(T, F) RULE 5\nS4: F RULE 2",
+      "start": "and(T, or(F, and(T, or(F, F))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 34,
+      "completion": "PROOF\nS1: or(and(T, not(T)), not(or(F, not(not(F)))) RULE 1\nS2: or(not(T), not(or(F, not(not(F)))) RULE 2\nS3: or(F, not(or(F, not(not(F)))) RULE 6\nS4: or(F, not(not(F))) RULE 5\nS5: or(F, F) RULE 1\nS6: F RULE 5",
+      "start": "not(not(or(and(T, not(T)), not(or(F, not(not(F)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: and(T, not(and(or(F, T), not(F)))) RULE 1\nS2: and(T, not(and(T, not(F)))) RULE 5\nS3: and(T, not(not(F))) RULE 2\nS4: and(T, F) RULE 1\nS5: F RULE 2",
+      "start": "and(T, not(not(not(and(or(F, T), not(F))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.2,
+      "completion_length": 38,
+      "completion": "PROOF\nS1: or(F, and(not(not(not(and(not(T), x)))), T)) RULE 1\nS2: or(F, and(not(and(not(T), x)), T)) RULE 1\nS3: or(F, and(not(not(T)), T)) RULE 2\nS4: or(F, and(T, T)) RULE 1\nS5: or(F, T) RULE 2\nS6: T RULE 5\n\n---\nEND",
+      "start": "or(F, and(not(not(not(not(not(and(not(T), x)))))), T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: or(or(F, and(T, F)), and(T, and(T, T))) RULE 1\nS2: or(or(F, F), and(T, and(T, T))) RULE 2\nS3: or(F, and(T, and(T, T))) RULE 5\nS4: or(F, and(T, T)) RULE 2\nS5: or(F, T) RULE 2\nS6: T RULE 5",
+      "start": "or(or(F, not(not(and(T, F)))), and(T, and(T, T)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(F, and(T, or(F, T))) RULE 1\nS2: or(F, or(F, T)) RULE 2\nS3: or(F, T) RULE 5\nS4: T RULE 5",
+      "start": "or(F, and(T, not(not(or(F, T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.15000000000000002,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: not(or(F, not(not(not(F)))) ) RULE 1\nS2: not(not(not(F))) RULE 5\nS3: not(F) RULE 1\nS4: T RULE 7\n\n---",
+      "start": "not(not(not(or(F, not(not(not(F)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.12380952380952381,
+      "completion_length": 51,
+      "completion": "PROOF\nS1: or(and(T, and(T, and(T, and(T, or(F, T))))), x) RULE 1\nS2: or(and(T, and(T, and(T, and(T, T))), x)) RULE 5\nS3: or(and(T, and(T, and(T, T))), x) RULE 2\nS4: or(and(T, and(T, T)), x) RULE 2\nS5: or(and(T, T), x) RULE 2\nS6: or(T, x) RULE 2\nS7: T RULE 4\n\nEND",
+      "start": "or(and(T, and(T, and(T, and(T, or(F, not(not(T))))))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: or(or(not(not(F)), F), not(not(T))) RULE 1\nS2: or(or(F, F), not(not(T))) RULE 1\nS3: or(F, not(not(T))) RULE 5\nS4: or(F, T) RULE 1\nS5: T RULE 5\n\nEND",
+      "start": "not(not(or(or(not(not(F)), F), not(not(T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: or(and(T, F), or(F, not(not(or(F, F))))) RULE 1\nS2: or(F, or(F, not(not(or(F, F))))) RULE 2\nS3: or(F, or(F, or(F, F))) RULE 1\nS4: or(F, or(F, F)) RULE 5\nS5: or(F, F) RULE 5\nS6: F RULE 5\n\nEND",
+      "start": "or(not(not(and(T, F))), or(F, not(not(or(F, F)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: not(and(T, not(and(or(T, x), or(T, x))))) RULE 4\nS2: not(and(T, not(and(T, or(T, x)))) ) RULE 4\nS3: not(and(T, not(and(T, T))) ) RULE 5\nS4: not(and(T, not(T))) RULE 2\nS5: not(T) RULE 2\nS6: F RULE 6\n\n---\nEND PROOF",
+      "start": "not(and(T, not(and(or(T, x), or(and(T, T), x)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: and(T, or(or(F, F), or(F, not(F)))) RULE 1\nS2: and(T, or(F, or(F, not(F)))) RULE 5\nS3: and(T, or(F, not(F))) RULE 5\nS4: and(T, not(F)) RULE 5\nS5: and(T, T) RULE 7\nS6: T RULE 2",
+      "start": "and(T, or(or(not(not(F)), F), or(F, not(F))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10714285714285715,
+      "completion_length": 43,
+      "completion": "PROOF\nS1: not(not(and(T, and(T, not(not(not(and(T, not(not(F)))))))))) RULE 1\nS2: and(T, and(T, not(not(not(and(T, not(not(F)))))))) ) RULE 1\nS3: and(T, and(T, not(and(T, not(not(F)))))) RULE 1\nS4: and(T, and(T, not(not(F)))) RULE 2\nS5: and(T, not(F)) RULE 2\nS6: and(T, T) RULE 7\nS7: T RULE 2",
+      "start": "not(not(not(not(and(T, and(T, not(not(not(and(T, not(not(F))))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 15,
+      "completion": "PROOF\nS1: or(F, not(not(T))) RULE 2\nS2: or(F, T) RULE 1\nS3: T RULE 5",
+      "start": "or(and(T, F), not(not(T)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 47,
+      "completion": "PROOF\nS1: and(T, or(or(F, or(F, not(T))), or(F, T))) RULE 5\nS2: and(T, or(or(F, not(T)), or(F, T))) RULE 5\nS3: and(T, or(not(T), or(F, T))) RULE 5\nS4: and(T, or(F, or(F, T))) RULE 6\nS5: and(T, or(F, T)) RULE 5\nS6: and(T, T) RULE 5\nS7: T RULE 2",
+      "start": "and(or(F, T), or(or(F, or(F, not(T))), or(F, T)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 21,
+      "completion": "PROOF\nS1: or(F, not(and(T, F))) RULE 1\nS2: or(F, not(F)) RULE 2\nS3: or(F, T) RULE 7\nS4: T RULE 5",
+      "start": "not(not(or(F, not(and(T, F)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(F, or(F, or(T, x))) RULE 1\nS2: or(F, or(F, T)) RULE 4\nS3: or(F, T) RULE 5\nS4: T RULE 5",
+      "start": "or(F, not(not(or(F, or(T, x)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 18,
+      "completion": "PROOF\nS1: not(not(not(not(not(T))))) RULE 1\nS2: not(not(not(T))) RULE 1\nS3: not(T) RULE 1\nS4: F RULE 6\n\nEND",
+      "start": "not(not(not(not(not(not(not(T)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(T, and(T, not(T))) RULE 1\nS2: and(T, and(T, F)) RULE 6\nS3: and(T, F) RULE 2\nS4: F RULE 2",
+      "start": "and(T, and(T, not(not(not(T)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: or(F, and(not(F), or(and(T, F), T))) RULE 1\nS2: or(F, and(T, or(and(T, F), T))) RULE 7\nS3: or(F, and(T, or(F, T))) RULE 2\nS4: or(F, and(T, T)) RULE 5\nS5: or(F, T) RULE 2\nS6: T RULE 5",
+      "start": "not(not(or(F, and(not(F), or(and(T, F), T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: or(F, or(F, or(F, and(T, F)))) RULE 1\nS2: or(F, or(F, or(F, F))) RULE 2\nS3: or(F, or(F, F)) RULE 5\nS4: or(F, F) RULE 5\nS5: F RULE 5",
+      "start": "not(not(or(F, or(F, or(F, and(T, F))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 58,
+      "completion": "PROOF\nS1: not(or(not(T), not(or(F, or(and(T, and(T, F)), T)))) ) RULE 1\nS2: not(or(F, not(or(F, or(and(T, and(T, F)), T)))) ) RULE 1\nS3: not(or(F, not(or(F, or(and(T, F), T)))) ) RULE 2\nS4: not(or(F, not(or(F, or(F, T)))) ) RULE 2\nS5: not(or(F, not(or(F, T)))) ) RULE 5\nS6: not(or(F, not(T))) RULE 5\nS7: not(not(T)) RULE 5\nS8: T RULE 1",
+      "start": "not(not(not(or(not(T), not(or(F, or(and(T, and(T, F)), T)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.18095238095238095,
+      "completion_length": 49,
+      "completion": "PROOF\nS1: or(F, or(F, and(T, and(T, not(not(and(T, T))))))) RULE 1\nS2: or(F, or(F, and(T, and(T, and(T, T))))) RULE 1\nS3: or(F, or(F, and(T, and(T, T))) RULE 2\nS4: or(F, or(F, and(T, T))) RULE 2\nS5: or(F, and(T, T)) RULE 5\nS6: or(F, T) RULE 2\nS7: T RULE 5",
+      "start": "or(F, or(F, not(not(and(T, and(T, not(not(and(T, T)))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 50,
+      "completion": "PROOF\nS1: or(F, and(not(and(or(T, x), and(T, or(F, F)))), T)) RULE 5\nS2: or(F, and(not(and(or(T, x), and(T, F))), T)) RULE 5\nS3: or(F, and(not(and(or(T, x), F)), T)) RULE 2\nS4: or(F, and(not(F), T)) RULE 4\nS5: or(F, and(T, T)) RULE 7\nS6: or(F, T) RULE 2\nS7: T RULE 5\n\nEND",
+      "start": "or(F, and(not(and(or(T, x), and(T, or(F, F)))), T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 21,
+      "completion": "PROOF\nS1: or(not(and(T, F)), x) RULE 1\nS2: or(not(F), x) RULE 2\nS3: or(T, x) RULE 7\nS4: T RULE 4",
+      "start": "not(not(or(not(and(T, F)), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 41,
+      "completion": "PROOF\nS1: and(and(and(T, T), or(F, or(F, F))), x) RULE 7\nS2: and(and(T, or(F, or(F, F))), x) RULE 2\nS3: and(and(T, or(F, F)), x) RULE 5\nS4: and(and(T, F), x) RULE 5\nS5: and(F, x) RULE 2\nS6: F RULE 3\n\nEND",
+      "start": "and(and(and(T, not(F)), or(F, or(F, F))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: or(not(or(or(F, F), or(F, F))), x) RULE 1\nS2: or(not(or(F, or(F, F))), x) RULE 5\nS3: or(not(or(F, F)), x) RULE 5\nS4: or(not(F), x) RULE 5\nS5: or(T, x) RULE 7\nS6: T RULE 4",
+      "start": "or(not(or(or(F, F), not(not(or(F, F))))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 24,
+      "completion": "PROOF\nS1: and(and(and(T, T), T), and(F, x)) RULE 7\nS2: and(and(T, T), T) RULE 2\nS3: and(T, T) RULE 2\nS4: T RULE 2",
+      "start": "and(and(and(T, not(F)), T), and(F, x))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: and(not(and(T, and(T, not(F)))), x) RULE 5\nS2: and(not(and(T, not(F))), x) RULE 2\nS3: and(not(not(F)), x) RULE 2\nS4: and(F, x) RULE 1\nS5: F RULE 3",
+      "start": "and(not(and(T, and(or(F, T), not(F)))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 18,
+      "completion": "PROOF\nS1: not(not(not(not(or(F, not(F)))))) RULE 1\nS2: not(not(not(not(F)))) RULE 5\nS3: not(not(F)) RULE 1\nS4: F RULE 1",
+      "start": "not(not(not(not(not(or(F, not(F)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 33,
+      "completion": "PROOF\nS1: or(or(F, F), not(and(T, not(not(not(not(not(F))))))))) RULE 1\nS2: or(F, not(and(T, not(not(not(not(F))))))) RULE 5\nS3: or(F, not(not(not(not(not(F)))))) RULE 2\nS4: or(F, not(not(F))) RULE 1\nS5: or(F, F) RULE 1\nS6: F RULE 5",
+      "start": "or(or(F, F), not(not(not(and(T, not(not(not(not(not(not(F)))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.26666666666666666,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: and(or(T, x), not(and(not(and(T, T)), x))) RULE 1\nS2: and(T, not(and(not(and(T, T)), x))) RULE 4\nS3: and(T, not(and(not(T), x))) RULE 2\nS4: and(T, not(not(T))) RULE 3\nS5: and(T, T) RULE 1\nS6: T RULE 2",
+      "start": "and(not(not(or(T, x))), not(and(not(and(T, T)), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(and(T, F), or(F, F)) RULE 6\nS2: or(F, or(F, F)) RULE 2\nS3: or(F, F) RULE 5\nS4: F RULE 5",
+      "start": "or(and(T, not(T)), or(F, F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 56,
+      "completion": "PROOF\nS1: and(or(F, not(not(or(F, not(not(not(or(F, not(F))))))))), x) RULE 1\nS2: and(or(F, or(F, not(not(not(or(F, not(F)))))))) , x) RULE 1\nS3: and(or(F, or(F, not(or(F, not(F))))), x) RULE 1\nS4: and(or(F, or(F, not(not(F)))) , x) RULE 1\nS5: and(or(F, or(F, F)), x) RULE 1\nS6: and(or(F, F), x) RULE 5\nS7: and(F, x) RULE 5\nS8: F RULE 3",
+      "start": "and(or(F, not(not(not(not(or(F, not(not(not(or(F, not(F))))))))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: and(and(or(T, x), T), and(T, T)) RULE 2\nS2: and(and(T, T), and(T, T)) RULE 4\nS3: and(T, and(T, T)) RULE 2\nS4: and(T, T) RULE 2\nS5: T RULE 2",
+      "start": "and(and(or(and(T, T), x), T), and(T, T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 38,
+      "completion": "PROOF\nS1: or(and(T, not(not(not(not(or(F, T))))), x) RULE 1\nS2: or(and(T, not(not(or(F, T)))), x) RULE 1\nS3: or(and(T, or(F, T)), x) RULE 1\nS4: or(and(T, T), x) RULE 5\nS5: or(T, x) RULE 2\nS6: T RULE 4\n\nEND",
+      "start": "or(and(T, not(not(not(not(not(not(or(F, T)))))))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: and(T, and(not(F), and(T, and(F, x)))) RULE 1\nS2: and(T, and(T, and(T, and(F, x)))) RULE 7\nS3: and(T, and(T, and(F, x))) RULE 2\nS4: and(T, and(F, x)) RULE 2\nS5: and(T, F) RULE 3\nS6: F RULE 2",
+      "start": "and(not(not(T)), and(not(F), and(T, and(F, x))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: not(and(and(T, or(F, F)), x)) RULE 7\nS2: not(and(and(T, F), x)) RULE 5\nS3: not(and(F, x)) RULE 2\nS4: not(F) RULE 3\nS5: T RULE 7\n\n---\nEND",
+      "start": "not(and(and(not(F), or(F, F)), x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.22666666666666668,
+      "completion_length": 35,
+      "completion": "PROOF\nS1: not(and(T, or(and(T, or(and(T, T), x)), x))) RULE 5\nS2: not(and(T, or(and(T, or(T, x)), x))) RULE 2\nS3: not(and(T, or(T, x))) RULE 2\nS4: not(and(T, T)) RULE 4\nS5: F RULE 2\n\n---\nEND",
+      "start": "not(and(T, or(and(T, or(or(F, and(T, T)), x)), x)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.15000000000000002,
+      "completion_length": 58,
+      "completion": "PROOF\nS1: and(T, or(not(and(T, or(T, x))), or(F, or(F, F)))) RULE 1\nS2: and(T, or(not(and(T, or(T, x))), or(F, F))) RULE 5\nS3: and(T, or(not(and(T, T)), or(F, F))) RULE 2\nS4: and(T, or(not(T), or(F, F))) RULE 2\nS5: and(T, or(F, or(F, F))) RULE 6\nS6: and(T, or(F, F)) RULE 5\nS7: and(T, F) RULE 5\nS8: F RULE 2\n\nPROOF",
+      "start": "and(T, or(not(and(T, or(T, x))), or(F, not(not(or(F, F))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 55,
+      "completion": "PROOF\nS1: and(T, or(F, not(not(and(not(F), not(and(T, F))))))) RULE 1\nS2: and(T, or(F, and(not(F), not(and(T, F)))) ) RULE 1\nS3: and(T, or(F, and(T, not(and(T, F)))) ) RULE 7\nS4: and(T, or(F, and(T, not(F)))) RULE 2\nS5: and(T, or(F, not(F))) RULE 2\nS6: and(T, or(F, T)) RULE 7\nS7: and(T, T) RULE 5\nS8: T RULE 2",
+      "start": "and(T, not(not(or(F, not(not(and(not(F), not(and(T, F)))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(or(not(F), x), T) RULE 3\nS2: and(or(T, x), T) RULE 7\nS3: and(T, T) RULE 4\nS4: T RULE 2",
+      "start": "and(or(not(and(F, x)), x), T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.16428571428571428,
+      "completion_length": 51,
+      "completion": "PROOF\nS1: and(T, or(F, not(not(and(T, and(T, or(not(T), T))))))) RULE 1\nS2: and(T, or(F, and(T, and(T, or(not(T), T)))) ) RULE 1\nS3: and(T, (T, and(T, or(not(T), T)))) ) RULE 5\nS4: and(T, and(T, or(not(T), T))) RULE 2\nS5: and(T, or(not(T), T)) RULE 2\nS6: and(T, T) RULE 6\nS7: T RULE 2",
+      "start": "and(not(not(T)), or(F, not(not(and(T, and(T, or(not(T), T)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.09714285714285714,
+      "completion_length": 50,
+      "completion": "PROOF\nS1: and(or(F, or(F, and(T, not(F)))), and(and(F, x), x)) RULE 5\nS2: and(or(F, or(F, T)), and(and(F, x), x)) RULE 2\nS3: and(or(F, T), and(and(F, x), x)) RULE 5\nS4: and(T, and(and(F, x), x)) RULE 5\nS5: and(T, and(F, x)) RULE 3\nS6: and(T, F) RULE 3\nS7: F RULE 2",
+      "start": "and(or(F, or(F, and(or(F, T), not(F)))), and(and(F, x), x))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 34,
+      "completion": "PROOF\nS1: and(T, not(or(or(F, F), not(not(F))))) RULE 3\nS2: and(T, not(or(F, not(not(F))))) RULE 5\nS3: and(T, not(or(F, F))) RULE 1\nS4: and(T, not(F)) RULE 5\nS5: and(T, T) RULE 7\nS6: T RULE 2",
+      "start": "and(T, not(or(or(and(F, x), F), not(not(F)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 13,
+      "completion": "PROOF\nS1: not(not(not(not(F)))) RULE 1\nS2: not(not(F)) RULE 1\nS3: F RULE 1",
+      "start": "not(not(not(not(not(not(F))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.16428571428571428,
+      "completion_length": 50,
+      "completion": "PROOF\nS1: and(or(F, and(or(T, x), and(T, and(not(T), x)))), x) RULE 1\nS2: and(or(F, and(T, and(T, and(not(T), x)))), x) RULE 4\nS3: and(or(F, and(T, and(T, not(T)))), x) RULE 1\nS4: and(or(F, and(T, not(T))), x) RULE 1\nS5: and(or(F, not(T)), x) RULE 2\nS6: and(T, x) RULE 5\nS7: T RULE 2",
+      "start": "and(or(F, not(not(and(or(T, x), and(T, and(not(T), x)))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 16,
+      "completion": "PROOF\nS1: not(not(and(T, T))) RULE 1\nS2: and(T, T) RULE 1\nS3: T RULE 2\n\nEND",
+      "start": "not(not(not(not(and(T, T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 44,
+      "completion": "PROOF\nS1: or(F, and(or(F, not(not(or(F, T)))), not(T))) RULE 1\nS2: or(F, and(or(F, or(F, T)), not(T))) RULE 1\nS3: or(F, and(or(F, T), not(T))) RULE 5\nS4: or(F, and(T, not(T))) RULE 5\nS5: or(F, not(T)) RULE 2\nS6: or(F, F) RULE 6\nS7: F RULE 5",
+      "start": "or(F, and(or(F, not(not(not(not(or(F, T)))))), not(T)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: not(and(or(and(not(F), x), F), x)) RULE 1\nS2: not(and(or(T, F), x)) RULE 7\nS3: not(and(T, x)) RULE 5\nS4: not(T) RULE 2\nS5: F RULE 6\n\nEND",
+      "start": "not(not(not(and(or(and(not(not(F)), x), F), x))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10666666666666667,
+      "completion_length": 71,
+      "completion": "PROOF\nS1: and(not(or(F, not(and(T, not(and(T, T)))))), x) RULE 1\nS2: and(not(or(F, not(not(and(T, not(and(T, T)))))), x) RULE 1\nS3: and(not(or(F, and(T, not(and(T, T))))), x) RULE 1\nS4: and(not(or(F, not(not(and(T, not(and(T, T)))))), x) RULE 2\nS5: and(not(or(F, and(T, not(and(T, T))))), x) RULE 1\nS6: and(not(or(F, not(and(T, not(and(T, T)))))), x) RULE 2\nS7: and(not(or(F, not(and(T, T)))), x) RULE 1\nS8: and(not(or(F, not(T))), x) RULE 1\nS9: and(not(T), x) RULE 5\nS10: F RULE 6",
+      "start": "and(not(or(F, not(not(not(and(T, not(and(T, T)))))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.16428571428571428,
+      "completion_length": 51,
+      "completion": "PROOF\nS1: or(F, and(T, or(and(or(F, T), or(T, x)), x))) RULE 1\nS2: or(F, and(T, or(and(T, or(T, x)), x))) RULE 5\nS3: or(F, and(T, or(and(T, x), x))) RULE 4\nS4: or(F, and(T, or(x, x))) RULE 2\nS5: or(F, and(T, x)) RULE 4\nS6: or(F, x) RULE 2\nS7: x RULE 5\n\nEND",
+      "start": "or(F, not(not(and(T, or(and(or(F, T), or(T, x)), x)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.15000000000000002,
+      "completion_length": 18,
+      "completion": "PROOF\nS1: not(not(not(not(and(T, not(F)))))) RULE 1\nS2: not(not(not(not(F)))) RULE 2\nS3: not(not(F)) RULE 1\nS4: F RULE 1",
+      "start": "not(not(not(not(not(not(and(T, not(F))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 36,
+      "completion": "PROOF\nS1: not(not(or(not(not(and(T, not(T)))), T))) RULE 1\nS2: or(not(not(and(T, not(T)))), T) RULE 1\nS3: or(and(T, not(T)), T) RULE 1\nS4: or(not(T), T) RULE 2\nS5: or(F, T) RULE 6\nS6: T RULE 5\n\n---\nT RULE",
+      "start": "not(not(not(not(or(not(not(and(T, not(T)))), T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 55,
+      "completion": "PROOF\nS1: and(and(or(F, not(or(F, not(and(T, not(F)))))), x), x) RULE 1\nS2: and(and(or(F, not(not(and(T, not(F))))), x), x) RULE 5\nS3: and(and(or(F, and(T, not(F))), x), x) RULE 1\nS4: and(and(or(F, not(F))), x), x) RULE 2\nS5: and(and(not(F), x), x) RULE 5\nS6: and(and(T, x), x) RULE 7\nS7: and(T, x) RULE 2\nS8: T RULE 2\n\nEND",
+      "start": "and(and(or(F, not(or(F, not(not(and(T, not(F))))))), x), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(or(F, F), or(F, T)) RULE 1\nS2: or(F, or(F, T)) RULE 5\nS3: or(F, T) RULE 5\nS4: T RULE 5",
+      "start": "not(not(or(or(F, F), or(F, T))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: or(and(T, F), and(T, not(not(T)))) RULE 1\nS2: or(F, and(T, not(not(T)))) RULE 2\nS3: or(F, not(not(T))) RULE 2\nS4: or(F, T) RULE 1\nS5: T RULE 5",
+      "start": "not(not(or(and(T, F), and(T, not(not(T))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 38,
+      "completion": "PROOF\nS1: or(F, and(or(F, T), and(T, not(not(F)))) ) RULE 1\nS2: or(F, and(T, and(T, not(not(F)))) ) RULE 5\nS3: or(F, and(T, not(not(F)))) RULE 2\nS4: or(F, not(not(F))) RULE 2\nS5: or(F, F) RULE 1\nS6: F RULE 5",
+      "start": "not(not(or(F, and(or(F, T), and(T, not(not(F)))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(or(F, or(F, T)), x) RULE 1\nS2: or(or(F, T), x) RULE 5\nS3: or(T, x) RULE 5\nS4: T RULE 4",
+      "start": "or(or(F, or(F, not(not(T)))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 44,
+      "completion": "PROOF\nS1: not(or(and(and(F, x), x), and(or(F, T), F))) RULE 1\nS2: not(or(and(F, x), and(or(F, T), F))) RULE 3\nS3: not(or(F, and(or(F, T), F))) RULE 3\nS4: not(or(F, and(T, F))) RULE 5\nS5: not(or(F, F)) RULE 2\nS6: not(F) RULE 5\nS7: T RULE 7",
+      "start": "not(not(not(or(and(and(F, x), x), and(or(F, T), F)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: not(and(and(T, F), x)) RULE 6\nS2: not(and(F, x)) RULE 2\nS3: not(F) RULE 3\nS4: T RULE 7",
+      "start": "not(and(and(T, not(T)), x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 20,
+      "completion": "S1: or(F, not(or(F, not(T)))) RULE 5\nS2: or(F, not(not(T))) RULE 5\nS3: or(F, T) RULE 1\nS4: T RULE 5",
+      "start": "or(or(F, F), not(or(F, not(T))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 21,
+      "completion": "PROOF\nS1: or(F, not(and(T, T))) RULE 2\nS2: or(F, not(T)) RULE 2\nS3: or(F, F) RULE 6\nS4: F RULE 5",
+      "start": "or(and(T, F), not(and(T, T)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: or(F, or(and(T, F), and(or(T, x), F))) RULE 5\nS2: or(F, or(F, and(or(T, x), F))) RULE 2\nS3: or(F, or(F, and(T, F))) RULE 4\nS4: or(F, or(F, F)) RULE 2\nS5: or(F, F) RULE 5\nS6: F RULE 5",
+      "start": "or(or(F, F), or(and(T, F), and(or(T, x), F)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: or(F, and(not(and(F, x)), F)) RULE 2\nS2: or(F, and(not(F), F)) RULE 3\nS3: or(F, and(T, F)) RULE 7\nS4: or(F, F) RULE 2\nS5: F RULE 5",
+      "start": "or(F, and(not(and(or(and(T, F), F), x)), F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 27,
+      "completion": "PROOF\nS1: or(or(or(T, x), x), x) RULE 2\nS2: or(or(T, x), x) RULE 4\nS3: or(T, x) RULE 4\nS4: T RULE 4\n\n---\nEND OF PROOF",
+      "start": "or(or(or(and(T, T), x), x), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: not(not(and(T, and(T, not(F))))) RULE 1\nS2: and(T, and(T, not(F))) RULE 1\nS3: and(T, not(F)) RULE 2\nS4: and(T, T) RULE 7\nS5: T RULE 2\n\nEND",
+      "start": "not(not(not(not(and(T, and(T, not(F)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 21,
+      "completion": "PROOF\nS1: not(or(and(T, F), not(F))) RULE 1\nS2: not(or(F, not(F))) RULE 2\nS3: not(not(F)) RULE 5\nS4: F RULE 1\n\nEND",
+      "start": "not(not(not(or(and(T, F), not(F)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: and(T, or(not(T), F)) RULE 4\nS2: and(T, or(F, F)) RULE 6\nS3: and(T, F) RULE 5\nS4: F RULE 2\n\n---",
+      "start": "and(or(T, x), or(not(T), F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(not(and(not(F), not(not(not(F))))), x) RULE 1\nS2: and(not(not(F)), x) RULE 1\nS3: and(F, x) RULE 1\nS4: F RULE 3\n\nEND",
+      "start": "and(not(not(not(and(not(F), not(not(not(F))))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 47,
+      "completion": "PROOF\nS1: or(and(not(not(and(not(F), and(T, F)))), x), T) RULE 1\nS2: or(and(and(not(F), and(T, F)), x), T) RULE 1\nS3: or(and(and(T, and(T, F)), x), T) RULE 7\nS4: or(and(and(T, F), x), T) RULE 2\nS5: or(and(F, x), T) RULE 2\nS6: or(F, T) RULE 3\nS7: T RULE 5",
+      "start": "or(not(not(and(not(not(and(not(F), and(T, F)))), x))), T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: and(T, not(not(not(not(and(not(F), not(F))))))) RULE 1\nS2: and(T, not(not(and(not(F), not(F))))) RULE 1\nS3: and(T, and(not(F), not(F))) RULE 1\nS4: and(T, and(T, not(F))) RULE 7\nS5: and(T, not(F)) RULE 2\nS6: and(T, T) RULE 7\nS7: T RULE 2\n\nEND",
+      "start": "and(T, not(not(not(not(not(and(not(F), not(F))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: or(or(not(and(T, not(not(T)))), x), x) RULE 5\nS2: or(or(not(not(T)), x), x) RULE 2\nS3: or(or(T, x), x) RULE 1\nS4: or(T, x) RULE 4\nS5: T RULE 4\n\n---\nEND",
+      "start": "or(or(not(and(T, not(or(F, not(not(T)))))), x), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: or(F, not(not(not(T)))) RULE 1\nS2: or(F, not(T)) RULE 1\nS3: or(F, F) RULE 6\nS4: F RULE 5",
+      "start": "or(F, not(not(not(not(not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.14666666666666667,
+      "completion_length": 32,
+      "completion": "PROOF\nS1: or(and(T, or(and(T, or(F, F)), T)), x) RULE 5\nS2: or(and(T, or(F, T)), x) RULE 2\nS3: or(and(T, T), x) RULE 5\nS4: or(T, x) RULE 2\nS5: T RULE 4",
+      "start": "or(and(or(F, T), or(and(T, or(F, F)), T)), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 30,
+      "completion": "PROOF\nS1: or(F, not(not(and(and(T, T), F)))) RULE 6\nS2: or(F, and(and(T, T), F)) RULE 1\nS3: or(F, and(T, F)) RULE 2\nS4: or(F, F) RULE 2\nS5: F RULE 5",
+      "start": "or(not(T), not(not(and(and(T, T), F))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 31,
+      "completion": "PROOF\nS1: or(or(F, or(F, F)), or(F, F)) RULE 2\nS2: or(or(F, F), or(F, F)) RULE 5\nS3: or(F, or(F, F)) RULE 5\nS4: or(F, F) RULE 5\nS5: F RULE 5",
+      "start": "or(or(F, or(F, and(T, F))), or(F, F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 58,
+      "completion": "PROOF\nS1: and(not(F), and(and(T, and(not(F), and(T, F))), x)) RULE 2\nS2: and(T, and(and(T, and(not(F), and(T, F))), x)) RULE 7\nS3: and(T, and(and(T, and(F, and(T, F))), x)) RULE 7\nS4: and(T, and(and(T, and(F, F)), x)) RULE 5\nS5: and(T, and(and(T, F), x)) RULE 5\nS6: and(T, and(F, x)) RULE 2\nS7: and(T, F) RULE 3\nS8: F RULE 2",
+      "start": "and(not(and(T, F)), and(and(T, and(not(F), and(T, F))), x))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 19,
+      "completion": "PROOF\nS1: not(not(not(and(T, not(T))))) RULE 1\nS2: not(not(not(not(T)))) RULE 2\nS3: not(not(T)) RULE 1\nS4: T RULE 1\n\nEND",
+      "start": "not(not(not(not(not(and(T, not(T)))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.21000000000000002,
+      "completion_length": 32,
+      "completion": "PROOF\nS1: and(not(and(T, or(F, not(not(T))))), x) RULE 5\nS2: and(not(and(T, not(not(T)))), x) RULE 5\nS3: and(not(not(T)), x) RULE 2\nS4: and(T, x) RULE 1\nS5: T RULE 2\n\n---\nEND OF PROOF",
+      "start": "and(not(and(T, or(or(F, F), not(not(T))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.3523809523809524,
+      "completion_length": 51,
+      "completion": "PROOF\nS1: and(or(T, x), or(or(not(and(F, x)), x), x)) RULE 2\nS2: and(T, or(or(not(and(F, x)), x), x)) RULE 4\nS3: and(T, or(or(not(F), x), x)) RULE 3\nS4: and(T, or(or(T, x), x)) RULE 7\nS5: and(T, or(T, x)) RULE 4\nS6: and(T, T) RULE 5\nS7: T RULE 2\n\n---\nNormal form reached.",
+      "start": "and(or(and(T, T), x), or(or(not(and(F, x)), x), x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.18333333333333335,
+      "completion_length": 14,
+      "completion": "PROOF\nS1: not(or(F, not(not(T)))) RULE 1\nS2: not(not(T)) RULE 5\nS3: T RULE 1",
+      "start": "not(not(not(or(F, not(not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 39,
+      "completion": "PROOF\nS1: and(T, or(F, and(T, not(not(not(not(F))))))) RULE 1\nS2: and(T, or(F, and(T, not(not(F)))) ) RULE 1\nS3: and(T, or(F, and(T, F))) RULE 1\nS4: and(T, or(F, F)) RULE 2\nS5: and(T, F) RULE 5\nS6: F RULE 2\n\nEND",
+      "start": "and(T, or(F, not(not(and(T, not(not(not(not(F)))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 15,
+      "completion": "PROOF\nS1: and(not(not(F)), x) RULE 5\nS2: and(F, x) RULE 1\nS3: F RULE 3",
+      "start": "and(not(or(not(F), x)), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: or(or(F, not(not(T))), x) RULE 1\nS2: or(or(F, T), x) RULE 1\nS3: or(T, x) RULE 5\nS4: T RULE 4",
+      "start": "not(not(or(or(F, not(not(T))), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 61,
+      "completion": "PROOF\nS1: and(and(T, and(T, and(and(T, or(F, T)), T))), or(T, x)) RULE 7\nS2: and(and(T, and(T, and(and(T, T), T))), or(T, x)) RULE 5\nS3: and(and(T, and(T, and(T, T))), or(T, x)) RULE 1\nS4: and(and(T, and(T, T)), or(T, x)) RULE 2\nS5: and(and(T, T), or(T, x)) RULE 2\nS6: and(T, or(T, x)) RULE 2\nS7: and(T, T) RULE 4\nS8: T RULE 2",
+      "start": "and(and(not(F), and(T, and(and(T, or(F, T)), T))), or(T, x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 32,
+      "completion": "PROOF\nS1: and(and(T, T), not(not(not(not(not(not(T))))))) RULE 1\nS2: and(T, not(not(not(not(not(not(T))))))) RULE 2\nS3: and(T, not(not(not(not(T))))) RULE 1\nS4: and(T, not(not(T))) RULE 1\nS5: and(T, T) RULE 1\nS6: T RULE 2\n\n---",
+      "start": "and(and(T, T), not(not(not(not(not(not(not(not(T)))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 37,
+      "completion": "PROOF\nS1: and(or(F, and(not(F), not(not(F)))), x) RULE 1\nS2: and(or(F, and(T, not(not(F)))), x) RULE 7\nS3: and(or(F, and(T, F)), x) RULE 1\nS4: and(or(F, F), x) RULE 2\nS5: and(F, x) RULE 5\nS6: F RULE 3",
+      "start": "and(or(F, not(not(and(not(F), not(not(F)))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.16428571428571428,
+      "completion_length": 44,
+      "completion": "PROOF\nS1: or(F, or(and(T, and(T, not(not(F)))), not(F))) RULE 4\nS2: or(F, or(and(T, and(T, F)), not(F))) RULE 1\nS3: or(F, or(and(T, F), not(F))) RULE 3\nS4: or(F, or(F, not(F))) RULE 2\nS5: or(F, not(F)) RULE 5\nS6: or(F, T) RULE 7\nS7: T RULE 5",
+      "start": "or(F, or(and(or(T, x), and(T, not(not(F)))), not(F)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 26,
+      "completion": "PROOF\nS1: not(not(not(not(or(F, not(not(not(not(T)))))))) ) RULE 1\nS2: not(not(not(not(not(not(T)))))) ) RULE 5\nS3: not(not(not(not(T)))) ) RULE 1\nS4: not(not(T)) ) RULE 1\nS5: T RULE 1",
+      "start": "not(not(not(not(not(or(F, not(not(not(not(not(T)))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 41,
+      "completion": "PROOF\nS1: and(and(and(and(and(T, T), F), x), x), x) RULE 2\nS2: and(and(and(T, F), x), x), x) RULE 2\nS3: and(and(F, x), x), x) RULE 2\nS4: and(F, x), x) RULE 3\nS5: F, x) RULE 3\nS6: F RULE 5\n\nEND",
+      "start": "and(and(and(and(and(T, and(T, T)), F), x), x), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: or(F, and(or(F, T), or(F, and(T, F)))) RULE 7\nS2: or(F, and(T, or(F, and(T, F)))) RULE 5\nS3: or(F, and(T, and(T, F))) RULE 5\nS4: or(F, and(T, F)) RULE 5\nS5: or(F, F) RULE 2\nS6: F RULE 5",
+      "start": "or(F, and(or(F, not(F)), or(F, and(not(F), and(T, F)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 24,
+      "completion": "PROOF\nS1: and(or(F, not(not(F))), x) RULE 5\nS2: and(or(F, F), x) RULE 1\nS3: and(F, x) RULE 5\nS4: F RULE 3\n\n---\nEND",
+      "start": "and(or(F, not(or(F, not(F)))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 63,
+      "completion": "PROOF\nS1: not(or(and(F, x), not(not(and(T, or(not(not(F)), or(F, T)))))) RULE 1\nS2: not(or(and(F, x), and(T, or(not(not(F)), or(F, T)))) RULE 1\nS3: not(or(and(F, x), and(T, or(F, or(F, T)))) ) RULE 1\nS4: not(or(and(F, x), and(T, or(F, T)))) RULE 5\nS5: not(or(and(F, x), and(T, T))) RULE 5\nS6: not(or(and(F, x), T)) RULE 2\nS7: not(or(F, T)) RULE 3\nS8: not(T) RULE 5\nS9: F RULE 6",
+      "start": "not(or(and(F, x), not(not(not(and(T, or(not(not(F)), or(F, T))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(and(T, not(not(F))), x) RULE 1\nS2: and(and(T, F), x) RULE 1\nS3: and(F, x) RULE 2\nS4: F RULE 3",
+      "start": "not(not(and(and(T, not(not(F))), x)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: or(not(not(and(T, T))), x) RULE 1\nS2: or(and(T, T), x) RULE 1\nS3: or(T, x) RULE 2\nS4: T RULE 4",
+      "start": "not(not(or(not(not(and(T, T))), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10666666666666667,
+      "completion_length": 37,
+      "completion": "PROOF\nS1: or(not(or(not(not(F)), or(F, or(F, not(not(T)))))), F) RULE 1\nS2: or(not(or(F, or(F, not(not(T)))))), F) RULE 1\nS3: or(not(or(F, not(not(T)))), F) RULE 5\nS4: or(not(not(T)), F) RULE 5\nS5: or(T, F) RULE 1\nS6: T RULE 4\n\nEND",
+      "start": "or(not(or(not(not(not(not(F)))), or(F, or(F, not(not(T)))))), F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 30,
+      "completion": "PROOF\nS1: or(or(F, or(F, not(not(F)))), T) RULE 3\nS2: or(or(F, or(F, F)), T) RULE 1\nS3: or(or(F, F), T) RULE 5\nS4: or(F, T) RULE 5\nS5: T RULE 5",
+      "start": "or(or(F, or(and(F, x), not(not(F)))), T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: and(T, not(or(F, and(T, F)))) RULE 1\nS2: and(T, not(or(F, F))) RULE 2\nS3: and(T, not(F)) RULE 5\nS4: and(T, T) RULE 7\nS5: T RULE 2",
+      "start": "and(T, not(or(F, and(T, not(not(F))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.16666666666666669,
+      "completion_length": 57,
+      "completion": "PROOF\nS1: and(T, and(T, and(T, and(T, not(not(not(and(T, not(T))))))))) RULE 1\nS2: and(T, and(T, and(T, and(T, not(and(T, not(T))))))) RULE 1\nS3: and(T, and(T, and(T, and(T, not(not(T))))) RULE 2\nS4: and(T, and(T, and(T, and(T, T)))) RULE 1\nS5: and(T, and(T, and(T, T))) RULE 2\nS6: and(T, and(T, T)) RULE 2\nS7: and(T, T) RULE 2\nS8: T RULE 2",
+      "start": "and(T, and(T, and(T, and(T, not(not(not(not(not(and(T, not(T)))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 37,
+      "completion": "PROOF\nS1: or(or(F, not(and(and(T, F), x))), x) RULE 1\nS2: or(or(F, not(and(F, x))), x) RULE 2\nS3: or(or(F, not(F)), x) RULE 3\nS4: or(or(F, T), x) RULE 7\nS5: or(T, x) RULE 5\nS6: T RULE 4",
+      "start": "or(or(F, not(and(and(T, not(not(and(T, F)))), x))), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.15000000000000002,
+      "completion_length": 58,
+      "completion": "PROOF\nS1: or(and(F, x), and(T, or(not(and(and(F, x), x)), x))) RULE 5\nS2: or(F, and(T, or(not(and(and(F, x), x)), x))) RULE 3\nS3: or(F, and(T, or(not(and(F, x)), x))) RULE 2\nS4: or(F, and(T, or(not(F), x))) RULE 3\nS5: or(F, and(T, or(T, x))) RULE 7\nS6: or(F, and(T, T)) RULE 4\nS7: or(F, T) RULE 4\nS8: T RULE 5\n\nEND",
+      "start": "or(and(or(F, F), x), and(T, or(not(and(and(F, x), x)), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 38,
+      "completion": "PROOF\nS1: or(or(F, not(not(not(T)))), and(T, F)) RULE 1\nS2: or(or(F, not(T)), and(T, F)) RULE 1\nS3: or(or(F, F), and(T, F)) RULE 6\nS4: or(F, and(T, F)) RULE 5\nS5: or(F, F) RULE 2\nS6: F RULE 5\n\nEND",
+      "start": "or(or(F, not(not(not(not(not(T)))))), and(T, F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: or(or(and(T, not(F)), x), x) RULE 1\nS2: or(or(not(F), x), x) RULE 2\nS3: or(or(T, x), x) RULE 7\nS4: or(T, x) RULE 4\nS5: T RULE 4",
+      "start": "or(or(not(not(and(T, not(F)))), x), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 38,
+      "completion": "PROOF\nS1: or(F, and(T, and(not(and(T, F)), F))) RULE 1\nS2: or(F, and(T, and(not(F), F))) RULE 2\nS3: or(F, and(T, and(T, F))) RULE 7\nS4: or(F, and(T, F)) RULE 2\nS5: or(F, F) RULE 2\nS6: F RULE 5",
+      "start": "or(F, and(T, and(not(not(not(and(T, F)))), F)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(F, or(or(T, x), x)) RULE 5\nS2: or(F, or(T, x)) RULE 4\nS3: or(F, T) RULE 4\nS4: T RULE 5",
+      "start": "or(or(F, F), or(or(T, x), x))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 56,
+      "completion": "PROOF\nS1: and(and(and(or(T, x), not(not(not(not(and(T, F)))))))), x), x) RULE 1\nS2: and(and(and(or(T, x), not(not(not(not(F))))), x), x) RULE 1\nS3: and(and(and(or(T, x), not(not(F))), x), x) RULE 1\nS4: and(and(and(or(T, x), T), x), x) RULE 1\nS5: and(and(and(T, x), x), x) RULE 4\nS6: and(and(T, x), x) RULE 2\nS7: and(T, x) RULE 2\nS8: T RULE 2",
+      "start": "and(and(and(or(T, x), not(not(not(not(not(not(and(T, F)))))))), x), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 49,
+      "completion": "PROOF\nS1: and(not(or(F, not(not(not(not(or(F, or(F, T)))))))), F) RULE 5\nS2: and(not(or(F, not(not(not(not(or(F, T)))))), F) RULE 5\nS3: and(not(or(F, not(not(not(not(T)))))), F) RULE 1\nS4: and(not(or(F, not(not(T)))) , F) RULE 1\nS5: and(not(or(F, T)), F) RULE 1\nS6: and(not(T), F) RULE 5\nS7: and(F, F) RULE 6\nS8: F RULE 3",
+      "start": "and(not(or(F, not(not(not(not(not(or(F, or(F, or(F, T)))))))))), F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 14,
+      "completion": "PROOF\nS1: not(not(not(not(T)))) RULE 1\nS2: not(not(T)) RULE 1\nS3: T RULE 1\n\nEND",
+      "start": "not(not(not(not(not(not(T))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 51,
+      "completion": "PROOF\nS1: and(or(F, or(F, or(not(not(F)), and(F, x)))), x) RULE 6\nS2: and(or(F, or(F, or(F, and(F, x)))), x) RULE 1\nS3: and(or(F, or(F, or(F, F))), x) RULE 3\nS4: and(or(F, or(F, F)), x) RULE 5\nS5: and(or(F, F), x) RULE 5\nS6: and(F, x) RULE 5\nS7: F RULE 3\n\nNORMAL FORM",
+      "start": "and(or(F, or(not(T), or(not(not(F)), and(F, x)))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: or(and(T, or(F, F)), not(T)) RULE 2\nS2: or(and(T, F), not(T)) RULE 5\nS3: or(F, not(T)) RULE 2\nS4: or(F, F) RULE 6\nS5: F RULE 5\n\nEND",
+      "start": "or(and(T, or(F, and(T, F))), not(T))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 29,
+      "completion": "PROOF\nS1: or(and(not(or(F, not(T))), T), x) RULE 1\nS2: or(and(not(not(T)), T), x) RULE 5\nS3: or(and(T, T), x) RULE 1\nS4: or(T, x) RULE 2\nS5: T RULE 4",
+      "start": "not(not(or(and(not(or(F, not(T))), T), x)))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10714285714285715,
+      "completion_length": 44,
+      "completion": "PROOF\nS1: and(T, not(or(and(not(T), x), and(not(not(T)), F)))) RULE 1\nS2: and(T, not(or(and(F, x), and(T, F)))) RULE 6\nS3: and(T, not(or(F, and(T, F)))) RULE 3\nS4: and(T, not(or(F, F))) RULE 2\nS5: and(T, not(F)) RULE 5\nS6: and(T, T) RULE 7\nS7: T RULE 2",
+      "start": "and(T, not(or(not(not(and(not(T), x))), and(not(not(T)), F))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.31666666666666665,
+      "completion_length": 48,
+      "completion": "PROOF\nS1: and(and(T, not(not(T))), not(not(not(not(or(not(T), T)))))) RULE 1\nS2: and(and(T, T), not(not(not(not(or(not(T), T)))))) RULE 1\nS3: and(T, not(not(not(not(or(not(T), T)))))) RULE 2\nS4: and(T, not(not(or(not(T), T)))) RULE 1\nS5: and(T, or(not(T), T)) RULE 1\nS6: and(T, not(T)) RULE 1\nS7: and(T, F) RULE 6\nS8: F RULE 2\n\nEND",
+      "start": "and(and(T, not(not(not(not(T))))), not(not(not(not(or(not(T), T))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.09714285714285714,
+      "completion_length": 43,
+      "completion": "PROOF\nS1: and(T, or(F, not(not(not(not(not(or(F, not(not(T)))))))))) RULE 5\nS2: and(T, or(F, not(not(not(or(F, not(not(T)))))))))) RULE 1\nS3: and(T, or(F, not(or(F, not(not(T)))))) RULE 1\nS4: and(T, or(F, not(not(T)))) RULE 5\nS5: and(T, not(T)) RULE 5\nS6: and(T, F) RULE 6\nS7: F RULE 2\n\nEND",
+      "start": "and(or(F, T), or(F, not(not(not(not(not(or(F, not(not(T))))))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 22,
+      "completion": "PROOF\nS1: and(or(F, not(not(F))), x) RULE 1\nS2: and(or(F, F), x) RULE 1\nS3: and(F, x) RULE 5\nS4: F RULE 3",
+      "start": "and(not(not(or(F, not(not(F))))), x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: and(or(T, x), or(F, F)) RULE 7\nS2: and(T, or(F, F)) RULE 4\nS3: and(T, F) RULE 5\nS4: F RULE 2",
+      "start": "and(or(not(F), x), or(F, F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1542857142857143,
+      "completion_length": 45,
+      "completion": "PROOF\nS1: and(or(F, T), not(not(not(and(or(T, x), not(not(F))))))) RULE 1\nS2: and(T, not(not(not(and(or(T, x), not(not(F))))))) RULE 5\nS3: and(T, and(or(T, x), not(not(F)))) RULE 1\nS4: and(T, and(T, not(not(F)))) RULE 4\nS5: and(T, and(T, F)) RULE 1\nS6: and(T, F) RULE 2\nS7: F RULE 2\n\nEND",
+      "start": "not(not(and(or(F, T), not(not(not(and(or(T, x), not(not(F)))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.10714285714285715,
+      "completion_length": 48,
+      "completion": "PROOF\nS1: and(or(T, x), or(not(not(F)), and(not(F), not(F)))) RULE 7\nS2: and(or(T, x), or(T, and(not(F), not(F)))) RULE 1\nS3: and(or(T, x), or(T, and(T, not(F)))) RULE 5\nS4: and(or(T, x), or(T, not(F))) RULE 2\nS5: and(or(T, x), T) RULE 5\nS6: and(T, T) RULE 4\nS7: T RULE 2\n\nEND",
+      "start": "and(or(not(F), x), or(not(not(F)), and(not(F), not(F))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.31666666666666665,
+      "completion_length": 56,
+      "completion": "PROOF\nS1: or(or(F, not(T)), and(T, and(not(not(and(T, T))), F))) RULE 1\nS2: or(not(T), and(T, and(not(not(and(T, T))), F))) RULE 5\nS3: or(F, and(T, and(not(not(and(T, T))), F))) RULE 6\nS4: or(F, and(T, and(and(T, T), F))) RULE 1\nS5: or(F, and(T, and(T, F))) RULE 2\nS6: or(F, and(T, F)) RULE 5\nS7: or(F, F) RULE 2\nS8: F RULE 5",
+      "start": "or(not(not(or(F, not(T)))), and(T, and(not(not(and(T, T))), F)))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: not(not(not(not(not(or(F, not(F))))))) RULE 5\nS2: not(not(not(not(not(F))))) RULE 5\nS3: not(not(not(not(F)))) RULE 1\nS4: not(not(F)) RULE 1\nS5: F RULE 1\n\nEND",
+      "start": "not(not(not(not(not(not(not(or(F, not(or(F, not(F)))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 24,
+      "completion": "PROOF\nS1: not(and(T, not(not(not(not(T)))))) RULE 7\nS2: not(and(T, not(not(T)))) RULE 1\nS3: not(and(T, T)) RULE 1\nS4: not(T) RULE 2\nS5: F RULE 6",
+      "start": "not(and(not(F), not(not(not(not(T))))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.06666666666666667,
+      "completion_length": 28,
+      "completion": "PROOF\nS1: or(F, not(not(not(not(or(F, F)))))) RULE 5\nS2: or(F, not(not(or(F, F)))) RULE 1\nS3: or(F, or(F, F)) RULE 1\nS4: or(F, F) RULE 5\nS5: F RULE 5",
+      "start": "or(F, not(not(not(not(not(not(or(F, not(or(F, F))))))))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 71,
+      "completion": "PROOF\nS1: or(or(or(or(not(and(and(and(F, x), x), x)), x), x), x), x) RULE 2\nS2: or(or(or(or(not(and(and(F, x), x), x)), x), x), x), x) RULE 3\nS3: or(or(or(or(not(and(F, x), x)), x), x), x), x) RULE 3\nS4: or(or(or(or(not(x), x)), x), x), x) RULE 3\nS5: or(or(or(or(F, x)), x), x), x) RULE 1\nS6: or(or(or(F, x)), x), x) RULE 5\nS7: or(or(F, x), x) RULE 5\nS8: or(F, x) RULE 5\nS9: F RULE 5",
+      "start": "or(or(or(or(not(and(and(and(T, F), x), x)), x), x), x), x)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 23,
+      "completion": "PROOF\nS1: or(F, and(T, and(T, T))) RULE 1\nS2: or(F, and(T, T)) RULE 2\nS3: or(F, T) RULE 2\nS4: T RULE 5",
+      "start": "not(not(or(F, and(T, and(T, T)))))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 24,
+      "completion": "PROOF\nS1: and(T, or(and(T, F), F)) RULE 5\nS2: and(T, or(F, F)) RULE 2\nS3: and(T, F) RULE 5\nS4: F RULE 2\n\nEND",
+      "start": "and(T, or(and(T, or(F, F)), F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 49,
+      "completion": "PROOF\nS1: not(or(or(and(not(or(T, x)), x), F), not(not(F))) RULE 4\nS2: not(or(or(and(not(x), x), F), not(not(F))) RULE 4\nS3: not(or(or(not(x), x), F), not(not(F))) RULE 5\nS4: not(or(not(x), F), not(not(F))) RULE 5\nS5: not(not(x), F), not(not(F)) RULE 5\nS6: x, not(not(F)) RULE 5\nS7: x, F RULE 1\nS8: F RULE 1",
+      "start": "not(or(or(and(not(or(T, x)), x), F), not(not(not(F)))))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 40,
+      "completion": "PROOF\nS1: and(T, or(and(T, F), or(F, and(T, T)))) RULE 1\nS2: and(T, or(F, or(F, and(T, T)))) RULE 2\nS3: and(T, or(F, or(F, T))) RULE 2\nS4: and(T, or(F, T)) RULE 5\nS5: and(T, T) RULE 5\nS6: T RULE 2",
+      "start": "and(T, or(and(T, F), or(F, and(T, not(not(T))))))",
+      "normal_form": "T"
+    }
+  ]
+}

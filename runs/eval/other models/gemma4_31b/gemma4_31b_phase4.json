@@ -1,0 +1,460 @@
+{
+  "model": "openrouter:google/gemma-4-31b-it",
+  "n_samples": 50,
+  "solve_rate": 0.26,
+  "mean_reward": 0.3299439116439116,
+  "mean_length": 240.48,
+  "parse_rate": 1.0,
+  "results": [
+    {
+      "solved": false,
+      "reward": 0.11272727272727275,
+      "completion_length": 213,
+      "completion": "<think>\nThe expression is complex, but the inner-most terms can be simplified first.\n1. Deepest redex: `not(not(and(T, T)))` can be simplified by Rule 1 to `and(T, T)`.\n2. The sequence of `and` operations involving `F` will eventually trigger Rule 3 or Rule 9, reducing that entire branch to `F`.\n3. The `or(and(x, F), ...)` part will simplify as `and(x, F)` becomes `F` (Rule 9), and `or(F, x)` becomes `x` (Rule 5).\n4. Finally, the outermost `not` will be applied to the result.\n\nPath:\n- Simplify the inner `and` chain: `and(T, T)` (Rule 2) -> `T`.\n- `and(T, T)` is inside `and(..., T), F)`. `and(..., F)` is `F` (Rule 9).\n- `not(not(F))` becomes `F` (Rule 1).\n- `and(x, F)` becomes `F` (Rule 9).\n- `or(F, F)` becomes `F` (Rule 5).\n- `not(F)` becomes `T` (Rule 7).\n</think>\n\nPROOF\nS1: not(or(and(x, F), not(not(and(x, and(and(and(T, and(T, T)), T), F)))))) RULE 1\nS2: not(or(and(x, F), not(not(and(x, and(and(and(T, T), T), F)))))) RULE 2\nS3: not(or(and(x, F), not(not(and(x, and(and(and(T, T), F)))))) RULE 8\nS4: not(or(and(x, F), not(not(and(x, and(and(F)))))) RULE 9\nS5: not(or(and(x, F), not(not(and(x, and(F))))) RULE 9\nS6: not(or(and(x, F), not(not(and(x, F))))) RULE 9\nS7: not(or(and(x, F), not(not(F)))) RULE 9\nS8: not(or(and(x, F), F)) RULE 1\nS9: not(or(F, F)) RULE 9\nS10: not(F) RULE 5\nS11: T RULE 7",
+      "start": "not(or(and(x, F), not(not(and(x, and(and(and(T, not(not(and(T, T)))), T), F))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 11
+    },
+    {
+      "solved": false,
+      "reward": 0.07777777777777778,
+      "completion_length": 198,
+      "completion": "<think>\nI will start by reducing the innermost expressions to simplify the tree. \n1. Inside the deepest nested structure: `or(F, not(not(F)))`. Rule 5 applies to `or(F, ...)` and Rule 1 applies to `not(not(F))`.\n2. I will resolve the `and(T, T)` occurrences using Rule 2 or Rule 8.\n3. I will simplify the `not(not(...))` chains using Rule 1.\n4. Finally, I will evaluate the root `or(F, ...)` using Rule 5.\n\nPlan:\n- Deepest part: `or(F, not(not(F)))` -> `not(not(F))` (Rule 5) -> `F` (Rule 1).\n- Then `and(not(not(F)), and(T, T))` -> `and(F, T)` (Rule 1) -> `F` (Rule 9).\n- Then `not(not(not(F)))` -> `not(F)` (Rule 1) -> `T` (Rule 7).\n- Then `and(and(T, T), T)` -> `and(T, T)` (Rule 2) -> `T` (Rule 2).\n- Final root: `or(F, T)` -> `T` (Rule 5).\n</think>\n\nPROOF\nS1: or(F, and(and(T, T), not(not(not(and(not(not(or(not(not(F)), and(T, T)))), and(T, T))))))) RULE 5\nS2: or(F, and(and(T, T), not(not(not(and(not(not(F)), and(T, T))))))) RULE 1\nS3: or(F, and(and(T, T), not(not(not(and(F, and(T, T))))))) RULE 1\nS4: or(F, and(and(T, T), not(not(not(F))))) RULE 9\nS5: or(F, and(and(T, T), not(F))) RULE 1\nS6: or(F, and(and(T, T), T)) RULE 7\nS7: or(F, and(T, T)) RULE 2\nS8: or(F, T) RULE 2\nS9: T RULE 5",
+      "start": "or(F, and(and(T, T), not(not(not(and(not(not(or(or(F, not(not(F))), and(T, T)))), and(T, T)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 9
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 144,
+      "completion": "<think>\n1. First redex: `not(not(F))` inside the left subtree. Rule 1 applies.\n2. Second redex: `and(T, F)` inside the left subtree. Rule 2 applies.\n3. Third redex: `and(F, x)` inside the left subtree. Rule 3 applies.\n4. Fourth redex: `not(not(not(not(T))))` inside the right subtree. Rule 1 applies twice.\n5. Fifth redex: `and(T, T)` inside the right subtree. Rule 8 applies.\n6. Sixth redex: `or(F, T)` inside the right subtree. Rule 5 applies.\n7. Final redex: `or(F, T)` at the root. Rule 5 applies.\nFinal state: `T`. No rules apply to a constant.\n</think>\nPROOF\nS1: or(and(and(T, F), x), or(F, and(not(not(T)), T))) RULE 1\nS2: or(and(F, x), or(F, and(not(not(T)), T))) RULE 2\nS3: or(F, or(F, and(not(not(T)), T))) RULE 3\nS4: or(F, or(F, and(T, T))) RULE 1\nS5: or(F, or(F, T)) RULE 1\nS6: or(F, T) RULE 8\nS7: T RULE 5\nS8: T RULE 5",
+      "start": "or(and(and(T, not(not(F))), x), or(F, and(not(not(not(not(T)))), T)))",
+      "normal_form": "T",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": false,
+      "reward": 0.4636363636363636,
+      "completion_length": 194,
+      "completion": "<think>\nThe start expression is a nested `and` structure. I will simplify the innermost expressions first to clear the way.\n1. Deepest redex: `not(F)` -> `T` (Rule 7).\n2. `and(T, T)` -> `T` (Rule 2).\n3. `not(T)` -> `F` (Rule 6).\n4. `and(T, F)` -> `F` (Rule 9).\n5. `and(T, F)` -> `F` (Rule 2, then Rule 9... wait, I'll just apply the chain).\n6. The `or(F, ...)` will be simplified by Rule 5.\n7. The remaining `and(x, and(..., T))` will be simplified by Rule 8 and Rule 2.\nFinal check: The expression will reduce to a state where no rules (1-9) apply.\n</think>\n\nPROOF\nS1: and(x, and(or(F, and(T, and(T, and(T, and(T, not(and(T, T))))))), not(F))) RULE 7\nS2: and(x, and(or(F, and(T, and(T, and(T, and(T, not(T)))))), not(F))) RULE 2\nS3: and(x, and(or(F, and(T, and(T, and(T, and(T, F))))), not(F))) RULE 6\nS4: and(x, and(or(F, and(T, and(T, and(T, F)))), not(F))) RULE 9\nS5: and(x, and(or(F, and(T, and(T, F))), not(F))) RULE 9\nS6: and(x, and(or(F, and(T, F)), not(F))) RULE 9\nS7: and(x, and(or(F, F), not(F))) RULE 9\nS8: and(x, and(F, not(F))) RULE 5\nS9: and(x, and(F, T)) RULE 7\nS10: and(x, F) RULE 3\nS11: F RULE 3",
+      "start": "and(x, and(or(F, and(T, and(T, and(T, and(T, not(and(T, not(F)))))))), not(F)))",
+      "normal_form": "F",
+      "n_parsed_steps": 11
+    },
+    {
+      "solved": false,
+      "reward": 0.025,
+      "completion_length": 221,
+      "completion": "<think>\nThe expression is deeply nested. I will work from the innermost redexes outward to simplify the nested logic.\n1.  `or(F, T)` inside the deep nest simplifies to `T` (Rule 4).\n2.  `and(T, T)` simplifies to `T` (Rule 2).\n3.  `or(F, T)` simplifies to `T` (Rule 4).\n4.  `and(T, T)` simplifies to `T` (Rule 2).\n5.  `and(T, T)` simplifies to `T` (Rule 2).\n6.  `and(F, not(F))` simplifies to `F` (Rule 3).\n7.  `or(F, T)` simplifies to `T` (Rule 4).\n8.  `not(not(T))` simplifies to `T` (Rule 1).\n9.  The outer `and` chain simplifies through `and(T, T)` and `and(T, T)` repeated applications.\n10. Finally, the outermost `not(not(x))` simplifies to `x` (Rule 1).\nFinal normal form will be `T`.\n</think>\nPROOF\nS1: not(not(and(and(and(or(F, and(and(T, and(or(F, and(T, T))), T)), T)), or(and(F, not(F)), T)), not(not(T))), T))) RULE 4\nS2: not(not(and(and(and(or(F, and(and(T, and(or(F, T)), T)), T)), or(and(F, not(F)), T)), not(not(T))), T))) RULE 2\nS3: not(not(and(and(and(or(F, and(and(T, T), T)), or(and(F, not(F)), T)), not(not(T))), T))) RULE 4\nS4: not(not(and(and(and(or(F, and(T, T)), or(and(F, not(F)), T)), not(not(T))), T))) RULE 2\nS5: not(not(and(and(and(or(F, T), or(and(F, not(F)), T)), not(not(T))), T))) RULE 2\nS6: not(not(and(and(and(T, or(and(F, not(F)), T)), not(not(T))), T))) RULE 4\nS7: not(not(and(and(and(T, T), not(not(T))), T))) RULE 4\nS8: not(not(and(and(T, not(not(T))), T))) RULE 2\nS9: not(not(and(and(T, T), T))) RULE 1\nS10: not(not(and(T, T))) RULE 2\nS11: not(not(T)) RULE 2\nS12: T RULE 1",
+      "start": "not(not(and(and(and(or(F, and(and(T, and(or(F, and(T, or(F, T))), T)), T)), or(and(F, not(F)), T)), not(not(T))), T)))",
+      "normal_form": "T",
+      "n_parsed_steps": 12
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 200,
+      "completion": "<think>\nThe expression is a deeply nested structure. I will simplify from the innermost redexes outward to maintain clarity.\n1.  Innermost: `or(F, F)` -> `F` (Rule 5).\n2.  `not(not(F))` -> `F` (Rule 1).\n3.  `or(F, T)` -> `T` (Rule 5).\n4.  `not(not(T))` -> `T` (Rule 1).\n5.  `and(T, T)` -> `T` (Rule 2).\n6.  `not(not(not(T)))` -> `not(T)` (Rule 1).\n7.  `not(T)` -> `F` (Rule 6).\n8.  `and(T, F)` -> `F` (Rule 2 or 9).\n9.  `and(and(F, x), T)` -> `and(F, T)` (Rule 3).\n10. `and(F, x)` -> `F` (Rule 3).\n11. `not(not(F))` -> `F` (Rule 1).\n\nFinal check: The expression reduces to a constant F. No rules apply to F.\n</think>\n\nPROOF\nS1: not(not(and(and(and(and(T, not(not(not(and(T, not(not(or(not(not(F), T)))))))), x), T), x))) RULE 5\nS2: not(not(and(and(and(and(T, not(not(not(and(T, not(not(or(F, T)))))))), x), T), x))) RULE 1\nS3: not(not(and(and(and(and(T, not(not(not(and(T, not(not(T)))))))), x), T), x))) RULE 5\nS4: not(not(and(and(and(and(T, not(not(not(and(T, T)))))))), x), T), x))) RULE 1\nS5: not(not(and(and(and(and(T, not(not(not(T)))), x), T), x))) RULE 2\nS6: not(not(and(and(and(and(T, not(T)), x), T), x))) RULE 1\nS7: not(not(and(and(and(and(T, F), x), T), x))) RULE 6\nS8: not(not(and(and(and(F, x), T), x))) RULE 2\nS9: not(not(and(and(F, T), x))) RULE 3\nS10: not(not(and(F, x))) RULE 3\nS11: not(not(F)) RULE 3\nS12: F RULE 1",
+      "start": "not(not(and(and(and(and(T, not(not(not(and(T, not(not(or(not(not(or(F, F))), T)))))))), x), T), x)))",
+      "normal_form": "F",
+      "n_parsed_steps": 12
+    },
+    {
+      "solved": false,
+      "reward": 0.08000000000000002,
+      "completion_length": 223,
+      "completion": "<think>\nThe expression is deeply nested. I will work from the innermost redexes outwards to simplify the structure.\n1. Deepest part: `not(not(F))` matches Rule 1.\n2. `and(F, T)` matches Rule 3 or Rule 8.\n3. `or(F, ...)` matches Rule 5.\n4. `or(..., F)` is not a rule, but the nested `or(or(F, ...), F)` will be simplified.\n5. `and(x, ...)` where the second argument becomes simplified.\n6. `or(..., x)` and `or(..., x)` at the outer layers.\n7. Finally, the outer `not(not(...))` matches Rule 1.\n\nPlan:\n- Simplify `not(not(F))` to `F` (Rule 1).\n- Simplify `and(F, T)` to `F` (Rule 3).\n- Simplify `or(F, F)` to `F` (Rule 5).\n- Simplify `or(F, F)` to `F` (Rule 5).\n- Simplify `and(x, F)` to `F` (Rule 9).\n- Simplify `not(F)` to `T` (Rule 7).\n- Simplify `or(T, x)` to `T` (Rule 4).\n- Simplify `or(T, x)` to `T` (Rule 4).\n- Simplify `not(not(T))` to `T` (Rule 1).\n</think>\n\nPROOF\nS1: not(not(or(or(not(and(x, or(or(F, not(not(and(F, T)))), F))), x), x))) RULE 1\nS2: not(not(or(or(not(and(x, or(or(F, not(not(F)))), F))), x), x))) RULE 3\nS3: not(not(or(or(not(and(x, or(or(F, F), F))), x), x))) RULE 1\nS4: not(not(or(or(not(and(x, or(F, F))), x), x))) RULE 5\nS5: not(not(or(or(not(and(x, F)), x), x))) RULE 5\nS6: not(not(or(or(not(F), x), x))) RULE 9\nS7: not(not(or(or(T, x), x))) RULE 7\nS8: not(not(or(T, x))) RULE 4\nS9: not(not(T)) RULE 4\nS10: T RULE 1",
+      "start": "not(not(or(or(not(and(x, or(or(F, not(not(and(not(not(F)), T)))), F))), x), x)))",
+      "normal_form": "T",
+      "n_parsed_steps": 10
+    },
+    {
+      "solved": false,
+      "reward": 0.39285714285714285,
+      "completion_length": 218,
+      "completion": "<think>\nThe expression is a deeply nested `and`. I will prioritize reducing the innermost expressions first to simplify the tree.\n1. Deepest redex: `and(and(T, T), F)`. Rule 9 (and(x, F) => F) applies, resulting in `F`.\n2. Then `and(T, and(not(F), F))`. Rule 9 applies again (x=and(not(F), F)), resulting in `F`.\n3. Then `and(T, F)`. Rule 3 (and(T, x) => F is not a rule, but and(F, x) is. Wait, Rule 3 is and(F, x) => F. Rule 9 is and(x, F) => F). Rule 9 applies, resulting in `F`.\n4. Then `or(F, F)`. Rule 5 (or(F, x) => x) applies, resulting in `F`.\n5. Then `and(T, F)`. Rule 9 applies, resulting in `F`.\n6. Then `and(x, F)`. Rule 9 applies, resulting in `F`.\n7. Now the left child of the root `and` is `F`. Rule 3 (and(F, x) => F) applies at the root.\nThe final result is `F`. No rules apply to a constant.\n</think>\n\nPROOF\nS1: and(or(and(x, and(T, or(F, and(T, and(not(F), F))))), not(not(not(or(F, not(F)))))), x) RULE 9\nS2: and(or(and(x, and(T, or(F, and(T, F)))), not(not(not(or(F, not(F)))))), x) RULE 9\nS3: and(or(and(x, and(T, or(F, F))), not(not(not(or(F, not(F)))))), x) RULE 9\nS4: and(or(and(x, and(T, F)), not(not(not(or(F, not(F)))))), x) RULE 5\nS5: and(or(and(x, F), not(not(not(or(F, not(F)))))), x) RULE 9\nS6: and(or(F, not(not(not(or(F, not(F)))))), x) RULE 9\nS7: F RULE 3",
+      "start": "and(or(and(x, and(T, or(F, and(T, and(not(F), and(and(T, T), F)))))), not(not(not(or(F, not(F)))))), x)",
+      "normal_form": "F",
+      "n_parsed_steps": 7
+    },
+    {
+      "solved": false,
+      "reward": 0.05,
+      "completion_length": 254,
+      "completion": "<think>\nThe expression is nested. I will prioritize reducing the innermost redexes to simplify the structure.\n1. Deepest redex: `and(F, x)` in the innermost nested `and` sequence. Rule 3 reduces it to `F`.\n2. Then `and(F, T)` becomes `F` (Rule 3).\n3. Then `and(F, x)` becomes `F` (Rule 3), and so on, collapsing the inner `and` chain to `F`.\n4. `or(F, T)` reduces to `T` (Rule 4).\n5. `and(T, T)` reduces to `T` (Rule 2).\n6. `and(T, x)` reduces to `x` (Rule 2).\n7. The expression becomes `or(not(and(x, F)), x)`.\n8. `and(x, F)` reduces to `F` (Rule 9).\n9. `not(F)` reduces to `T` (Rule 7).\n10. `or(T, x)` reduces to `T` (Rule 4).\nFinal check: `T` is a constant and no rules apply.\n</think>\n\nPROOF\nS1: or(not(and(or(and(or(F, T), T), x), and(x, and(x, and(and(and(F, x), T), x))))), x) RULE 3 -> or(not(and(or(and(or(F, T), T), x), and(x, and(x, and(and(F, T), x))))), x)\nS2: or(not(and(or(and(or(F, T), T), x), and(x, and(x, and(and(F, T), x))))), x) RULE 3 -> or(not(and(or(and(or(F, T), T), x), and(x, and(x, and(F, x))))), x)\nS3: or(not(and(or(and(or(F, T), T), x), and(x, and(x, and(F, x))))), x) RULE 3 -> or(not(and(or(and(or(F, T), T), x), and(x, and(x, F)))), x)\nS4: or(not(and(or(and(or(F, T), T), x), and(x, and(x, F)))), x) RULE 9 -> or(not(and(or(and(or(F, T), T), x), and(x, F))), x)\nS5: or(not(and(or(and(or(F, T), T), x), and(x, F))), x) RULE 9 -> or(not(and(or(and(or(F, T), T), x), F)), x)\nS6: or(not(and(or(and(or(F, T), T), x), F)), x) RULE 9 -> or(not(F), x)\nS7: or(not(F), x) RULE 7 -> or(T, x)\nS8: T RULE 4",
+      "start": "or(not(and(or(and(or(F, T), T), x), and(x, and(x, and(and(and(F, x), T), x))))), x)",
+      "normal_form": "T",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 60,
+      "completion": "<think>\nThe start expression is a large `and` chain. The outermost operator is `and(..., F)`. Rule 9 states `and(x, F) => F`. Since `x` is a variable that absorbs the entire left subexpression, this rule applies at the root immediately, reducing the entire expression to `F` in one step. No other rules are needed.\n</think>\nPROOF\nS1: F RULE 9",
+      "start": "and(and(not(not(and(not(not(and(T, not(not(not(or(F, F))))))), and(T, T)))), T), F)",
+      "normal_form": "F",
+      "n_parsed_steps": 1
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 174,
+      "completion": "<think>\n1.  The expression is deeply nested. I will work from the innermost redexes outwards to simplify the structure.\n2.  Innermost redexes:\n    - `not(T)` (Rule 6) -> `F`\n    - `and(F, x)` (Rule 3) -> `F`\n    - `or(T, x)` (Rule 4) -> `T`\n    - `not(F)` (Rule 7) -> `T`\n3.  Step-by-step simplification:\n    - Simplify `not(T)` to `F` and `and(F, x)` to `F` and `or(T, x)` to `T`.\n    - This simplifies the left branch `not(not(or(not(T), not(and(and(F, x), or(T, x))))))` significantly.\n    - Simplify the right branch `or(or(F, not(F)), x)`.\n4.  Final check: The expression will eventually reduce to a state where no rule (not, and, or) matches any sub-expression.\n</think>\n\nPROOF\nS1: not(not(and(not(not(or(F, not(and(F, T)))), or(or(F, not(F)), x))))) RULE 6\nS2: not(not(and(not(not(or(F, not(F)))), or(or(F, not(F)), x))))) RULE 3\nS3: not(not(and(not(not(or(F, not(F)))), or(or(F, T), x)))) RULE 4\nS4: not(not(and(not(not(or(F, T))), or(or(F, T), x)))) RULE 7\nS5: not(not(and(not(not(T)), or(or(F, T), x)))) RULE 7\nS6: not(not(and(T, or(or(F, T), x)))) RULE 1\nS7: not(not(or(or(F, T), x))) RULE 2\nS8: not(not(or(T, x))) RULE 5\nS9: not(not(T)) RULE 4\nS10: T RULE 1",
+      "start": "not(not(and(not(not(or(not(T), not(and(and(F, x), or(T, x)))))), or(or(F, not(F)), x))))",
+      "normal_form": "T",
+      "n_parsed_steps": 10
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 136,
+      "completion": "<think>\nThe expression is a deeply nested set of `not` and `or` operations. I will work from the innermost redexes outward to simplify the expression.\n1. Innermost: `not(F)` becomes `T` (Rule 7).\n2. `or(T, x)` becomes `T` (Rule 4).\n3. `not(not(T))` becomes `T` (Rule 1).\n4. `or(F, T)` becomes `T` (Rule 5).\n5. `or(F, T)` becomes `T` (Rule 5).\n6. `not(not(T))` becomes `T` (Rule 1).\n7. `or(F, T)` becomes `T` (Rule 5).\n8. `not(T)` becomes `F` (Rule 6).\nFinal check: `F` is a constant; no rules apply.\n</think>\n\nPROOF\nS1: not(or(F, not(not(or(F, or(F, not(not(or(T, x))))))))) RULE 7\nS2: not(or(F, not(not(or(F, or(F, not(not(T)))))))) RULE 4\nS3: not(or(F, not(not(or(F, or(F, T)))))) RULE 1\nS4: not(or(F, not(not(or(F, T)))) ) RULE 5\nS5: not(or(F, not(not(T)))) RULE 5\nS6: not(or(F, T)) RULE 1\nS7: not(T) RULE 5\nS8: F RULE 6",
+      "start": "not(or(F, not(not(or(F, or(F, not(not(or(not(F), x)))))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 223,
+      "completion": "<think>\nThe expression is a large `and` with two main branches.\nLeft branch: `not(and(and(T, or(T, x)), and(x, F)))`\n- Inside the `not`: `and(and(T, or(T, x)), and(x, F))`\n- Left child: `and(T, or(T, x))` -> Rule 2 -> `or(T, x)` -> Rule 4 -> `T`.\n- Right child: `and(x, F)` -> Rule 9 -> `F`.\n- The `and` becomes `and(T, F)` -> Rule 9 -> `F`.\n- Finally, `not(F)` -> Rule 7 -> `T`.\n\nRight branch: `or(and(and(T, T), or(T, x)), x)`\n- Inside the `or`: `and(and(T, T), or(T, x))`\n- `and(T, T)` -> Rule 2 -> `T`.\n- `and(T, or(T, x))` -> Rule 2 -> `or(T, x)` -> Rule 4 -> `T`.\n- The `or` becomes `or(T, x)` -> Rule 4 -> `T`.\n\nCombining them: `and(T, T)` -> Rule 2 -> `T`.\nFinal state `T` is a constant; no rules apply.\n</think>\n\nPROOF\nS1: and(not(and(or(T, x), and(x, F))), or(and(and(T, T), or(T, x)), x)) RULE 2\nS2: and(not(and(T, and(x, F))), or(and(and(T, T), or(T, x)), x)) RULE 4\nS3: and(not(and(T, F)), or(and(and(T, T), or(T, x)), x)) RULE 9\nS4: and(not(F), or(and(and(T, T), or(T, x)), x)) RULE 9\nS5: and(T, or(and(and(T, T), or(T, x)), x)) RULE 7\nS6: and(T, or(and(T, or(T, x)), x)) RULE 2\nS7: and(T, or(or(T, x), x)) RULE 2\nS8: and(T, or(T, x)) RULE 4\nS9: and(T, T) RULE 4\nS10: T RULE 2",
+      "start": "and(not(and(and(T, or(T, x)), and(x, F))), or(and(and(T, T), or(T, x)), x))",
+      "normal_form": "T",
+      "n_parsed_steps": 10
+    },
+    {
+      "solved": false,
+      "reward": 0.09454545454545454,
+      "completion_length": 426,
+      "completion": "<think>\nThe expression is a large nested `and` structure. I will simplify from the inside out to reduce the depth of the tree.\n1. Deepest nested part: `not(not(F))` becomes `F` (Rule 1).\n2. `and(T, T)` becomes `T` (Rule 2).\n3. `not(T)` becomes `F` (Rule 6).\n4. `and(or(F, T), F)`: `or(F, T)` becomes `T` (Rule 5), then `and(T, F)` becomes `F` (Rule 9).\n5. `not(F)` becomes `T` (Rule 7).\n6. `and(T, and(T, T))` simplifies to `T` (Rule 2 applied twice).\n7. `not(not(T))` becomes `T` (Rule 1).\n8. `and(T, T)` becomes `T` (Rule 2).\n9. `not(T)` becomes `F` (Rule 6).\n10. The outer `and` chain: `and(and(and(T, T), T), F)` where the first part is `T` and the second part is `F`. Result is `F` (Rule 3).\nFinal check: `F` is a constant, no rules apply.\n</think>\nPROOF\nS1: and(and(and(T, T), T), not(and(T, not(not(and(T, and(T, not(and(or(F, and(T, T)), not(T)))))))))) RULE 1\nS2: and(and(and(T, T), T), not(and(T, not(not(and(T, and(T, not(and(or(F, T), not(T)))))))))) RULE 2\nS3: and(and(and(T, T), T), not(and(T, not(not(and(T, and(T, not(and(T, not(T)))))))))) RULE 5\nS4: and(and(and(T, T), T), not(and(T, not(not(and(T, and(T, not(and(T, F)))))))))) RULE 6\nS5: and(and(and(T, T), T), not(and(T, not(not(and(T, and(T, F)))))) RULE 9\nS6: and(and(and(T, T), T), not(and(T, not(not(and(T, F))))) RULE 2\nS7: and(and(and(T, T), T), not(and(T, not(not(F)))) RULE 9\nS8: and(and(and(T, T), T), not(and(T, F)) RULE 1\nS9: and(and(and(T, T), T), not(F) RULE 9\nS10: and(and(and(T, T), T), T RULE 7\nS11: and(and(T, T), T) RULE 2\nS12: and(T, T) RULE 2\nS13: T RULE 2\nS14: T RULE 2 (Wait, looking back at S10: and(and(and(T, T), T), T). The inner and(T, T) is T, then and(T, T) is T, then and(T, T) is T.)\nS15: T RULE 2 (Actually, in S10, the expression is and(T, T) = T)\n\nWait, let me re-trace from S10 more carefully:\nS10: and(and(and(T, T), T), T)\nS11: and(and(T, T), T) RULE 2\nS12: and(T, T) RULE 2\nS13: T RULE 2\n\nLet's re-verify the `not(and(T, ...))` part:\nS9: `not(F)` -> `T`.\nS10: `and(and(and(T, T), T), T)`.\nS11: `and(and(T, T), T)` (by Rule 2 on the leftmost `and(T, T)`).\nS12: `and(T, T)` (by Rule 2).\nS13: `T` (by Rule 2).\n\nFinal normal form: T.\n\nWait, I must check if I missed a `not` at the very end of the long string.\nStart: `and(..., not(and(T, not(not(and(T, and(T, not(and(or(not(not(F)), and(T, T)), not(T))))))))))`\nInside: `and(or(not(not(F)), and(T, T)), not(T))`\n`not(not(F))` -> `F`\n`and(T, T)` -> `T`\n`or(F, T)` -> `T`\n`not(T)` -> `F`\n`and(T, F)` -> `F`\nThen `not(and(T, F))` -> `not(F)` -> `T`.\nThen the outer `and(T, T)` -> `T`.\n\nS14: T RULE 2",
+      "start": "and(and(and(T, T), T), not(and(T, not(not(and(T, and(T, not(and(or(not(not(F)), and(T, T)), not(T))))))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 22
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 270,
+      "completion": "<think>\nI will reduce the expression by simplifying the innermost redexes first to clear the path for root-level rules.\n1. Left side of the root `and`: `or(not(or(F, or(F, F))), x)`. Simplify `or(F, F)` (Rule 5) $\\to$ `F`, then `or(F, F)` (Rule 5) $\\to$ `F`, then `not(F)` (Rule 7) $\\to$ `T`, then `or(T, x)` (Rule 4) $\\to$ `T`.\n2. Right side of the root `and`: `or(not(not(F)), not(and(...)))`.\n   - `not(not(F))` (Rule 1) $\\to$ `F`.\n   - Inside the `not(and(...))` block:\n     - `and(F, T)` (Rule 3) $\\to$ `F`.\n     - `and(F, x)` (Rule 3) $\\to$ `F`.\n     - `not(not(not(F)))` (Rule 1) $\\to$ `not(F)`.\n     - `not(not(T))` (Rule 1) $\\to$ `T`.\n     - `or(T, x)` (Rule 4) $\\to$ `T`.\n     - `and(not(F), T)` (Rule 8) $\\to$ `not(F)`.\n     - `not(not(F))` (Rule 1) $\\to$ `F`.\n3. The root becomes `and(T, or(F, F))`.\n4. `or(F, F)` (Rule 5) $\\to$ `F`.\n5. `and(T, F)` (Rule 2) $\\to$ `F`.\nFinal state `F` is a constant, no rules apply.\n</think>\n\nPROOF\nS1: and(or(not(or(F, F)), x), or(not(not(F)), not(and(not(not(not(and(and(F, T), x)))), or(not(not(T)), x))))) RULE 5\nS2: and(or(not(F), x), or(not(not(F)), not(and(not(not(not(and(and(F, T), x)))), or(not(not(T)), x))))) RULE 5\nS3: and(or(T, x), or(not(not(F)), not(and(not(not(not(and(and(F, T), x)))), or(not(not(T)), x))))) RULE 7\nS4: and(T, or(not(not(F)), not(and(not(not(not(and(and(F, T), x)))), or(not(not(T)), x))))) RULE 4\nS5: and(T, or(F, not(and(not(not(not(and(and(F, T), x)))), or(not(not(T)), x))))) RULE 1\nS6: and(T, or(F, not(and(not(not(not(and(F, x)))), or(not(not(T)), x))))) RULE 3\nS7: and(T, or(F, not(and(not(not(not(F))), or(not(not(T)), x))))) RULE 3\nS8: and(T, or(F, not(and(not(F), or(not(not(T)), x))))) RULE 1\nS9: and(T, or(F, not(and(not(F), or(T, x))))) RULE 1\nS10: and(T, or(F, not(and(not(F), T)))) RULE 4\nS11: and(T, or(F, not(not(F)))) RULE 8\nS12: and(T, or(F, F)) RULE 1\nS13: and(T, F) RULE 5\nS14: F RULE 2",
+      "start": "and(or(not(or(F, or(F, F))), x), or(not(not(F)), not(and(not(not(not(and(and(F, T), x)))), or(not(not(T)), x)))))",
+      "normal_form": "F",
+      "n_parsed_steps": 14
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 268,
+      "completion": "<think>\nThe expression is a complex nested structure. I will prioritize reducing the innermost redexes to simplify the expression from the inside out.\n1.  Deepest part: `and(x, F)` is Rule 3 -> `F`.\n2.  `not(not(T))` is Rule 1 -> `T`.\n3.  `and(F, T)` (from the above) is Rule 9 -> `F`.\n4.  `not(F)` is Rule 7 -> `T`.\n5.  `and(T, T)` (from the above) is Rule 8 -> `T`.\n6.  `not(T)` is Rule 6 -> `F`.\n7.  `and(T, F)` (from the above) is Rule 9 -> `F`.\n8.  `not(F)` is Rule 7 -> `T`.\n9.  `or(F, T)` is Rule 4 -> `T`.\n10. `and(T, T)` is Rule 8 -> `T`.\n11. `not(T)` is Rule 6 -> `F`.\n12. Left side: `not(not(T))` is Rule 1 -> `T`.\n13. `or(T, x)` is Rule 4 -> `T`.\n14. Finally, `and(T, F)` is Rule 9 -> `F`.\nFinal check: `F` is a constant; no rules apply.\n</think>\n\nPROOF\nS1: and(or(not(not(T)), x), not(and(or(F, not(and(T, and(T, not(and(or(F, not(not(T))), T)))))), T))) RULE 3\nS2: and(or(not(not(T)), x), not(and(or(F, not(and(T, and(T, not(and(or(F, T), T)))))), T))) RULE 1\nS3: and(or(not(not(T)), x), not(and(or(F, not(and(T, and(T, not(and(T, T)))))), T))) RULE 4\nS4: and(or(not(not(T)), x), not(and(or(F, not(and(T, and(T, not(T)))))), T))) RULE 8\nS5: and(or(not(not(T)), x), not(and(or(F, not(and(T, and(T, F)))), T))) RULE 6\nS6: and(or(not(not(T)), x), not(and(or(F, not(and(T, F))), T))) RULE 9\nS7: and(or(not(not(T)), x), not(and(or(F, not(F)), T))) RULE 9\nS8: and(or(not(not(T)), x), not(and(or(F, T), T))) RULE 7\nS9: and(or(not(not(T)), x), not(and(T, T))) RULE 4\nS10: and(or(not(not(T)), x), not(T)) RULE 8\nS11: and(or(not(not(T)), x), F) RULE 6\nS12: and(or(T, x), F) RULE 1\nS13: and(T, F) RULE 4\nS14: F RULE 9",
+      "start": "and(or(not(not(T)), x), not(and(or(F, not(and(T, and(T, not(and(or(and(x, F), not(not(T))), T)))))), T)))",
+      "normal_form": "F",
+      "n_parsed_steps": 14
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 208,
+      "completion": "<think>\nThe expression is deeply nested. I will simplify from the innermost redexes outward to avoid unnecessary repetitions.\n1. Innermost `and(F, x)` simplifies to `F` (Rule 3).\n2. Then `or(F, T)` simplifies to `T` (Rule 4).\n3. `not(not(T))` simplifies to `T` (Rule 1).\n4. `and(T, not(not(F)))` simplifies to `not(not(F))` (Rule 2).\n5. `not(not(F))` simplifies to `F` (Rule 1).\n6. `not(not(not(F)))` simplifies to `not(F)` (Rule 1).\n7. `and(T, not(F))` simplifies to `not(F)` (Rule 2).\n8. `not(F)` simplifies to `T` (Rule 7).\n9. Now the expression looks like `not(not(or(and(T, T), x)))`.\n10. `and(T, T)` simplifies to `T` (Rule 2 or 8).\n11. `or(T, x)` simplifies to `T` (Rule 4).\n12. Finally, `not(not(T))` simplifies to `T` (Rule 1).\nFinal check: `T` is a constant; no rules apply.\n</think>\n\nPROOF\nS1: not(not(or(and(not(not(or(and(F, x), T))), and(T, not(not(not(and(T, not(not(F)))))))), x))) RULE 3\nS2: not(not(or(and(not(not(or(F, T))), and(T, not(not(not(and(T, not(not(F)))))))), x))) RULE 4\nS3: not(not(or(and(not(not(T)), and(T, not(not(not(and(T, not(not(F)))))))), x))) RULE 1\nS4: not(not(or(and(T, and(T, not(not(not(and(T, not(not(F)))))))), x))) RULE 1\nS5: not(not(or(and(T, and(T, not(not(not(and(T, F)))))), x))) RULE 1\nS6: not(not(or(and(T, and(T, not(not(not(and(T, F)))))), x))) RULE 2\nS7: not(not(or(and(T, not(not(not(F)))), x))) RULE 1\nS8: not(not(or(and(T, not(F)), x))) RULE 1\nS9: not(not(or(and(T, T), x))) RULE 7\nS10: not(not(or(T, x))) RULE 2\nS11: not(not(T)) RULE 4\nS12: T RULE 1",
+      "start": "not(not(or(and(not(not(or(and(F, x), T))), and(T, not(not(not(and(T, not(not(F)))))))), x)))",
+      "normal_form": "T",
+      "n_parsed_steps": 12
+    },
+    {
+      "solved": false,
+      "reward": 0.21142857142857144,
+      "completion_length": 250,
+      "completion": "<think>\nThe expression is a deeply nested `and` structure. I will simplify from the innermost redexes outwards to clear the clutter.\n1. Innermost: `not(not(T))` $\\to$ `T` (Rule 1).\n2. Then `or(F, T)` $\\to$ `T` (Rule 5).\n3. Then `not(T)` $\\to$ `F` (Rule 6).\n4. Then `not(F)` $\\to$ `T` (Rule 7).\n5. Then `and(or(F, T), T)` $\\to$ `and(T, T)` (Rule 5) $\\to$ `T` (Rule 2).\n6. Then `and(and(T, T), T)` $\\to$ `and(T, T)` (Rule 2) $\\to$ `T` (Rule 2).\n7. Then `or(F, T)` $\\to$ `T` (Rule 5).\n8. Then `not(T)` $\\to$ `F` (Rule 6).\n9. Finally, `and(F, T)` $\\to$ `F` (Rule 3).\nFinal check: `F` is a constant, no rules apply.\n</think>\n\nPROOF\nS1: and(not(and(or(F, and(and(T, T), and(and(or(F, not(and(or(F, T), not(F)))), and(T, T)), T))), T)), T) RULE 1\nS2: and(not(and(or(F, and(and(T, T), and(and(or(F, not(and(T, not(F)))), and(T, T)), T))), T)), T) RULE 5\nS3: and(not(and(or(F, and(and(T, T), and(and(or(F, not(and(T, T))), and(T, T)), T))), T)), T) RULE 7\nS4: and(not(and(or(F, and(and(T, T), and(and(or(F, not(T)), and(T, T)), T))), T)), T) RULE 2\nS5: and(not(and(or(F, and(and(T, T), and(and(or(F, F), and(T, T)), T))), T)), T) RULE 6\nS6: and(not(and(or(F, and(and(T, T), and(and(F, and(T, T)), T))), T)), T) RULE 5\nS7: and(not(and(or(F, and(and(T, T), and(and(F, T), T))), T)), T) RULE 3\nS8: and(not(and(or(F, and(and(T, T), and(F, T))), T)), T) RULE 3\nS9: and(not(and(or(F, and(and(T, T), F)), T)), T) RULE 9\nS10: and(not(and(or(F, F), T)), T) RULE 9\nS11: and(not(and(F, T)), T) RULE 5\nS12: and(not(F), T) RULE 3\nS13: and(T, T) RULE 7\nS14: T RULE 2",
+      "start": "and(not(and(or(F, and(and(T, T), and(and(or(F, not(and(or(F, not(not(T))), not(F)))), and(T, T)), T))), T)), T)",
+      "normal_form": "T",
+      "n_parsed_steps": 14
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 380,
+      "completion": "<think>\n1. First, I will simplify the deeply nested `not` and `and` terms. \n2. In the second argument of the root `and`, there is a term `and(x, F)` deep inside; Rule 9 reduces this to `F`.\n3. Then, I'll apply Rule 1 to eliminate double `not`s.\n4. I'll simplify the `or` terms using Rule 5 and Rule 4.\n5. Finally, I'll use Rule 2 and Rule 8 to simplify the root `and` structure.\n\nSequence:\n- `and(x, F)` -> `F` (Rule 9)\n- `not(not(not(not(F))))` -> `not(not(F))` -> `F` (Rule 1 twice)\n- `not(not(not(not(not(not(or(F, F)))))))` -> `or(F, F)` (Rule 1 three times)\n- `or(F, F)` -> `F` (Rule 5)\n- `and(F, T)` -> `F` (Rule 9)\n- `or(F, or(F, T))` -> `or(F, T)` -> `T` (Rule 5 twice)\n- `and(T, and(T, F))` -> `and(T, F)` -> `F` (Rule 2, then Rule 9)\n- `and(T, F)` -> `F` (Rule 9)\n\nWait, let's trace carefully:\nStart: `and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(not(not(or(F, not(not(not(not(and(x, F)))))))))))), T)))`\n1. `and(x, F)` -> `F` (Rule 9)\n2. `not(not(not(not(F))))` -> `F` (Rule 1 twice)\n3. `not(not(not(not(not(not(or(F, F)))))))` -> `or(F, F)` (Rule 1 three times)\n4. `or(F, F)` -> `F` (Rule 5)\n5. `and(F, T)` -> `F` (Rule 9)\n6. `or(F, T)` -> `T` (Rule 5)\n7. `or(F, T)` -> `T` (Rule 5)\n8. `not(not(T))` -> `T` (Rule 1)\n9. `and(T, and(T, F))` -> `and(T, F)` -> `F` (Rule 2, then Rule 9)\nFinal: `F`.\n</think>\n\nPROOF\nS1: and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(not(not(or(F, not(not(not(not(F)))))))))))), T))) RULE 9\nS2: and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(not(not(or(F, F)))))))), T))) RULE 1\nS3: and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(F))))), T))) RULE 1\nS4: and(not(not(T)), and(or(F, or(F, T)), and(F, T))) RULE 1\nS5: and(not(not(T)), and(or(F, or(F, T)), F)) RULE 9\nS6: and(not(not(T)), F) RULE 5\nS7: and(not(not(T)), F) RULE 5\nS8: F RULE 9\nS9: F RULE 1 (Wait, S8 was already F, but Rule 9 applied to and(T, F))\n\nLet's refine the steps to be precise:\nS1: and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(not(not(or(F, not(not(not(not(F)))))))))))), T))) RULE 9\nS2: and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(not(not(or(F, F)))))))), T))) RULE 1\nS3: and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(F))))), T))) RULE 1\nS4: and(not(not(T)), and(or(F, or(F, T)), and(F, T))) RULE 1\nS5: and(not(not(T)), and(or(F, or(F, T)), F)) RULE 9\nS6: and(not(not(T)), and(T, F)) RULE 5\nS7: and(not(not(T)), F) RULE 5\nS8: F RULE 9",
+      "start": "and(not(not(T)), and(or(F, or(F, T)), and(not(not(not(not(not(not(or(F, not(not(not(not(and(x, F)))))))))))), T)))",
+      "normal_form": "F",
+      "n_parsed_steps": 17
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 264,
+      "completion": "<think>\nThe expression is complex. I will reduce from the innermost redexes outwards to simplify the structure.\n1. `not(not(T))` appears twice; Rule 1 reduces these to `T`.\n2. `not(T)` appears once; Rule 6 reduces it to `F`.\n3. `and(T, T)` is a basic identity; Rule 2 or 8 reduces it to `T`.\n4. `and(F, ...)` will reduce to `F` via Rule 3.\n5. `and(T, ...)` will reduce via Rule 2.\n6. Finally, `or(..., x)` will be evaluated based on the left operand.\n\nStep-by-step plan:\n- S1: Simplify `not(not(T))` to `T` (Rule 1).\n- S2: Simplify `not(T)` to `F` (Rule 6).\n- S3: Simplify `not(not(T))` to `T` (Rule 1).\n- S4: Simplify `and(T, T)` to `T` (Rule 2).\n- S5: Simplify `and(F, T)` to `F` (Rule 3).\n- S6: Simplify `and(T, T)` to `T` (Rule 2).\n- S7: Simplify `or(F, T)` to `T` (Rule 5).\n- S8: Simplify `and(T, T)` to `T` (Rule 2).\n- S9: Simplify `and(T, T)` to `T` (Rule 2).\n- S10: Simplify `or(T, x)` to `T` (Rule 4).\n\nFinal check: `T` is a constant, no rules apply.\n</think>\nPROOF\nS1: or(and(T, and(T, or(and(not(T), not(not(T))), and(T, and(T, T))))), x) RULE 1\nS2: or(and(T, and(T, or(and(F, not(not(T))), and(T, and(T, T))))), x) RULE 6\nS3: or(and(T, and(T, or(and(F, T), and(T, and(T, T))))), x) RULE 1\nS4: or(and(T, and(T, or(and(F, T), and(T, T)))), x) RULE 2\nS5: or(and(T, and(T, or(F, and(T, T)))), x) RULE 3\nS6: or(and(T, and(T, or(F, T))), x) RULE 2\nS7: or(and(T, and(T, T)), x) RULE 5\nS8: or(and(T, T), x) RULE 2\nS9: or(T, x) RULE 2\nS10: T RULE 4",
+      "start": "or(and(not(not(T)), and(T, or(and(not(T), not(not(T))), and(T, and(T, T))))), x)",
+      "normal_form": "T",
+      "n_parsed_steps": 10
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 130,
+      "completion": "<think>\n1. The expression is deeply nested. I will work from the innermost redexes outward to simplify.\n2. Innermost redex: `not(T)` (Rule 6) inside the `or`.\n3. Then `or(F, or(T, x))` (Rule 5), then `or(T, x)` (Rule 4).\n4. Then `not(T)` (Rule 6).\n5. Then `and(F, x)` (Rule 3).\n6. Then the remaining `and` chain and the double `not` at the root.\n7. Final check: The resulting expression will be a variable or constant where no rules apply.\n</think>\n\nPROOF\nS1: not(not(and(and(x, and(not(or(F, or(T, x))), x)), T))) RULE 6\nS2: not(not(and(and(x, and(not(or(T, x)), x)), T))) RULE 5\nS3: not(not(and(and(x, and(not(T), x)), T))) RULE 4\nS4: not(not(and(and(x, and(F, x)), T))) RULE 6\nS5: not(not(and(and(x, F), T))) RULE 3\nS6: not(not(and(F, T))) RULE 9\nS7: not(not(F)) RULE 3\nS8: F RULE 1",
+      "start": "not(not(and(and(x, and(not(or(not(T), or(T, x))), x)), T)))",
+      "normal_form": "F",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": false,
+      "reward": 0.2653846153846154,
+      "completion_length": 268,
+      "completion": "<think>\nThe expression is a large `and(...)` with two main branches.\nLeft branch: `or(and(x, not(T)), and(T, T))`.\n- `not(T)` is a redex (Rule 6) -> `F`.\n- `and(x, F)` is a redex (Rule 9) -> `F`.\n- `and(T, T)` is a redex (Rule 2) -> `T`.\n- Then `or(F, T)` is a redex (Rule 5) -> `T`.\nRight branch: `not(or(and(F, not(not(T))), not(and(or(T, x), and(T, or(T, x))))))`.\n- Inner `not(not(T))` is a redex (Rule 1) -> `T`.\n- `and(F, T)` is a redex (Rule 3) -> `F`.\n- `or(T, x)` is a redex (Rule 4) -> `T`.\n- `and(T, T)` is a redex (Rule 2) -> `T`.\n- `not(T)` is a redex (Rule 6) -> `F`.\n- `or(F, F)` is a redex (Rule 5) -> `F`.\n- `not(F)` is a redex (Rule 7) -> `T`.\nFinally, `and(T, T)` is a redex (Rule 2) -> `T`.\nNo rules will apply to the final constant `T`.\n</think>\n\nPROOF\nS1: and(or(and(x, F), and(T, T)), not(or(and(F, not(not(T))), not(and(or(T, x), and(T, or(T, x))))))) RULE 6\nS2: and(or(F, and(T, T)), not(or(and(F, not(not(T))), not(and(or(T, x), and(T, or(T, x))))))) RULE 9\nS3: and(or(F, T), not(or(and(F, not(not(T))), not(and(or(T, x), and(T, or(T, x))))))) RULE 2\nS4: and(T, not(or(and(F, not(not(T))), not(and(or(T, x), and(T, or(T, x))))))) RULE 5\nS5: and(T, not(or(and(F, T), not(and(or(T, x), and(T, or(T, x))))))) RULE 1\nS6: and(T, not(or(F, not(and(or(T, x), and(T, or(T, x))))))) RULE 3\nS7: and(T, not(or(F, not(and(T, and(T, or(T, x))))))) RULE 4\nS8: and(T, not(or(F, not(and(T, T))))) RULE 4\nS9: and(T, not(or(F, not(T)))) RULE 2\nS10: and(T, not(or(F, F))) RULE 6\nS11: and(T, not(F)) RULE 5\nS12: and(T, T) RULE 7\nS13: T RULE 2",
+      "start": "and(or(and(x, not(T)), and(T, T)), not(or(and(F, not(not(T))), not(and(or(T, x), and(T, or(T, x)))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 201,
+      "completion": "<think>\nThe expression is complex. I will prioritize reducing inner redexes to simplify the tree.\n1. Innermost left: `or(F, T)` (Rule 4) -> `T`.\n2. Left branch: `and(T, ...)` (Rule 2) -> `...`.\n3. Right branch: `not(not(x))` (Rule 1) applied multiple times.\n4. Innermost right: `or(F, F)` (Rule 5) -> `F` and `not(F)` (Rule 7) -> `T`.\n5. I will process the left branch first, then the right.\nFinal check: The expression will likely reduce to a constant (T or F) or a simple variable. No rules apply to constants.\n</think>\nPROOF\nS1: or(and(not(and(T, or(T, x))), T), not(not(not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))))))) RULE 4\nS2: or(and(not(T), T), not(not(not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))))))) RULE 2\nS3: or(and(F, T), not(not(not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))))))) RULE 6\nS4: or(F, not(not(not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))))))) RULE 3\nS5: not(not(not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))))))) RULE 5\nS6: not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))))) RULE 1\nS7: not(and(T, not(not(or(or(F, F), not(or(F, not(F))))))))) RULE 1\nS8: not(not(not(or(or(F, F), not(or(F, not(F))))))) RULE 2\nS9: not(or(or(F, F), not(or(F, not(F))))) RULE 1\nS10: not(or(F, not(or(F, not(F))))) RULE 5\nS11: not(or(F, not(or(F, T)))) RULE 7\nS12: not(or(F, not(T))) RULE 7\nS13: not(or(F, F)) RULE 6\nS14: not(F) RULE 5\nS15: T RULE 7",
+      "start": "or(and(not(and(or(F, T), or(T, x))), T), not(not(not(not(not(and(T, not(not(or(or(F, F), not(or(F, not(F)))))))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 15
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 161,
+      "completion": "<think>\n1. First redex: `and(T, T)` inside `not(...)`. Rule 2 applies.\n2. Next redexes: `not(T)` inside the second part of the `or`. Rule 6 applies.\n3. Followed by `and(F, T)` which reduces via Rule 3 or 9 to `F`.\n4. Then `not(F)` reduces via Rule 7 to `T`.\n5. Then `and(T, ...)` reduces via Rule 2 to the remaining part.\n6. Finally, resolve the outer `or` and `not` expressions.\nChoice points: Multiple `and(T, T)` or `not(T)` exist. I will resolve them from inner to outer.\nFinal check: The result should be a constant (T or F) where no rules apply.\n</think>\n\nPROOF\nS1: or(not(T), and(not(and(not(T), T)), and(not(T), T))) RULE 2\nS2: or(F, and(not(and(not(T), T)), and(not(T), T))) RULE 6\nS3: or(F, and(not(and(F, T)), and(not(T), T))) RULE 6\nS4: or(F, and(not(F), and(not(T), T))) RULE 3\nS5: or(F, and(T, and(not(T), T))) RULE 7\nS6: or(F, and(not(T), T)) RULE 2\nS7: or(F, and(F, T)) RULE 6\nS8: or(F, F) RULE 3\nS9: F RULE 5",
+      "start": "or(not(and(T, T)), and(not(and(not(T), T)), and(not(T), T)))",
+      "normal_form": "F",
+      "n_parsed_steps": 9
+    },
+    {
+      "solved": false,
+      "reward": 0.225,
+      "completion_length": 205,
+      "completion": "<think>\nI will start by reducing the innermost redexes to simplify the expression.\n1. Left branch: `not(T)` -> `F` (Rule 6), then `and(F, T)` -> `F` (Rule 3), then `not(F)` -> `T` (Rule 7).\n2. Middle branch: `and(x, F)` -> `F` (Rule 9), then `and(T, F)` -> `F` (Rule 3), then `and(F, or(T, x))` -> `F` (Rule 3).\n3. Right branch: `not(not(F))` -> `F` (Rule 1), then `and(F, T)` -> `F` (Rule 3), then `and(T, F)` -> `F` (Rule 3), then `not(not(not(F)))` -> `not(F)` (Rule 1), then `not(F)` -> `T` (Rule 7), then `or(F, T)` -> `T` (Rule 5).\n4. Combine the outer `and` operations.\nFinal normal form check: A bare constant (T or F) cannot be reduced further.\n</think>\nPROOF\nS1: and(and(not(and(F, T)), and(and(T, and(x, F)), or(T, x))), or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 6\nS2: and(and(not(F), and(and(T, and(x, F)), or(T, x))), or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 3\nS3: and(and(T, and(and(T, and(x, F)), or(T, x))), or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 7\nS4: and(and(T, and(and(T, F), or(T, x))), or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 9\nS5: and(and(T, and(F, or(T, x))), or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 3\nS6: and(and(T, F), or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 3\nS7: and(F, or(F, not(not(not(and(T, and(not(not(F)), T))))))) RULE 2\nS8: F RULE 3",
+      "start": "and(and(not(and(not(T), T)), and(and(T, and(x, F)), or(T, x))), or(F, not(not(not(and(T, and(not(not(F)), T)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 204,
+      "completion": "<think>\nThe expression is a deeply nested `and` structure. I will simplify from the inside out to resolve the nested `not` and boolean constants first.\n1.  Innermost redex: `and(F, x)` (Rule 3) $\\rightarrow$ `F`.\n2.  `not(not(F))` (Rule 1) $\\rightarrow$ `F`.\n3.  `not(not(not(not(not(not(F))))))` (Rule 1 three times) $\\rightarrow$ `F`.\n4.  `not(or(F, F))` (Inner part) $\\rightarrow$ Rule 5 makes it `not(F)`, then Rule 7 makes it `T`.\n5.  `not(T)` (Rule 6) $\\rightarrow$ `F`.\n6.  `or(F, T)` (Rule 4) $\\rightarrow$ `T`.\n7.  `not(not(T))` (Rule 1) $\\rightarrow$ `T`.\n8.  `and(not(not(F)), T)` (Rule 1 then Rule 8) $\\rightarrow$ `and(F, T)` $\\rightarrow$ `F`.\n9.  `and(T, F)` (Rule 9) $\\rightarrow$ `F`.\n10. `and(F, T)` (Rule 3/9) $\\rightarrow$ `F`.\n\nFinal state `F` has no applicable rules.\n</think>\n\nPROOF\nS1: and(and(not(not(or(not(T), not(or(not(not(F)), not(not(not(not(not(not(F))))))))))), and(not(not(F)), T)), not(F)) RULE 3\nS2: and(and(not(not(or(not(T), not(or(F, not(not(not(not(not(not(F))))))))))), and(not(not(F)), T)), not(F)) RULE 1\nS3: and(and(not(not(or(not(T), not(or(F, F)))), and(not(not(F)), T)), not(F)) RULE 1\nS4: and(and(not(not(or(not(T), not(F)))), and(not(not(F)), T)), not(F)) RULE 5\nS5: and(and(not(not(or(not(T), T))), and(not(not(F)), T)), not(F)) RULE 7\nS6: and(and(not(not(T)), and(not(not(F)), T)), not(F)) RULE 4\nS7: and(and(T, and(not(not(F)), T)), not(F)) RULE 1\nS8: and(and(T, and(F, T)), not(F)) RULE 1\nS9: and(and(T, F), not(F)) RULE 8\nS10: and(F, not(F)) RULE 9\nS11: and(F, T) RULE 7\nS12: F RULE 3",
+      "start": "and(and(not(not(or(not(T), not(or(not(not(and(F, x))), not(not(not(not(not(not(F))))))))))), and(not(not(F)), T)), not(F))",
+      "normal_form": "F",
+      "n_parsed_steps": 12
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 450,
+      "completion": "<think>\nThe expression is a deeply nested `and` structure. I will evaluate the innermost redexes first to simplify the structure.\n1. `and(T, T)` -> `T` (Rule 2)\n2. `not(not(not(T)))` -> `not(T)` (Rule 1)\n3. `not(T)` -> `F` (Rule 6)\n4. `not(not(T))` -> `T` (Rule 1)\n5. `and(T, T)` -> `T` (Rule 2)\n6. `and(T, F)` -> `F` (Rule 3 or 9)\n7. `and(F, T)` -> `F` (Rule 3)\n8. `and(F, x)` -> `F` (Rule 3)\n9. `and(x, F)` -> `F` (Rule 9)\n\nThe final form will be `F`.\n</think>\n\nPROOF\nS1: and(x, and(and(x, and(and(and(T, not(not(not(T)))), and(T, not(not(T))))), x))) RULE 2\nS2: and(x, and(and(x, and(and(and(T, not(T)), and(T, not(not(T))))), x))) RULE 1\nS3: and(x, and(and(x, and(and(and(T, F), and(T, not(not(T))))), x))) RULE 6\nS4: and(x, and(and(x, and(and(and(F, and(T, not(not(T)))), x))) RULE 3\nS5: and(x, and(and(x, and(and(and(F, and(T, T)), x))) RULE 1\nS6: and(x, and(and(x, and(and(and(F, T), x))) RULE 2\nS7: and(x, and(and(x, and(and(F, x))) RULE 3\nS8: and(x, and(and(x, and(F))) RULE 3\nS9: and(x, and(and(x, F))) RULE 3\nS10: and(x, and(F)) RULE 9\nS11: and(F) RULE 9\nS12: F RULE 9\n\nWait, let me re-trace the nesting carefully:\nSTART: `and(x, and(and(x, and(and(and(T, T), not(not(not(T)))), and(T, not(not(T))))), x))`\nL1: `and(T, T)` -> `T` (Rule 2)\nS1: `and(x, and(and(x, and(and(T, not(not(not(T)))), and(T, not(not(T))))), x))`\nS2: `and(x, and(and(x, and(and(T, not(T)), and(T, not(not(T))))), x))` (Rule 1)\nS3: `and(x, and(and(x, and(and(T, F), and(T, not(not(T))))), x))` (Rule 6)\nS4: `and(x, and(and(x, and(and(F, and(T, not(not(T))))), x))` (Rule 3)\nS5: `and(x, and(and(x, and(and(F, and(T, T)), x))` (Rule 1)\nS6: `and(x, and(and(x, and(and(F, T), x))` (Rule 2)\nS7: `and(x, and(and(x, and(F, x))` (Rule 3)\nS8: `and(x, and(and(x, F))` (Rule 3)\nS9: `and(x, and(F))` (Rule 9)\nS10: `and(F)` (Rule 9)\nS11: `F` (Rule 3/9)\n\nWait, let me check the parentheses of the START expression again.\n`and(x,`\n  `and(and(x,`\n    `and(and(and(T, T), not(not(not(T)))), and(T, not(not(T)))),`\n    `x))`\n`)`\n\nLet's re-evaluate:\nRoot: `and(x, ...)`\nChild 1: `x`\nChild 2: `and(and(x, and(and(and(T, T), not(not(not(T)))), and(T, not(not(T))))), x)`\n  Child 2.1: `and(x, and(and(and(T, T), not(not(not(T)))), and(T, not(not(T)))))`\n    Child 2.1.1: `x`\n    Child 2.1.2: `and(and(and(T, T), not(not(not(T)))), and(T, not(not(T))))`\n      Child 2.1.2.1: `and(and(T, T), not(not(not(T))))`\n        Child 2.1.2.1.1: `and(T, T)` -> `T` (R2)\n        Child 2.1.2.1.2: `not(not(not(T)))` -> `not(T)` (R1) -> `F` (R6)\n      Child 2.1.2.2: `and(T, not(not(T)))` -> `and(T, T)` (R1) -> `T` (R2)\n\nS1: `and(x, and(and(x, and(and(T, not(not(not(T)))), and(T, not(not(T))))), x))` RULE 2\nS2: `and(x, and(and(x, and(and(T, not(T)), and(T, not(not(T))))), x))` RULE 1\nS3: `and(x, and(and(x, and(and(T, F), and(T, not(not(T))))), x))` RULE 6\nS4: `and(x, and(and(x, and(and(F, and(T, not(not(T))))), x))` RULE 3\nS5: `and(x, and(and(x, and(and(F, and(T, T)), x))` RULE 1\nS6: `and(x, and(and(x, and(and(F, T), x))` RULE 2\nS7: `and(x, and(and(x, and(F, x))` RULE 3\nS8: `and(x, and(and(x, F))` RULE 3\nS9: `and(x, and(F))` RULE 9\nS10: `and(F)` RULE 9\nS11: `F` RULE 3",
+      "start": "and(x, and(and(x, and(and(and(T, T), not(not(not(T)))), and(T, not(not(T))))), x))",
+      "normal_form": "F",
+      "n_parsed_steps": 23
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 149,
+      "completion": "<think>\nThe expression is deeply nested. I will simplify from the inside out.\n1. Innermost redex: `not(not(T))` -> `T` (Rule 1).\n2. Next innermost: `and(F, T)` -> `F` (Rule 3).\n3. Then the chain of `and(F, ...)` applications: `and(F, T)` (Rule 3), `and(F, and(T, T))` (Rule 3), etc.\n4. Once the `and` chain is reduced to `F`, the expression becomes `and(T, F)`, which reduces to `F` (Rule 9).\n5. Finally, the outer `not(not(not(not(F))))` will be reduced using Rule 1 twice.\nFinal check: The resulting constant `F` has no applicable rules.\n</think>\nPROOF\nS1: not(not(not(not(and(T, and(and(and(and(F, T), T), and(T, T)), T)))))) RULE 1\nS2: not(not(not(not(and(T, and(and(and(F, T), and(T, T)), T)))))) RULE 3\nS3: not(not(not(not(and(T, and(and(F, and(T, T)), T)))))) RULE 3\nS4: not(not(not(not(and(T, and(and(F, T), T)))))) RULE 2\nS5: not(not(not(not(and(T, and(F, T)))))) RULE 3\nS6: not(not(not(not(and(T, F))))) RULE 3\nS7: not(not(not(not(F)))) RULE 9\nS8: not(not(F)) RULE 1\nS9: F RULE 1",
+      "start": "not(not(not(not(and(not(not(T)), and(and(and(and(F, T), T), and(T, T)), T))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 9
+    },
+    {
+      "solved": false,
+      "reward": 0.025,
+      "completion_length": 263,
+      "completion": "<think>\nThe expression is deeply nested. I will simplify from the inside out to reduce complexity.\n1. Innermost redex: `or(F, T)` inside `not(not(or(F, T)))` -> `T` (Rule 4).\n2. `not(not(T))` -> `T` (Rule 1).\n3. `and(T, ...)` inside `or(and(T, not(T)), T)` -> `not(T)` (Rule 2).\n4. `not(T)` -> `F` (Rule 6).\n5. `or(F, T)` -> `T` (Rule 4).\n6. `and(F, x)` -> `F` (Rule 3).\n7. `or(F, T)` -> `T` (Rule 4).\n8. `and(T, T)` -> `T` (Rule 2/8).\n9. `or(F, T)` -> `T` (Rule 4).\n10. Now the structure is `or(F, and(not(F), not(and(T, T))))`.\n11. `not(F)` -> `T` (Rule 7).\n12. `and(T, T)` -> `T` (Rule 2).\n13. `not(T)` -> `F` (Rule 6).\n14. `and(T, F)` -> `F` (Rule 9).\n15. `or(F, F)` -> `F` (Rule 5).\nFinal check: `F` is a constant, no rules apply.\n</think>\n\nPROOF\nS1: or(F, and(not(F), not(and(or(and(T, not(T)), T), or(and(F, x), and(and(not(not(T)), T), or(F, T))))))) RULE 4\nS2: or(F, and(not(F), not(and(or(and(T, not(T)), T), or(and(F, x), and(and(T, T), or(F, T))))))) RULE 1\nS3: or(F, and(not(F), not(and(or(and(T, not(T)), T), or(and(F, x), and(T, or(F, T))))))) RULE 2\nS4: or(F, and(not(F), not(and(or(and(T, not(T)), T), or(and(F, x), and(T, T))))) RULE 4\nS5: or(F, and(not(F), not(and(or(and(T, not(T)), T), or(and(F, x), T))))) RULE 2\nS6: or(F, and(not(F), not(and(or(and(T, not(T)), T), T)))) RULE 3\nS7: or(F, and(not(F), not(and(or(and(T, not(T)), T), T)))) RULE 4 (No change, but applying and(x, T) next)\nS8: or(F, and(not(F), not(or(and(T, not(T)), T)))) RULE 8\nS9: or(F, and(not(F), not(T))) RULE 4\nS10: or(F, and(T, not(T))) RULE 7\nS11: or(F, and(T, F)) RULE 6\nS12: or(F, F) RULE 9\nS13: F RULE 5",
+      "start": "or(F, and(not(F), not(and(or(and(T, not(T)), T), or(and(F, x), and(and(not(not(or(F, T))), T), or(F, T)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": false,
+      "reward": 0.025,
+      "completion_length": 182,
+      "completion": "<think>\n1. The expression is a large `and(...)`. I will simplify from the innermost redexes outward.\n2. Inner redexes:\n   - `or(T, x)` -> `T` (Rule 4)\n   - `and(F, ...)` -> `F` (Rule 3)\n   - `not(not(F))` -> `F` (Rule 1)\n   - `and(T, not(not(T)))` -> `not(not(T))` (Rule 2)\n   - `not(not(T))` -> `T` (Rule 1)\n   - `and(x, F)` -> `F` (Rule 9)\n   - `and(F, T)` -> `F` (Rule 3)\n   - `and(T, T)` -> `T` (Rule 2)\n3. Once inner parts are reduced, the root `and(...)` will be simplified.\n4. Final check: A bare constant or a simple variable with no matching function symbols is in normal form.\n</think>\n\nPROOF\nS1: and(and(or(not(not(F)), and(T, not(not(T)))), and(and(x, F), T)), and(T, T)) RULE 4\nS2: and(and(or(F, and(T, not(not(T)))), and(and(x, F), T)), and(T, T)) RULE 3\nS3: and(and(or(F, not(not(T))), and(and(x, F), T)), and(T, T)) RULE 2\nS4: and(and(or(F, T), and(and(x, F), T)), and(T, T)) RULE 1\nS5: and(and(T, and(and(x, F), T)), and(T, T)) RULE 5\nS6: and(and(and(x, F), T), and(T, T)) RULE 2\nS7: and(and(F, T), and(T, T)) RULE 9\nS8: and(F, and(T, T)) RULE 3\nS9: F RULE 3",
+      "start": "and(and(or(not(not(and(F, or(T, x)))), and(T, not(not(T)))), and(and(x, F), T)), and(T, T))",
+      "normal_form": "F",
+      "n_parsed_steps": 9
+    },
+    {
+      "solved": false,
+      "reward": 0.025,
+      "completion_length": 231,
+      "completion": "<think>\nThe expression is a deeply nested set of `and` operations. I will reduce from the inside out to simplify the arguments.\n1. Innermost redexes: `not(not(T))` -> `T` (Rule 1), `not(F)` -> `T` (Rule 7).\n2. `or(F, and(T, T))` -> `and(T, T)` (Rule 5), then `and(T, T)` -> `T` (Rule 2).\n3. `and(T, and(T, T))` -> `T` (Rule 2 applied repeatedly).\n4. `and(F, T)` -> `F` (Rule 3).\n5. `or(F, F)` -> `F` (Rule 5).\n6. `not(F)` -> `T` (Rule 7).\n7. `and(F, T)` -> `F` (Rule 3).\n8. `not(not(T))` -> `T` (Rule 1).\n9. `and(F, T)` -> `F` (Rule 3).\n10. `and(F, T)` -> `F` (Rule 3).\nFinal state is F, a constant where no rules apply.\n</think>\nPROOF\nS1: and(and(and(and(F, and(T, and(T, or(F, and(T, T))))), not(or(F, F))), not(not(T))), T) RULE 1\nS2: and(and(and(and(F, and(T, and(T, or(F, and(T, T))))), not(or(F, F))), not(not(T))), T) RULE 7\nS3: and(and(and(and(F, and(T, and(T, or(F, T)))), not(or(F, F))), not(not(T))), T) RULE 2\nS4: and(and(and(and(F, and(T, and(T, T))), not(or(F, F))), not(not(T))), T) RULE 5\nS5: and(and(and(and(F, and(T, T)), not(or(F, F))), not(not(T))), T) RULE 2\nS6: and(and(and(and(F, T), not(or(F, F))), not(not(T))), T) RULE 2\nS7: and(and(and(and(F, not(or(F, F))), not(not(T))), T) RULE 3\nS8: and(and(and(and(F, not(F)), not(not(T))), T) RULE 5\nS9: and(and(and(and(F, T), not(not(T))), T) RULE 7\nS10: and(and(and(F, not(not(T))), T) RULE 3\nS11: and(and(and(F, T), T) RULE 1\nS12: and(and(F, T) RULE 3\nS13: F RULE 3",
+      "start": "and(and(and(and(F, and(T, and(not(not(T)), or(F, and(not(F), T))))), not(or(F, F))), not(not(T))), T)",
+      "normal_form": "F",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 264,
+      "completion": "<think>\n1. Root is `and(T, ...)`. Rule 2 can be applied immediately to strip the root.\n2. The remaining expression is `and(or(or(T, x), x), not(not(not(not(or(and(F, x), and(and(not(or(F, not(T))), T), T)))))))`.\n3. Inside the first argument of the `and`: `or(or(T, x), x)`. Rule 4 simplifies `or(T, x)` to `T`, then `or(T, x)` simplifies to `T`.\n4. Inside the second argument of the `and`: `not(not(not(not(...))))`. Rule 1 can be applied twice to remove the double negations.\n5. Inside the innermost `or`: `and(F, x)` simplifies to `F` (Rule 3).\n6. The second argument of that `or`: `and(and(not(or(F, not(T))), T), T)`. \n   - `not(T)` -> `F` (Rule 6).\n   - `or(F, F)` -> `F` (Rule 5).\n   - `not(F)` -> `T` (Rule 7).\n   - `and(T, T)` -> `T` (Rule 2/8).\n7. The expression becomes `and(T, or(F, T))`.\n8. `or(F, T)` -> `T` (Rule 5).\n9. `and(T, T)` -> `T` (Rule 2).\nFinal state `T` is a constant; no rules apply.\n</think>\n\nPROOF\nS1: and(or(or(T, x), x), not(not(not(not(or(and(F, x), and(and(not(or(F, not(T))), T), T))))))) RULE 2\nS2: and(or(T, x), not(not(not(not(or(and(F, x), and(and(not(or(F, not(T))), T), T))))))) RULE 4\nS3: and(T, not(not(not(not(or(and(F, x), and(and(not(or(F, not(T))), T), T))))))) RULE 4\nS4: and(T, not(not(or(and(F, x), and(and(not(or(F, not(T))), T), T))))) RULE 1\nS5: and(T, or(and(F, x), and(and(not(or(F, not(T))), T), T))) RULE 1\nS6: and(T, or(F, and(and(not(or(F, not(T))), T), T))) RULE 3\nS7: and(T, or(F, and(and(not(or(F, F)), T), T))) RULE 6\nS8: and(T, or(F, and(and(not(F), T), T))) RULE 5\nS9: and(T, or(F, and(and(T, T), T))) RULE 7\nS10: and(T, or(F, and(T, T))) RULE 2\nS11: and(T, or(F, T)) RULE 2\nS12: and(T, T) RULE 5\nS13: T RULE 2",
+      "start": "and(T, and(or(or(T, x), x), not(not(not(not(or(and(F, x), and(and(not(or(F, not(T))), T), T))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": false,
+      "reward": 0.08333333333333334,
+      "completion_length": 439,
+      "completion": "<think>\nThe expression is a nested `and`. I will evaluate the innermost redexes first to simplify the structure.\n1. `not(F)` -> `T` (Rule 7)\n2. `and(T, F)` -> `F` (Rule 3)\n3. `or(F, T)` -> `T` (Rule 4)\n4. `and(T, T)` -> `T` (Rule 2 or 8)\n5. `not(not(T))` -> `T` (Rule 1)\n6. `and(T, F)` (from step 2) -> `F` (Rule 3)\n7. `not(F)` -> `T` (Rule 7)\n8. `and(T, T)` -> `T` (Rule 2 or 8)\n9. `or(T, x)` -> `T` (Rule 4)\n10. `and(T, T)` -> `T` (Rule 2 or 8)\n11. `and(T, T)` -> `T` (Rule 2 or 8)\n12. `and(x, T)` -> `x` (Rule 8)\n\nLet's trace carefully:\nSTART: `and(x, and(and(and(or(not(F), x), not(and(T, F))), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))`\nS1: `and(x, and(and(and(or(T, x), not(and(T, F))), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))` RULE 7\nS2: `and(x, and(and(and(T, not(and(T, F))), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))` RULE 4\nS3: `and(x, and(and(and(not(and(T, F)), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))))` RULE 2\nS4: `and(x, and(and(and(not(F), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))))` RULE 3\nS5: `and(x, and(and(and(T, T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))))` RULE 7\nS6: `and(x, and(and(T, and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))))` RULE 2\nS7: `and(x, and(T, and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))` RULE 2\nS8: `and(x, and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))` RULE 2\nS9: `and(x, and(not(not(T)), and(and(T, T), not(and(T, T)))))` RULE 4\nS10: `and(x, and(T, and(and(T, T), not(and(T, T)))))` RULE 1\nS11: `and(x, and(and(T, T), not(and(T, T))))` RULE 2\nS12: `and(x, and(T, not(and(T, T))))` RULE 2\nS13: `and(x, not(and(T, T)))` RULE 2\nS14: `and(x, not(T))` RULE 2\nS15: `and(x, F)` RULE 6\nS16: `F` RULE 9\n\nFinal check: F is a constant, no rules apply.\n</think>\n\nPROOF\nS1: and(x, and(and(and(or(T, x), not(and(T, F))), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))) RULE 7\nS2: and(x, and(and(and(T, not(and(T, F))), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))) RULE 4\nS3: and(x, and(and(and(not(and(T, F)), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))) RULE 2\nS4: and(x, and(and(and(not(F), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))) RULE 3\nS5: and(x, and(and(and(T, T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))) RULE 7\nS6: and(x, and(and(T, and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))) RULE 2\nS7: and(x, and(T, and(not(not(or(F, T))), and(and(T, T), not(and(T, T)))))) RULE 2\nS8: and(x, and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))) RULE 2\nS9: and(x, and(not(not(T)), and(and(T, T), not(and(T, T))))) RULE 4\nS10: and(x, and(T, and(and(T, T), not(and(T, T))))) RULE 1\nS11: and(x, and(and(T, T), not(and(T, T)))) RULE 2\nS12: and(x, and(T, not(and(T, T)))) RULE 2\nS13: and(x, not(and(T, T))) RULE 2\nS14: and(x, not(T)) RULE 2\nS15: and(x, F) RULE 6\nS16: F RULE 9",
+      "start": "and(x, and(and(and(or(not(F), x), not(and(T, F))), T), and(not(not(or(F, T))), and(and(T, T), not(and(T, T))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 16
+    },
+    {
+      "solved": false,
+      "reward": 0.17333333333333334,
+      "completion_length": 208,
+      "completion": "<think>\nThe expression is deeply nested. I will work from the innermost redexes outwards to simplify the terms.\n1. Inside the deepest nesting: `or(F, not(not(T)))`. Rule 1 simplifies `not(not(T))` to `T`, then Rule 4 simplifies `or(T, ...)` or Rule 5 simplifies `or(F, T)` to `T`.\n2. Simplify `and(T, not(F))`. Rule 2 simplifies this to `not(F)`.\n3. Simplify `not(F)` to `T` using Rule 7.\n4. Simplify `not(not(not(F)))`. Rule 1 simplifies `not(not(...))` to `not(F)`, then Rule 7 to `T`.\n5. Process the `and` chain. Once inner parts become `T` or `F`, the `and` rules (2, 3, 8, 9) will collapse them.\n6. Finally, the outer `or(F, ...)` will be simplified by Rule 5.\n</think>\n\nPROOF\nS1: or(F, and(or(F, and(not(not(not(F))), and(and(or(F, T), and(T, not(F))), not(F)))), T)) RULE 1\nS2: or(F, and(or(F, and(not(not(not(F))), and(and(T, and(T, not(F))), not(F)))), T)) RULE 5\nS3: or(F, and(or(F, and(not(not(not(F))), and(and(T, not(F)), not(F)))), T)) RULE 2\nS4: or(F, and(or(F, and(not(not(not(F))), and(not(F), not(F)))), T)) RULE 2\nS5: or(F, and(or(F, and(not(not(not(F))), and(T, T))), T)) RULE 7\nS6: or(F, and(or(F, and(not(not(not(F))), T)), T)) RULE 2\nS7: or(F, and(or(F, not(not(not(F)))), T)) RULE 8\nS8: or(F, and(or(F, not(F)), T)) RULE 1\nS9: or(F, and(or(F, T), T)) RULE 7\nS10: or(F, and(T, T)) RULE 5\nS11: or(F, T) RULE 2\nS12: T RULE 5",
+      "start": "or(F, and(or(F, and(not(not(not(F))), and(and(or(F, not(not(T))), and(T, not(F))), not(F)))), T))",
+      "normal_form": "T",
+      "n_parsed_steps": 12
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 158,
+      "completion": "<think>\n1. First, simplify the left branch of the root `or`: `and(not(T), or(F, T))`.\n   - `not(T)` becomes `F` (Rule 6).\n   - `or(F, T)` becomes `T` (Rule 5).\n   - `and(F, T)` becomes `F` (Rule 3).\n2. Simplify the right branch of the root `or`: `and(not(and(not(and(and(and(T, T), T), and(T, T))), not(not(T)))), and(x, F))`.\n   - The rightmost part `and(x, F)` becomes `F` (Rule 9).\n   - The whole right branch is `and(..., F)`, which becomes `F` (Rule 9).\n3. The final expression becomes `or(F, F)`, which simplifies to `F` (Rule 5).\n4. Final check: `F` is a constant; no rules apply.\n</think>\n\nPROOF\nS1: or(and(F, or(F, T)), and(not(and(not(and(and(and(T, T), T), and(T, T))), not(not(T)))), and(x, F))) RULE 6\nS2: or(and(F, T), and(not(and(not(and(and(and(T, T), T), and(T, T))), not(not(T)))), and(x, F))) RULE 5\nS3: or(F, and(not(and(not(and(and(and(T, T), T), and(T, T))), not(not(T)))), and(x, F))) RULE 3\nS4: or(F, and(not(and(not(and(and(and(T, T), T), and(T, T))), not(not(T)))), F)) RULE 9\nS5: or(F, F) RULE 9\nS6: F RULE 5",
+      "start": "or(and(not(T), or(F, T)), and(not(and(not(and(and(and(T, T), T), and(T, T))), not(not(T)))), and(x, F)))",
+      "normal_form": "F",
+      "n_parsed_steps": 6
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 197,
+      "completion": "<think>\n1.  First, I will reduce the innermost expressions of the left child of the root `and`.\n    - `not(not(F))` reduces to `F` (Rule 1).\n    - Then `and(F, x)` reduces to `F` (Rule 3).\n    - Then `and(F, x)` reduces to `F` (Rule 3).\n    - Then `not(not(not(T)))` reduces to `not(T)` (Rule 1), which reduces to `F` (Rule 6).\n    - The left child becomes `or(F, F)`, which reduces to `F` (Rule 5).\n2.  Next, I will reduce the right child of the root `and`.\n    - `and(T, T)` reduces to `T` (Rule 2).\n    - `not(T)` reduces to `F` (Rule 6).\n    - `or(F, F)` reduces to `F` (Rule 5).\n    - `not(not(not(F)))` reduces to `not(F)` (Rule 1), which reduces to `T` (Rule 7).\n3.  Finally, the root `and(F, T)` reduces to `F` (Rule 3 or Rule 9).\n4.  Final check: `F` is a constant; no rules apply.\n</think>\nPROOF\nS1: and(or(and(and(F, x), x), not(not(not(T)))), not(not(not(or(F, not(and(T, T))))))) RULE 1\nS2: and(or(and(F, x), not(not(not(T)))), not(not(not(or(F, not(and(T, T))))))) RULE 3\nS3: and(or(F, not(not(not(T)))), not(not(not(or(F, not(and(T, T))))))) RULE 3\nS4: and(or(F, not(T)), not(not(not(or(F, not(and(T, T))))))) RULE 1\nS5: and(or(F, F), not(not(not(or(F, not(and(T, T))))))) RULE 6\nS6: and(F, not(not(not(or(F, not(and(T, T))))))) RULE 5\nS7: F RULE 3",
+      "start": "and(or(and(and(not(not(F)), x), x), not(not(not(T)))), not(not(not(or(F, not(and(T, T)))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 7
+    },
+    {
+      "solved": false,
+      "reward": 0.06190476190476191,
+      "completion_length": 266,
+      "completion": "<think>\nThe expression is a nested `and` structure. I will simplify from the innermost terms outwards.\n1. Innermost `and(T, T)` is simplified via Rule 2 (or 8) to `T`.\n2. `and(T, T)` becomes `T`.\n3. `and(not(F), and(T, T))` where `not(F)` is `T` (Rule 7), so `and(T, T)` becomes `T`.\n4. `or(F, ...)` is simplified by Rule 5.\n5. `not(not(x))` is simplified by Rule 1.\n6. Finally, the root `and` will be simplified.\n\nLet's trace the deepest parts:\n`and(T, T)` -> `T` (Rule 2)\n`and(T, T)` -> `T` (Rule 2)\n`not(F)` -> `T` (Rule 7)\n`and(T, T)` -> `T` (Rule 2)\n`or(F, T)` -> `T` (Rule 5)\n`not(T)` -> `F` (Rule 6)\n`and(F, T)` -> `F` (Rule 3)\n`not(not(not(F)))` -> `not(F)` (Rule 1) -> `T` (Rule 7)\n`or(F, T)` -> `T` (Rule 5)\n`not(T)` -> `F` (Rule 6)\n`and(x, F)` -> `F` (Rule 9)\n`and(F, x)` -> `F` (Rule 3)\nFinal result: F.\n</think>\n\nPROOF\nS1: and(and(x, not(or(F, not(not(not(and(T, and(not(or(F, and(not(F), and(T, T)))), T)))))))), x) RULE 2\nS2: and(and(x, not(or(F, not(not(not(and(T, and(not(or(F, and(not(F), T)), T)))))))), x) RULE 2\nS3: and(and(x, not(or(F, not(not(not(and(T, and(not(or(F, and(T, T)), T)))))))), x) RULE 7\nS4: and(and(x, not(or(F, not(not(not(and(T, and(not(or(F, T), T)))))))), x) RULE 2\nS5: and(and(x, not(or(F, not(not(not(and(T, and(not(T), T)))))))), x) RULE 5\nS6: and(and(x, not(or(F, not(not(not(and(T, and(F, T)))))))), x) RULE 6\nS7: and(and(x, not(or(F, not(not(not(and(T, F)))))))), x) RULE 3\nS8: and(and(x, not(or(F, not(not(not(F)))))), x) RULE 3\nS9: and(and(x, not(or(F, not(F)))), x) RULE 1\nS10: and(and(x, not(or(F, T))), x) RULE 7\nS11: and(and(x, not(T)), x) RULE 5\nS12: and(and(x, F), x) RULE 6\nS13: and(F, x) RULE 9\nS14: F RULE 3",
+      "start": "and(and(x, not(or(F, not(not(not(and(T, and(not(or(F, and(not(F), and(and(T, T), T)))), T)))))))), x)",
+      "normal_form": "F",
+      "n_parsed_steps": 14
+    },
+    {
+      "solved": false,
+      "reward": 0.11777777777777779,
+      "completion_length": 543,
+      "completion": "<think>\nThe expression is highly nested. I will work from the innermost redexes outward to simplify the term efficiently.\n1. Innermost redex `and(F, T)` -> `F` (Rule 3).\n2. Then `or(F, T)` -> `T` (Rule 5).\n3. Then `and(T, T)` -> `T` (Rule 2).\n4. Then `not(not(T))` -> `T` (Rule 1).\n5. Then `not(F)` -> `T` (Rule 7).\n6. Then `and(T, T)` -> `T` (Rule 2).\n7. Then `not(not(T))` -> `T` (Rule 1).\n8. Then `and(T, T)` -> `T` (Rule 2).\n9. Then `not(T)` -> `F` (Rule 6).\n10. Then `and(T, F)` -> `F` (Rule 9).\n11. Then `not(F)` -> `T` (Rule 7).\n12. Then `or(F, F)` -> `F` (Rule 5).\n13. Then `or(F, T)` -> `T` (Rule 5).\n14. Then `or(F, T)` -> `T` (Rule 5).\n15. Then `and(x, T)` -> `x` (Rule 8).\n16. Finally `not(not(x))` -> `x` (Rule 1).\nFinal state `x` is a variable; no rules apply.\n</think>\n\nPROOF\nS1: not(not(and(x, or(F, and(not(not(and(T, or(F, T)))), or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 3\nS2: not(not(and(x, or(F, and(not(not(and(T, T))), or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 5\nS3: not(not(and(x, or(F, and(not(not(T)), or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 2\nS4: not(not(and(x, or(F, and(T, or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 1\nS5: not(not(and(x, or(F, and(T, or(or(F, F), not(and(not(not(and(T, T))), T)))))))) RULE 7\nS6: not(not(and(x, or(F, and(T, or(or(F, F), not(and(not(not(T)), T)))))))) RULE 2\nS7: not(not(and(x, or(F, and(T, or(or(F, F), not(and(T, T)))))))) RULE 1\nS8: not(not(and(x, or(F, and(T, or(or(F, F), not(T)))))) RULE 2\nS9: not(not(and(x, or(F, and(T, or(or(F, F), F)))))) RULE 6\nS10: not(not(and(x, or(F, and(T, or(F, F)))))) RULE 5\nS11: not(not(and(x, or(F, and(T, F))))) RULE 5\nS12: not(not(and(x, or(F, F)))) RULE 9\nS13: not(not(and(x, F))) RULE 5\nS14: not(not(F)) RULE 3\nS15: F RULE 1\nS16: T RULE 7 (Wait, S14 was not(not(F)), Rule 1 makes it F. Let me re-evaluate the last steps)\n\nRe-evaluating from S13:\nS13: not(not(and(x, F)))\nS14: not(not(F)) RULE 3\nS15: F RULE 1\nS16: No, if S14 is not(not(F)), Rule 1 gives F.\nLet's check S13 again: `not(not(and(x, F)))`. Rule 3: `and(F, x) => F`. Rule 9: `and(x, F) => F`.\nS14: not(not(F)) RULE 9\nS15: F RULE 1\n\nWait, let me re-trace the nested logic carefully.\nThe inner part: `or(F, and(T, or(or(F, F), not(and(not(not(and(not(F), T))), T)))))`\n`and(not(F), T)` -> `and(T, T)` -> `T`\n`not(not(T))` -> `T`\n`and(T, T)` -> `T`\n`not(T)` -> `F`\n`or(F, F)` -> `F`\n`or(F, F)` -> `F`\n`and(T, F)` -> `F`\n`or(F, F)` -> `F`\n`and(x, F)` -> `F`\n`not(not(F))` -> `F`\n\nCorrected Proof Sequence:\nS1: not(not(and(x, or(F, and(not(not(and(T, or(F, T)))), or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 3\nS2: not(not(and(x, or(F, and(not(not(and(T, T))), or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 5\nS3: not(not(and(x, or(F, and(not(not(T)), or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 2\nS4: not(not(and(x, or(F, and(T, or(or(F, F), not(and(not(not(and(not(F), T))), T)))))))) RULE 1\nS5: not(not(and(x, or(F, and(T, or(or(F, F), not(and(not(not(and(T, T))), T)))))))) RULE 7\nS6: not(not(and(x, or(F, and(T, or(or(F, F), not(and(not(not(T)), T)))))))) RULE 2\nS7: not(not(and(x, or(F, and(T, or(or(F, F), not(and(T, T)))))))) RULE 1\nS8: not(not(and(x, or(F, and(T, or(or(F, F), not(T)))))) RULE 2\nS9: not(not(and(x, or(F, and(T, or(or(F, F), F)))))) RULE 6\nS10: not(not(and(x, or(F, and(T, or(F, F)))))) RULE 5\nS11: not(not(and(x, or(F, and(T, F))))) RULE 5\nS12: not(not(and(x, or(F, F)))) RULE 9\nS13: not(not(and(x, F))) RULE 5\nS14: not(not(F)) RULE 9\nS15: F RULE 1",
+      "start": "not(not(and(x, or(F, and(not(not(and(T, or(and(F, T), T)))), or(or(F, F), not(and(not(not(and(not(F), T))), T))))))))",
+      "normal_form": "F",
+      "n_parsed_steps": 36
+    },
+    {
+      "solved": false,
+      "reward": 0.12272727272727274,
+      "completion_length": 320,
+      "completion": "<think>\nThe expression is a nested `and`. I will reduce the innermost redexes first to simplify the expression.\n1. Inside `or(F, F)`, Rule 5 applies: `or(F, F) => F`.\n2. Inside `not(not(F))`, Rule 1 applies: `not(not(F)) => F`.\n3. Inside `and(T, F)`, Rule 2 applies: `and(T, F) => F`.\n4. Inside `or(F, F)`, Rule 5 applies: `or(F, F) => F`.\n5. Inside `not(F)`, Rule 7 applies: `not(F) => T`.\n6. Inside `not(T)`, Rule 6 applies: `not(T) => F`.\n7. Inside `or(F, F)`, Rule 5 applies: `or(F, F) => F`.\n8. Inside `not(F)`, Rule 7 applies: `not(F) => T`.\n9. Inside `or(F, T)`, Rule 4 applies: `or(F, T) => T` (Wait, `or(F, T)` matches Rule 5: `or(F, x) => x`, result `T`).\n10. Inside `and(x, T)`, Rule 8 applies: `and(x, T) => x`.\n11. Inside `and(x, x)`, no rule applies.\n\nWait, let's trace carefully.\nExpression: `and(and(x, or(F, not(or(not(not(or(F, F))), not(and(T, or(F, and(T, F)))))))), x)`\n- `or(F, F)` -> `F` (Rule 5)\n- `not(not(F))` -> `F` (Rule 1)\n- `and(T, F)` -> `F` (Rule 2)\n- `or(F, F)` -> `F` (Rule 5)\n- `not(F)` -> `T` (Rule 7)\n- `or(F, T)` -> `T` (Rule 5)\n- `not(T)` -> `F` (Rule 6)\n- `or(F, F)` -> `F` (Rule 5)\n- `not(F)` -> `T` (Rule 7)\n- `or(F, T)` -> `T` (Rule 5)\n- `and(x, T)` -> `x` (Rule 8)\n- `and(x, x)` -> Normal form.\n</think>\n\nPROOF\nS1: and(and(x, or(F, not(or(not(not(F)), not(and(T, or(F, and(T, F)))))))), x) RULE 5\nS2: and(and(x, or(F, not(or(F, not(and(T, or(F, and(T, F)))))))), x) RULE 1\nS3: and(and(x, or(F, not(or(F, not(and(T, or(F, F)))))))), x) RULE 2\nS4: and(and(x, or(F, not(or(F, not(and(T, F)))))), x) RULE 5\nS5: and(and(x, or(F, not(or(F, not(F))))), x) RULE 2\nS6: and(and(x, or(F, not(or(F, T)))), x) RULE 7\nS7: and(and(x, or(F, not(T))), x) RULE 5\nS8: and(and(x, or(F, F)), x) RULE 6\nS9: and(and(x, F), x) RULE 5\nS10: and(F, x) RULE 9\nS11: F RULE 3",
+      "start": "and(and(x, or(F, not(or(not(not(or(F, F))), not(and(T, or(F, and(T, F)))))))), x)",
+      "normal_form": "F",
+      "n_parsed_steps": 11
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 348,
+      "completion": "<think>\nThe expression is a large `or(...)` with two main branches.\nLeft branch: `and(x, and(not(or(and(and(F, T), T), T)), T))`\nRight branch: `and(and(T, T), not(not(and(or(F, T), T))))`\n\nPlan:\n1. Simplify the deep nested `and(F, T)` in the left branch using Rule 3.\n2. Simplify the `or(F, T)` in the right branch using Rule 4.\n3. Resolve double negatives and identity laws (`and(T, T)`, etc.).\n4. Finally, apply the root `or` rules.\n\nStep-by-step:\n- Left side: `and(F, T)` -> `F` (Rule 3), then `and(F, T)` -> `F` (Rule 3), then `or(F, T)` -> `T` (Rule 4), then `not(T)` -> `F` (Rule 6), then `and(F, T)` -> `F` (Rule 3), then `and(x, F)` -> `F` (Rule 9).\n- Right side: `or(F, T)` -> `T` (Rule 4), then `and(T, T)` -> `T` (Rule 2), then `not(not(T))` -> `T` (Rule 1), then `and(T, T)` -> `T` (Rule 2), then `and(T, T)` -> `T` (Rule 2).\n- Root: `or(F, T)` -> `T` (Rule 4).\n\nFinal check: T is a constant, no rules apply.\n</think>\nPROOF\nS1: or(and(x, and(not(or(and(and(F, T), T), T)), T)), and(and(T, T), not(not(and(or(T, T), T))))) RULE 4\nS2: or(and(x, and(not(or(and(F, T), T)), T)), and(and(T, T), not(not(and(or(T, T), T))))) RULE 3\nS3: or(and(x, and(not(or(F, T)), T)), and(and(T, T), not(not(and(or(T, T), T))))) RULE 3\nS4: or(and(x, and(not(T), T)), and(and(T, T), not(not(and(or(T, T), T))))) RULE 4\nS5: or(and(x, and(F, T)), and(and(T, T), not(not(and(or(T, T), T))))) RULE 6\nS6: or(and(x, F), and(and(T, T), not(not(and(or(T, T), T))))) RULE 3\nS7: or(F, and(and(T, T), not(not(and(or(T, T), T))))) RULE 9\nS8: or(F, and(T, not(not(and(or(T, T), T))))) RULE 2\nS9: or(F, and(T, and(or(T, T), T))) RULE 1\nS10: or(F, and(T, and(T, T))) RULE 4\nS11: or(F, and(T, T)) RULE 2\nS12: or(F, T) RULE 2\nS13: T RULE 5 (or Rule 4, but applying Rule 4 for or(F, T) isn't possible; Rule 5 is or(F, x) => x)\nS14: T RULE 4 (Wait, S13 result is T, let me re-verify: or(F, T) is Rule 5 or Rule 4? Rule 4 is or(T, x), Rule 5 is or(F, x). So or(F, T) becomes T via Rule 5).\nS13: T RULE 5",
+      "start": "or(and(x, and(not(or(and(and(F, T), T), T)), T)), and(and(T, T), not(not(and(or(F, T), T)))))",
+      "normal_form": "T",
+      "n_parsed_steps": 15
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 206,
+      "completion": "<think>\n1. First, I will reduce the innermost expressions to simplify the tree.\n2. The deep nesting of `not` and `and` will be cleared first:\n   - `or(F, F)` is a constant structure, but Rule 5 allows `or(F, x) => x`.\n   - Multiple `not(not(x))` will be reduced via Rule 1.\n   - `and(T, x)` will be reduced via Rule 2.\n3. Then I will handle the `not(or(...))` block.\n4. Finally, I will evaluate the root `or(and(F, x), ...)` where `and(F, x)` reduces to `F` via Rule 3.\n5. Final check: The result will be a constant (T or F), which is in normal form.\n</think>\n\nPROOF\nS1: or(and(F, x), not(or(F, not(and(not(not(T)), and(T, and(T, not(not(not(not(not(F)))))))))))))) RULE 5\nS2: or(and(F, x), not(or(F, not(and(T, and(T, and(T, not(not(not(not(not(F)))))))))))))) RULE 1\nS3: or(and(F, x), not(or(F, not(and(T, and(T, and(T, not(not(not(F))))))))))) RULE 1\nS4: or(and(F, x), not(or(F, not(and(T, and(T, and(T, not(F)))))))) RULE 1\nS5: or(and(F, x), not(or(F, not(and(T, and(T, and(T, T))))))) RULE 7\nS6: or(and(F, x), not(or(F, not(and(T, and(T, T)))))) RULE 2\nS7: or(and(F, x), not(or(F, not(and(T, T))))) RULE 2\nS8: or(and(F, x), not(or(F, not(T)))) RULE 2\nS9: or(and(F, x), not(or(F, F))) RULE 6\nS10: or(and(F, x), not(F)) RULE 5\nS11: or(and(F, x), T) RULE 7\nS12: or(F, T) RULE 3\nS13: T RULE 5",
+      "start": "or(and(F, x), not(or(F, not(and(not(not(T)), and(T, and(T, not(not(not(not(not(or(F, F)))))))))))))",
+      "normal_form": "T",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": false,
+      "reward": 0.03333333333333333,
+      "completion_length": 119,
+      "completion": "<think>\n1. The expression is `not(and(and(x, F), not(not(and(and(or(T, x), not(F)), T)))))`.\n2. I will reduce the innermost terms first:\n   - `and(x, F)` reduces to `F` via Rule 3.\n   - `or(T, x)` reduces to `T` via Rule 4.\n   - `not(F)` reduces to `T` via Rule 7.\n3. After those, the expression simplifies to `not(and(F, not(not(and(and(T, T), T)))))`.\n4. Now, `and(F, ...)` reduces to `F` via Rule 3.\n5. Finally, `not(F)` reduces to `T` via Rule 7.\n6. Checking final state `T`: no rules apply to a bare constant.\n</think>\n\nPROOF\nS1: not(and(F, not(not(and(and(or(T, x), not(F)), T))))) RULE 3\nS2: not(and(F, not(not(and(and(T, not(F)), T))))) RULE 4\nS3: not(and(F, not(not(and(and(T, T), T))))) RULE 7\nS4: not(F) RULE 3\nS5: T RULE 7",
+      "start": "not(and(and(x, F), not(not(and(and(or(T, x), not(F)), T)))))",
+      "normal_form": "T",
+      "n_parsed_steps": 5
+    },
+    {
+      "solved": false,
+      "reward": 0.14,
+      "completion_length": 323,
+      "completion": "<think>\nThe expression is `and(or(T, x), not(not(and(or(and(x, F), and(or(F, T), T)), T))))`.\n1. Root is `and(...)`. Left child is `or(T, x)`, which matches Rule 4.\n2. Right child contains `not(not(...))`, which matches Rule 1.\n3. Deep inside the right child, there are several redexes: `and(x, F)` (Rule 3), `or(F, T)` (Rule 5).\n\nPlan:\n- S1: Simplify `or(T, x)` to `T` (Rule 4).\n- S2: Simplify `not(not(...))` to `...` (Rule 1).\n- S3: Simplify `and(x, F)` to `F` (Rule 3).\n- S4: Simplify `or(F, T)` to `T` (Rule 5).\n- S5: Simplify `and(T, T)` to `T` (Rule 2 or 8).\n- S6: Simplify `and(F, T)` to `F` (Rule 3 or 9).\n- S7: Simplify `and(F, T)` to `F` (Rule 3 or 9).\n- S8: Final root `and(T, F)` to `F` (Rule 9).\n\nWait, let's follow the tree carefully.\nCurrent: `and(or(T, x), not(not(and(or(and(x, F), and(or(F, T), T)), T))))`\nS1: `and(T, not(not(and(or(and(x, F), and(or(F, T), T)), T))))` RULE 4\nS2: `and(T, and(or(and(x, F), and(or(F, T), T)), T))` RULE 1\nS3: `and(T, and(or(F, and(or(F, T), T)), T))` RULE 3\nS4: `and(T, and(or(F, and(T, T)), T))` RULE 5\nS5: `and(T, and(or(F, T), T))` RULE 2 (or 8)\nS6: `and(T, and(T, T))` RULE 5\nS7: `and(T, T)` RULE 2 (or 8)\nS8: `T` RULE 2 (or 8)\n\nLet's double check the logic inside the right child:\n`and(or(and(x, F), and(or(F, T), T)), T)`\n`and(x, F)` -> `F` (Rule 3)\n`or(F, T)` -> `T` (Rule 5)\n`and(T, T)` -> `T` (Rule 2/8)\n`or(F, T)` -> `T` (Rule 5)\n`and(T, T)` -> `T` (Rule 2/8)\nFinal expression: `and(T, T)` -> `T`.\n</think>\n\nPROOF\nS1: and(T, not(not(and(or(and(x, F), and(or(F, T), T)), T)))) RULE 4\nS2: and(T, and(or(and(x, F), and(or(F, T), T)), T)) RULE 1\nS3: and(T, and(or(F, and(or(F, T), T)), T)) RULE 3\nS4: and(T, and(or(F, and(T, T)), T)) RULE 5\nS5: and(T, and(or(F, T), T)) RULE 2\nS6: and(T, and(T, T)) RULE 5\nS7: and(T, T) RULE 2\nS8: T RULE 2",
+      "start": "and(or(T, x), not(not(and(or(and(x, F), and(or(F, T), T)), T))))",
+      "normal_form": "T",
+      "n_parsed_steps": 8
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 230,
+      "completion": "<think>\nThe expression is a large nested tree. I will simplify from the innermost redexes outwards to clear the path for the root.\n1. Innermost: `and(F, T)` -> `F` (Rule 3).\n2. Then `and(F, T)` (where F is the result of the previous step) -> `F` (Rule 3).\n3. Then `and(F, F)` (where F is the result of the previous step) -> `F` (Rule 3).\n4. Then `or(T, x)` -> `T` (Rule 4).\n5. Then `and(F, T)` (where F is from step 3 and T is from step 4) -> `F` (Rule 3).\n6. Then `not(F)` -> `T` (Rule 7).\n7. Then `or(T, x)` -> `T` (Rule 4).\n8. Then `and(T, T)` (where T is from step 6 and T is from step 7) -> `T` (Rule 2).\n9. Then `not(T)` -> `F` (Rule 6).\n10. Finally, `or(F, F)` -> `F` (Rule 5).\nFinal check: `F` is a constant, no rules apply.\n</think>\nPROOF\nS1: or(F, not(and(not(and(or(and(and(F, T), T), F), or(T, x))), or(T, x)))) RULE 3\nS2: or(F, not(and(not(and(or(and(F, T), F), or(T, x))), or(T, x)))) RULE 3\nS3: or(F, not(and(not(and(or(F, F), or(T, x))), or(T, x)))) RULE 3\nS4: or(F, not(and(not(and(or(F, F), T)), or(T, x)))) RULE 4\nS5: or(F, not(and(not(F), or(T, x)))) RULE 3\nS6: or(F, not(and(T, or(T, x)))) RULE 7\nS7: or(F, not(and(T, T))) RULE 4\nS8: or(F, not(T)) RULE 2\nS9: or(F, F) RULE 6\nS10: F RULE 5",
+      "start": "or(F, not(and(not(and(or(and(and(F, T), T), F), or(T, x))), or(T, x))))",
+      "normal_form": "F",
+      "n_parsed_steps": 10
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 226,
+      "completion": "<think>\nThe expression is a nested `and`. I will simplify the innermost components first to clear the clutter.\n1. Inner `not(not(T))` becomes `T` (Rule 1).\n2. Inner `or(T, x)` becomes `T` (Rule 4), then `not(not(T))` becomes `T` (Rule 1).\n3. Inner `and(T, T)` becomes `T` (Rule 2).\n4. Inner `or(F, ...)` becomes the second argument (Rule 5).\n5. Repeated `and(T, ...)` and `and(..., T)` will be simplified using Rules 2 and 8.\n6. The root is `and(..., T)`, which simplifies to the left argument via Rule 8.\nFinal check: Once all constants are reduced to T/F and variables are isolated or absorbed, no further rules apply.\n</think>\n\nPROOF\nS1: and(and(or(T, x), and(and(T, and(T, T)), and(not(not(or(T, x))), not(or(F, not(and(T, T))))))), T) RULE 1\nS2: and(and(T, and(and(T, and(T, T)), and(not(not(or(T, x))), not(or(F, not(and(T, T))))))), T) RULE 4\nS3: and(and(T, and(and(T, T), and(not(not(or(T, x))), not(or(F, not(and(T, T))))))), T) RULE 2\nS4: and(and(T, and(T, and(not(not(or(T, x))), not(or(F, not(and(T, T))))))), T) RULE 2\nS5: and(and(T, and(T, and(not(not(T)), not(or(F, not(and(T, T))))))), T) RULE 4\nS6: and(and(T, and(T, and(T, not(or(F, not(and(T, T))))))), T) RULE 1\nS7: and(and(T, and(T, and(T, not(not(and(T, T)))))), T) RULE 5\nS8: and(and(T, and(T, and(T, and(T, T)))), T) RULE 1\nS9: and(and(T, and(T, and(T, T))), T) RULE 2\nS10: and(and(T, and(T, T)), T) RULE 2\nS11: and(and(T, T), T) RULE 2\nS12: and(T, T) RULE 2\nS13: T RULE 8",
+      "start": "and(and(or(not(not(T)), x), and(and(T, and(T, T)), and(not(not(or(T, x))), not(or(F, not(and(T, T))))))), T)",
+      "normal_form": "T",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": false,
+      "reward": 0.12000000000000002,
+      "completion_length": 177,
+      "completion": "<think>\nThe expression is a nested logical structure. I will prioritize innermost redexes to simplify the tree from the bottom up.\n1. Innermost `and(T, F)` becomes `F` (Rule 9).\n2. `or(F, F)` becomes `F` (Rule 5).\n3. `or(F, T)` becomes `T` (Rule 4).\n4. `and(T, T)` becomes `T` (Rule 2).\n5. Inside the second main argument: `not(T)` becomes `F` (Rule 6).\n6. `and(T, F)` becomes `F` (Rule 3).\n7. `not(F)` becomes `T` (Rule 7).\n8. `and(T, F)` becomes `F` (Rule 3).\n9. Finally, `or(F, and(T, F))` becomes `or(F, F)`, then `F`.\nNo rules will apply to the final constant F.\n</think>\nPROOF\nS1: or(F, and(and(T, or(or(F, F), T)), and(not(and(T, not(T))), F))) RULE 9\nS2: or(F, and(and(T, or(F, T)), and(not(and(T, not(T))), F))) RULE 5\nS3: or(F, and(and(T, T), and(not(and(T, not(T))), F))) RULE 4\nS4: or(F, and(T, and(not(and(T, not(T))), F))) RULE 2\nS5: or(F, and(T, and(not(and(T, F)), F))) RULE 6\nS6: or(F, and(T, and(not(F), F))) RULE 3\nS7: or(F, and(T, and(T, F))) RULE 7\nS8: or(F, and(T, F)) RULE 9\nS9: or(F, F) RULE 3\nS10: F RULE 5",
+      "start": "or(F, and(and(T, or(or(F, and(T, F)), T)), and(not(and(T, not(T))), F)))",
+      "normal_form": "F",
+      "n_parsed_steps": 10
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 216,
+      "completion": "<think>\nThe expression is highly nested. I will simplify from the innermost redexes outward.\n1. Deepest part: `and(T, T)` (Rule 2) -> `T`.\n2. `not(T)` (Rule 6) -> `F`.\n3. `and(and(T, F), T)` (Rule 3) -> `and(F, T)` (Rule 3) -> `F`.\n4. `or(F, F)` (Rule 5) -> `F`.\n5. `and(F, x)` (Rule 3) -> `F`.\n6. `or(F, F)` (Rule 5) -> `F`.\n7. `not(not(not(not(F))))` (Rule 1 twice) -> `F`.\n8. `and(and(F, T), and(T, T))` -> `and(F, T)` (Rule 2) -> `F` (Rule 3).\n\nFinal check: The expression reduces to the constant F, to which no rules apply.\n</think>\n\nPROOF\nS1: and(and(not(not(not(not(or(or(F, and(F, x)), or(and(x, and(and(and(T, not(T)), T)), F)))))), T), and(T, T)) RULE 2\nS2: and(and(not(not(not(not(or(or(F, and(F, x)), or(and(x, and(and(and(T, F), T)), F)))))), T), T) RULE 6\nS3: and(and(not(not(not(not(or(or(F, and(F, x)), or(and(x, and(and(F, T)), F)))))), T), T) RULE 3\nS4: and(and(not(not(not(not(or(or(F, and(F, x)), or(and(x, and(F, T)), F)))))), T), T) RULE 3\nS5: and(and(not(not(not(not(or(or(F, and(F, x)), or(and(x, F), F)))))), T), T) RULE 3\nS6: and(and(not(not(not(not(or(or(F, and(F, x)), or(F, F)))))), T), T) RULE 3\nS7: and(and(not(not(not(not(or(or(F, and(F, x)), F)))), T), T) RULE 5\nS8: and(and(not(not(not(not(or(F, and(F, x))))), T), T) RULE 5\nS9: and(and(not(not(not(not(F)))), T), T) RULE 3\nS10: and(and(not(not(F)), T), T) RULE 1\nS11: and(and(F, T), T) RULE 1\nS12: and(F, T) RULE 2\nS13: F RULE 3",
+      "start": "and(and(not(not(not(not(or(or(F, and(F, x)), or(and(x, and(and(and(T, T), not(T)), T)), F)))))), T), and(T, T))",
+      "normal_form": "F",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": false,
+      "reward": 0.02857142857142857,
+      "completion_length": 284,
+      "completion": "<think>\nThe expression is a deeply nested set of `or` operations with a complex left child. I will simplify from the inside out:\n1.  Deepest nested part: `and(T, F)` in the first `and` block.\n2.  Simplify the first `and` chain: `and(x, and(and(T, T), and(T, F)))`.\n3.  Simplify the second `and` chain: `and(and(T, T), or(F, not(not(T))))`.\n4.  Evaluate the `not` and `or` logic within the first large `and` block.\n5.  Collapse the outer `or` chain.\n\nStep-by-step:\n- `and(T, F)` -> `F` (Rule 3)\n- `and(and(T, T), F)` -> `and(T, F)` (Rule 2) -> `F` (Rule 3)\n- `and(x, F)` -> `F` (Rule 9)\n- `not(F)` -> `T` (Rule 7)\n- `not(not(T))` -> `T` (Rule 1)\n- `or(F, T)` -> `T` (Rule 5)\n- `and(T, T)` -> `T` (Rule 2)\n- `and(T, T)` -> `T` (Rule 2)\n- `and(T, T)` -> `T` (Rule 2)\n- `or(T, x)` -> `T` (Rule 4)\n- Finally, `or(T, x)` -> `T` repeatedly.\n\nFinal state `T` has no applicable rules.\n</think>\n\nPROOF\nS1: or(or(or(and(not(and(x, and(and(T, T), F))), and(and(T, T), or(F, not(not(T))))), x), x), x) RULE 3\nS2: or(or(or(and(not(and(x, and(T, F))), and(and(T, T), or(F, not(not(T))))), x), x), x) RULE 2\nS3: or(or(or(and(not(and(x, F)), and(and(T, T), or(F, not(not(T))))), x), x), x) RULE 3\nS4: or(or(or(and(not(F), and(and(T, T), or(F, not(not(T))))), x), x), x) RULE 9\nS5: or(or(or(and(T, and(and(T, T), or(F, not(not(T))))), x), x), x) RULE 7\nS6: or(or(or(and(and(T, T), or(F, not(not(T)))), x), x), x) RULE 2\nS7: or(or(or(and(T, or(F, not(not(T)))), x), x), x) RULE 2\nS8: or(or(or(and(T, or(F, T)), x), x), x) RULE 1\nS9: or(or(or(and(T, T), x), x), x) RULE 5\nS10: or(or(or(T, x), x), x) RULE 2\nS11: or(or(T, x), x) RULE 4\nS12: or(T, x) RULE 4\nS13: T RULE 4",
+      "start": "or(or(or(and(not(and(x, and(and(T, T), and(T, F)))), and(and(T, T), or(F, not(not(T))))), x), x), x)",
+      "normal_form": "T",
+      "n_parsed_steps": 13
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 199,
+      "completion": "<think>\nThe start expression is a complex nested `and` structure. I will simplify from the innermost expressions outward to reach the normal form.\n1. `not(not(F))` -> `F` (Rule 1)\n2. `and(x, F)` -> `F` (Rule 9)\n3. `or(F, T)` -> `T` (Rule 5)\n4. `and(T, T)` -> `T` (Rule 2)\n5. `not(not(T))` -> `T` (Rule 1)\n6. `or(T, x)` -> `T` (Rule 4)\n7. `not(T)` -> `F` (Rule 6)\n8. `and(..., F)` -> `F` (Rule 9)\n9. `and(F, x)` -> `F` (Rule 3)\n\nFinal check: The result is `F`, a constant. No rules apply to a constant.\n</think>\n\nPROOF\nS1: and(and(and(and(or(and(x, F), T), T), or(not(not(and(T, T))), x)), not(or(T, x))), x) RULE 1\nS2: and(and(and(and(or(F, T), T), or(not(not(and(T, T))), x)), not(or(T, x))), x) RULE 9\nS3: and(and(and(and(T, T), or(not(not(and(T, T))), x)), not(or(T, x))), x) RULE 5\nS4: and(and(and(T, or(not(not(and(T, T))), x)), not(or(T, x))), x) RULE 2\nS5: and(and(and(T, or(not(not(T)), x)), not(or(T, x))), x) RULE 2\nS6: and(and(and(T, or(T, x)), not(or(T, x))), x) RULE 1\nS7: and(and(and(T, T), not(or(T, x))), x) RULE 4\nS8: and(and(T, not(or(T, x))), x) RULE 2\nS9: and(and(T, not(T)), x) RULE 4\nS10: and(and(T, F), x) RULE 6\nS11: and(F, x) RULE 2\nS12: F RULE 3",
+      "start": "and(and(and(and(or(and(x, not(not(F))), T), T), or(not(not(and(T, T))), x)), not(or(T, x))), x)",
+      "normal_form": "F",
+      "n_parsed_steps": 12
+    },
+    {
+      "solved": false,
+      "reward": 0.04000000000000001,
+      "completion_length": 333,
+      "completion": "<think>\nThe expression is a large `and(...)` structure. I will simplify the innermost expressions first to reduce complexity.\n1. `or(F, T)` is a redex (Rule 4), simplifies to `T`.\n2. `and(F, x)` is a redex (Rule 3), simplifies to `F`.\n3. `and(and(F, x), x)` becomes `and(F, x)` (Rule 3), which becomes `F`.\n4. The inner `and` chain `and(and(or(F, T), T), and(T, ...))` will collapse.\n5. `or(and(F, x), T)` is a redex (Rule 4), simplifies to `T`.\n6. The final expression will be of the form `and(not(and(..., ...)), T)`, which simplifies via Rule 8.\n\nLet's trace carefully:\n- `or(F, T)` -> `T` (Rule 4)\n- `and(F, x)` -> `F` (Rule 3)\n- `and(T, and(and(F, x), x))` -> `and(T, and(F, x))` -> `and(T, F)` -> `F` (Rules 3, 2/8, 9)\n- `and(and(or(F, T), T), ...)` -> `and(and(T, T), F)` -> `and(T, F)` -> `F` (Rules 4, 8, 9)\n- `and(T, or(and(F, x), T))` -> `and(T, T)` -> `T` (Rules 4, 2)\n- `and(and(T, T), or(F, T))` -> `and(T, T)` -> `T` (Rules 8, 4, 2)\n- The outer `not` takes `and(F, T)` which is `F` (Rule 9).\n- `not(F)` is `T` (Rule 7).\n- `and(T, T)` is `T` (Rule 2).\n</think>\n\nPROOF\nS1: and(not(and(and(T, not(and(and(T, T), and(T, and(and(F, x), x))))), and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 4\nS2: and(not(and(and(T, not(and(and(T, T), and(T, and(F, x))))), and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 3\nS3: and(not(and(and(T, not(and(and(T, T), and(T, F)))), and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 3\nS4: and(not(and(and(T, not(and(and(T, T), F))), and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 9\nS5: and(not(and(and(T, not(F)), and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 9\nS6: and(not(and(and(T, T), and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 7\nS7: and(not(and(T, and(and(T, or(and(F, x), T)), or(F, T)))), T) RULE 2\nS8: and(not(and(T, and(and(T, T), or(F, T)))), T) RULE 4\nS9: and(not(and(T, and(T, T))), T) RULE 4\nS10: and(not(and(T, T)), T) RULE 2\nS11: and(not(T), T) RULE 2\nS12: and(F, T) RULE 6\nS13: F RULE 9",
+      "start": "and(not(and(and(T, not(and(and(or(F, T), T), and(T, and(and(F, x), x))))), and(and(T, or(and(F, x), T)), or(F, T)))), T)",
+      "normal_form": "F",
+      "n_parsed_steps": 13
+    }
+  ]
+}

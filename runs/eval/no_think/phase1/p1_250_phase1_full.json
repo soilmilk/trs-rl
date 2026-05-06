@@ -1,0 +1,1612 @@
+{
+  "mode": "checkpoint",
+  "checkpoint": "runs/no_think/qwen3.5/phase1/trs_rl_phase1_v1/checkpoint-250",
+  "phase": 1,
+  "eval_file": "data/eval/phase1.jsonl",
+  "n_samples": 200,
+  "solve_rate": 0.905,
+  "mean_reward": 0.9247499999999998,
+  "mean_length": 13.48,
+  "results": [
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: F RULE 3\nSN: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 54,
+      "completion": "S1: T RULE 1\n\n---\nEND OF PROOF\n\nNote: The rule `RULE 1: not(not(x)) => x` matches `T` because `T` is a constant that satisfies the condition `not(not(x))` (where `x` is implicitly `T`). Since the rule fires directly on the root, the inner application is not required. The expression reduces to the constant `T`.",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 129,
+      "completion": "To solve this, let's walk through the rewriting process step-by-step.\n\n**Analysis of the Start Expression:**\nExpression: `not(not(F))`\n\n**Step 1: Apply Rule 1**\n*   **Rule:** `not(not(x)) => x`\n*   **Match:** The expression `not(not(F))` matches the pattern `not(not(x))` where `x` is the variable `F`.\n*   **Apply:** Substitute `F` for `x` in the RHS.\n*   **Result:** `F`\n\n**Step 2: Check for further applications**\nThe current expression is `F`.\n*   **Rule 1:** Matches `not(not(x))`, but the input is `F`. No match.\n*   **Rule 2:** Matches `and(T, x)`, but the input is `F`. No match.\n*   **Rule 3:** Matches `and(F, x)`, but the input is a single atom `F`, not `and(F, ...)`. No match.\n\nNo rules apply to the expression `F`. The derivation is complete.\n\n**Final Output Construction:**\n\nPROOF\nS1: F RULE 1\nF",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 13,
+      "completion": "PROOF\nS1: and(T, T) => T (RULE 2)\nSN: T RULE 3\n\nend",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(F, x) => F\nS2: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE NONE",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\n---\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 117,
+      "completion": "### Step-by-Step Derivation\n\n1.  **Analyze the Start Expression:**\n    Expression: `not(not(T))`\n    Rule Candidates:\n    -   Rule 1: `not(not(x)) => x`\n        -   The structure matches perfectly. The inner term is `not(not(T))`, which corresponds to `not(not(x))` where `x` is the variable `T`.\n\n2.  **Apply Rule 1:**\n    -   Apply Rule 1 to `not(not(T))`.\n    -   Result: `T`\n\n3.  **Check for Applicability:**\n    -   Current Expression: `T`\n    -   Rule 1 requires `not(not(x))`. `T` is not that structure.\n    -   Rule 2 requires `and(T, x)`. `T` is not an `and` expression.\n    -   Rule 3 requires `and(F, x)`. `T` is not an `and` expression.\n    -   No rules apply to `T`.\n\n4.  **Final State:**\n    The expression `T` is in normal form.\n\n### Final Output\n\nPROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) RULE 2\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 183,
+      "completion": "To solve this, we must apply the rewrite rules starting from the given expression `and(F, x)`.\n\n**Step-by-step Evaluation:**\n\n1.  **Analyze the start expression:** `and(F, x)`\n    *   We look for a rule where the left-hand side (LHS) is `and(F, *)`.\n    *   **Rule 3** has the LHS: `and(F, x)`.\n    *   The Right-hand side (RHS) of Rule 3 is: `F`.\n    *   The variable `x` in the LHS matches the variable `x` in the start expression.\n    *   Applying Rule 3 replaces `and(F, x)` with `F`.\n\n2.  **Check for further matches:**\n    *   The resulting expression is `F`.\n    *   Now we look for any rules that could apply to `F` (as a standalone root).\n    *   Rule 1 requires `not(...)`.\n    *   Rule 2 requires `and(T, ...)`.\n    *   Rule 3 requires `and(F, ...)`.\n    *   Rule 4 requires `or(...)`.\n    *   Rule 5 requires `or(...)`.\n    *   None of these rules match the single constant `F`. The rules only fire if their LHS matches the current node. Since `F` is a constant (no children), we stop here.\n\n**Conclusion:**\nThe expression `and(F, x)` matches Rule 3 directly to produce `F`.\n\nPROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 12,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\n---\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(F, x) => F\nS2: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.8,
+      "completion_length": 13,
+      "completion": "PROOF\nS1: T RULE 1\nS2: T RULE 2\n\n---\nEND OF PROOF",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\n---",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 8,
+      "completion": "PROOF\nS1: and(T, T) => T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(F, x) => F\nS2: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 10,
+      "completion": "# PROOF\n\nS1: and(T, T) => T\nS2: T\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "S1: F RULE 1\n\nPROOF",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: not(not(F)) => x\nS2: x RULE 1\n\n--- END",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(F, x) => F\nS2: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 1\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 13,
+      "completion": "PROOF\nS1: and(T, T) => T RULE 2\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "BEGIN PROOF\n\nPROOF\nS1: T RULE 2\n\nEND PROOF",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 81,
+      "completion": "Here is the step-by-step derivation:\n\n**Step 1:**\nApply **RULE 1**: `not(not(T))` matches `not(not(x))` where `x` becomes `T`.\nS1: `T` RULE 1\n\n**Step 2:**\nThe expression is just `T`. Check all remaining rules:\n- RULE 1: `not(not(x)) => x` -> Does not apply (no `not` function).\n- RULE 2: `and(T, x) => x` -> Requires `and` function.\n- RULE 3: `and(F, x) => F` -> Requires `and` function.\nNo rules apply.\n\nThe expression is in normal form.\n\n**PROOF**\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(not(T))) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(not(T))) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.65,
+      "completion_length": 266,
+      "completion": "To solve this, we apply the rewrite rules step-by-step until the expression is in normal form.\n\n**Step 1:**\nWe start with the expression `not(not(T))`.\n- Rule 1 states: `not(not(x)) => x`.\n- In our expression, `T` acts as the variable `x`.\n- Therefore, `not(not(T))` reduces to `T`.\n\n**Step 2:**\nThe expression is now `T`.\n- We check the rules. Rule 1, 2, and 3 all require a left-hand side (LHS) that contains a function symbol (like `not`, `and`, `or`) as the root node. The expression `T` has no children and no function symbols.\n- Therefore, Rule 1, 2, and 3 do not apply to the root of the current expression.\n- Since no other rules apply, the expression is in normal form.\n\n**Final Output:**\nWe reach the normal form `T` via a single rule application.\n\nPROOF\nS1: T RULE 1\n\n--- EXAMPLE 1: Same rule fires twice, inner-node application ---\n\nRULE 1: not(not(x)) => x\nRULE 2: and(T, x) => x\nRULE 3: and(F, x) => F\nRULE 4: or(T, x) => T\nRULE 5: or(F, x) => x\n\nSTART and(T, not(not(not(not(F)))))\nTARGET F\n\nPROOF\nS1: and(T, not(not(not(not(F))))) RULE 1\nS2: and(T, F) RULE 1\nS3: F RULE 2\n\n--- EXAMPLE 2: Variable x gets absorbed ---\n\nRULE 1: not(not(x)) => x\nRULE 2: and(T, x) => x\nRULE 3: and(F, x) => F\nRULE 4: or(T, x) => T\nRULE 5: or(F, x) => x\n\nSTART or(and(F, x), not(not(T)))\nTARGET T\n\nPROOF\nS1: or(and(F, x), T) RULE 1\nS2: or(F, T) RULE 3\nS3: T RULE 5\n\n--- YOUR PROOF:\n\nPROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.8,
+      "completion_length": 53,
+      "completion": "Here is the step-by-step proof:\n\nPROOF\nS1: F RULE 1\n\n**Explanation:**\n1. The rule `RULE 1: not(not(x)) => x` applies because `not(not(F))` is an identical sub-expression to `not(not(x))` where `x` is substituted with `F`.\n2. The result is `F`.\n3. Since `F` is a constant, no further rules apply.\n\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: not(not(F)) => not(F)\nS2: not(not(F)) => F\nS3: F",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(F, F) RULE 3\nS2: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 140,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\n---\n\n### Step-by-Step Logic\n\n1.  **Analyze Start Expression**: `and(T, T)`\n    *   We look for a rule where the left-hand side (LHS) matches the start expression.\n    *   **Rule 2**: `and(T, x) => x`.\n    *   Here, the LHS `and(T, x)` matches `and(T, T)` because `T` matches variable `x`.\n    *   Apply Rule 2.\n\n2.  **Apply Rule 2**:\n    *   `and(T, T)` matches `and(T, x)` with $x = T$.\n    *   Resulting RHS: `T`.\n    *   Current state: `T`.\n\n3.  **Check for Further Reduction**:\n    *   Does `T` match any LHS?\n        *   Rule 1 LHS: `not(not(x))` (Does not match `T`).\n        *   Rule 2 LHS: `and(T, x)` (Does not match `T`).\n        *   Rule 3 LHS: `and(F, x)` (Does not match `T`).\n    *   The expression is now in normal form.\n\n4.  **Final Output**:\n    *   Expression: `T`\n    *   Rule used: 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 18,
+      "completion": "PROOF\nS1: and(T, F) => F\n\nTARGET F\nPROOF\nS1: and(T, F) => F\nS2: F RULE 3",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 8,
+      "completion": "START and(T, T)\n\nS1: T RULE 2\n\nPROOF",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\nS3: T",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 7,
+      "completion": "PROOF\nS1: F RULE 2\n\n---\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "# PROOF\n\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 133,
+      "completion": "### Step-by-step Derivation\n\n**Goal:** Reduce `and(T, T)`\n\n1.  **Analyze the Start:**\n    Expression: `and(T, T)`\n    Matches Rule 2: `and(T, x) => x`.\n    Here, `x` becomes `T`.\n\n2.  **Apply Rule 2:**\n    Apply `and(T, x) => x` to `and(T, T)`.\n    Result: `T`\n\n3.  **Analyze the Result:**\n    Expression: `T`\n    Check against remaining rules:\n    - Rule 1: `not(not(x))` -> No match.\n    - Rule 2: `and(T, x)` -> No match (function `and` vs atom `T`).\n    - Rule 3: `and(F, x)` -> No match (function `and` requires `F` as left operand).\n    - Rule 4: `or(T, x)` -> No match (function `or` required).\n    - Rule 5: `or(F, x)` -> No match (function `or` required).\n\n4.  **Conclusion:**\n    The expression `T` cannot be matched by any rule. It is in normal form.\n\n---\n\n### Final Output\n\n```text\nPROOF\nS1: T RULE 2\n```",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": false,
+      "reward": 0.1,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 2",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 20,
+      "completion": "PROOF\nS1: F RULE 1\n\n---\n(No further rules apply to the constant F. The expression is in normal form.)",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 2\n\nEND",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 2",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 2\n\nEND",
+      "start": "and(T, F)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.8,
+      "completion_length": 12,
+      "completion": "# Proof\n\nPROOF\nS1: F RULE 3\n(S1: F RULE 3)\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: F RULE 1\n\n---\nEND OF PROOF",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: T RULE 1\nEND",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 124,
+      "completion": "To solve this, we apply the rules step-by-step, ensuring we find valid matches at every node top-down.\n\n**Analysis of the Start Expression:**\nExpression: `and(T, T)`\nRules:\n1. `not(not(x)) => x` (No match, no `not`)\n2. `and(T, x) => x` (Match at root `and(T, T)`: Left child is `T`, right child is `T`)\n3. `and(F, x) => F` (No match, left child is `T`)\n\n**Step 1:**\n- Apply Rule 2 to the root.\n- `and(T, T)` becomes `T`.\n\n**Step 2:**\n- Check the expression `T` against remaining rules.\n- Rule 1: `not(not(x))`? No.\n- Rule 2: `and(T, x)`? No (does not start with `and`).\n- Rule 3: `and(F, x)`? No.\n\nThe expression `T` is now in normal form.\n\n**Final Output:**\n\nPROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": false,
+      "reward": 0.0,
+      "completion_length": 8,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 11,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1\n\n--- END",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(F, x) => F\nS2: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 10,
+      "completion": "PROOF\nS1: and(T, T) => T\nS2: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(F)) => F\nS2: F RULE 1",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "Proof\nS1: F RULE 3\n\nEND",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 2",
+      "start": "and(T, T)",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 5,
+      "completion": "PROOF\nS1: F RULE 3",
+      "start": "and(F, x)",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 6,
+      "completion": "PROOF\nS1: F RULE 1\n\nEND",
+      "start": "not(not(F))",
+      "normal_form": "F"
+    },
+    {
+      "solved": true,
+      "reward": 1.0,
+      "completion_length": 9,
+      "completion": "PROOF\nS1: not(not(T)) => T\nS2: T RULE 1",
+      "start": "not(not(T))",
+      "normal_form": "T"
+    }
+  ]
+}
