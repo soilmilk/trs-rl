@@ -2,11 +2,6 @@
 
 RL agent (fine-tuned LLM) that learns to reduce symbolic expressions to normal form using only a binary reward signal — no expert demonstrations, no human annotations.
 
-## Results:
-Phase 1: 100% Solve rate
-Phase 2 (Run 1): 0.30 reward, entropy collapse identified, retrain in progress
-
-Hardware: 8x H100 on AWS EC2
 
 ---
 
