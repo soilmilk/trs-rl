@@ -1,13 +1,6 @@
 """
 rewritelang/verifier.py
 
-verify_proof(), is_normal_form()
-
-Axiom 4 — Normal Form:
-  E is in normal form iff no rule applies anywhere in E.
-
-Reward formula (from design doc):
-  R_total = 0.2 × (valid_steps / total_steps) + 0.8 × R_final
 """
 
 from __future__ import annotations
