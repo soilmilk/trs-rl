@@ -1,249 +1,240 @@
-# TRS-RL: Term Rewriting Agent via Reinforcement Learning
+# TRS-RL: Term Rewriting via Reinforcement Learning
 
-RL agent (fine-tuned LLM) that learns to reduce symbolic expressions to normal form using only a binary reward signal — no expert demonstrations, no human annotations.
+Code accompanying the paper *TRS-RL: Learning Symbolic Term Rewriting from First Principles via Reinforcement Learning*.
 
-
----
-
-## Quick Start
-
-### If you have a `.pem` file and an EC2 IP address
-
-```bash
-# 1. Make the setup script executable
-chmod +x aws_setup.sh
-
-# 2. Run it — this does everything
-./aws_setup.sh /path/to/your-key.pem YOUR_EC2_IP
-```
-
-That script will:
-- Fix your SSH key permissions (AWS requires 600)
-- Upload the codebase to `~/trs-rl` on your instance
-- Install all dependencies
-- Run sanity checks
-- Start eval set generation in the background
-
-Then SSH in and start training:
-```bash
-ssh -i /path/to/your-key.pem ubuntu@YOUR_EC2_IP
-cd ~/trs-rl
-python3 scripts/train.py --model Qwen/Qwen2.5-1.5B-Instruct
-```
+A small language model (Qwen3.5-2B + LoRA) is trained with GRPO on a five-phase curriculum of term rewriting problems. The reward is computed by a deterministic verifier; no expert demonstrations, proof traces, or human annotations are used at training time.
 
 ---
 
-## Manual Setup (if you prefer)
+## Anonymity notice (review period)
+
+This is an anonymized snapshot for double-blind review. Operational scaffolding (AWS launch scripts, Dockerfile, original setup scripts) has been removed. A non-anonymized release with full deployment tooling will accompany the camera-ready version.
+
+---
+
+## Quick start (single H100, local)
 
 ```bash
-# On your AWS instance
-git clone <your-repo> ~/trs-rl
-cd ~/trs-rl
+# 1. Install
+git clone <this repo> trs-rl
+cd trs-rl
 pip install -e ".[dev]"
 
-# MUST pass before training
+# 2. Sanity check (must pass before training)
 python3 scripts/sanity_check.py
 
-# Generate fixed eval sets (~2 min)
+# 3. Generate the held-out evaluation sets
 python3 data/generate_eval.py --seed 42
 
-# Run training
-python3 scripts/train.py
+# 4. Generate the training instance pools
+python3 data/generate_train.py
+
+# 5. Train Phase 1 (proof of life — should reach >75% solve rate in <250 steps)
+python3 scripts/train.py \
+    --model Qwen/Qwen3.5-2B-Instruct \
+    --start-phase 1 \
+    --max-steps 1500 \
+    --max-tokens 1024 \
+    --temperature 0.7 \
+    --kl-coeff 0.05 \
+    --output-dir runs/phase1
 ```
+
+For a full curriculum run (Phases 1–5, both no-think and think tracks), see `Reproduction Recipe` below.
 
 ---
 
-## SSH Cheat Sheet
+## What the system does
+
+Term rewriting systems (TRS) are defined by a finite set of rewrite rules `L → R`. Given a starting expression, the goal is to find an ordered sequence of rule applications that reduces it to *normal form* (no rule applies anywhere). The model emits proofs in this format:
+
+```
+PROOF
+S1: <expression after step 1> RULE <rule number>
+...
+SN: <normal form> RULE <rule number>
+```
+
+The verifier checks (i) that every step is a valid single rule application and (ii) that the final expression matches the target normal form, then computes the shaped reward (Equation 1 in the paper):
+
+```
+R_total = 0.4 × (valid_steps / n)                         # step validity
+        + 0.4 × 1[final == target]                         # outcome correctness
+        + 0.2 × 1 / (1 + |rules matching final state|)     # proximity
+```
+
+All three terms are bounded in [0, 1] and the total is in [0, 1].
+
+---
+
+## Reproduction recipe
+
+The full paper-result reproduction is a five-phase no-think track plus a two-phase think track resuming from the Phase 3 no-think checkpoint. Hyperparameters per phase are listed in Appendix C of the paper; the explicit `train.py` invocations are below.
+
+### No-think track (Phases 1–5)
 
 ```bash
-# Basic SSH
-ssh -i /path/to/key.pem ubuntu@YOUR_IP
+# Phase 1
+python3 scripts/train.py --start-phase 1 \
+    --max-steps 3500 --max-tokens 1024 --temperature 0.7 --kl-coeff 0.05 \
+    --output-dir runs/no_think/phase1
 
-# Copy files to instance
-scp -i /path/to/key.pem localfile.py ubuntu@YOUR_IP:~/trs-rl/
+# Phase 2 (resume from Phase 1)
+python3 scripts/train.py --start-phase 2 \
+    --resume-checkpoint runs/no_think/phase1/checkpoint-1250 \
+    --max-steps 3500 --max-tokens 1024 --temperature 0.7 --lr 5e-6 --kl-coeff 0.05 \
+    --output-dir runs/no_think/phase2
 
-# Sync entire project
-rsync -avz -e "ssh -i /path/to/key.pem" ./ ubuntu@YOUR_IP:~/trs-rl/
+# Phase 3
+python3 scripts/train.py --start-phase 3 \
+    --resume-checkpoint runs/no_think/phase2/checkpoint-1250 \
+    --max-steps 2000 --max-tokens 768 --temperature 0.9 --kl-coeff 0.04 \
+    --output-dir runs/no_think/phase3
 
-# Run training in background (survives SSH disconnect)
-nohup python3 scripts/train.py > runs/train.log 2>&1 &
-
-# Watch training logs live
-tail -f runs/train.log
-
-# Check GPU usage
-nvidia-smi
-watch -n 1 nvidia-smi   # refresh every second
+# Phase 4 / Phase 5: same pattern, max-tokens 1024, temp 0.9, kl 0.04
 ```
+
+### Think track (Phases 4–5, resumed from no-think Phase 3)
+
+```bash
+python3 scripts/train.py --start-phase 4 \
+    --resume-checkpoint runs/no_think/phase3/checkpoint-1250 \
+    --max-steps 2000 --max-tokens 3072 --temperature 0.9 --kl-coeff 0.04 \
+    --output-dir runs/think/phase4
+
+python3 scripts/train.py --start-phase 5 \
+    --resume-checkpoint runs/think/phase4/checkpoint-1750 \
+    --max-steps 2000 --max-tokens 3072 --temperature 0.9 --kl-coeff 0.04 \
+    --output-dir runs/think/phase5
+```
+
+The headline result (Phase 5 think, 80.0% solve rate) corresponds to `runs/think/phase5/checkpoint-1750` evaluated at temperature 0.3.
+
+### Evaluation
+
+```bash
+# In-domain solve rate (Phase 5 eval set)
+python3 scripts/evaluate_phase.py \
+    --checkpoint runs/think/phase5/checkpoint-1750 \
+    --phase 5 --temperature 0.3
+
+# Cross-domain (paper Section 5.6)
+python3 scripts/evaluate_math500.py    --checkpoint runs/think/phase5/checkpoint-1750 --max-tokens 8192
+python3 scripts/evaluate_mmlu_prox.py  --checkpoint runs/think/phase5/checkpoint-1750 --max-tokens 2048
+python3 scripts/evaluate_ifeval.py     --checkpoint runs/think/phase5/checkpoint-1750 --max-tokens 2048
+```
+
+Each evaluator writes a `_full.json` with per-instance results, and a summary JSON with aggregate metrics.
 
 ---
 
-## Project Structure
+## Project structure
 
 ```
 trs-rl/
-├── rewritelang/        # The formal TRS engine (no ML, pure logic)
-│   ├── grammar.py      # Expr, parse_expr, expr_to_str
-│   ├── match.py        # match(), substitute(), apply_rule_at()
-│   ├── verifier.py     # verify_proof(), is_normal_form(), Rule
-│   └── domains.py      # BOOLEAN_RULES, ARITHMETIC_RULES, ABSTRACT_RULES
+├── rewritelang/        Pure-Python TRS engine (no ML)
+│   ├── grammar.py      Expr datatype, parse_expr, expr_to_str
+│   ├── match.py        match(), substitute(), apply_rule_at()
+│   ├── verifier.py     verify_proof(), is_normal_form(), reward
+│   └── domains.py      BOOLEAN_RULES, ARITHMETIC_RULES, ABSTRACT_RULES
 │
-├── generator/          # Automated instance generation (no human annotation needed)
-│   ├── instance.py     # generate_instance() — reverse-rewriting construction
-│   └── curriculum.py   # CurriculumTracker — automated phase advancement
+├── generator/
+│   ├── instance.py     Reverse-rewriting instance generator
+│   └── curriculum.py   CurriculumTracker (auto-advance @ 0.75 solve rate)
 │
-├── agent/              # Model interface
-│   ├── prompt.py       # make_prompt(), SYSTEM prompt
-│   └── parser.py       # parse_proof_from_output() — robust to malformed output
+├── agent/
+│   ├── prompt.py       Chat-template prompt construction
+│   └── parser.py       Robust output parser for PROOF blocks
 │
-├── training/           # RL training
-│   ├── reward.py       # compute_reward() — TRS verifier as reward oracle
-│   ├── grpo.py         # GRPO training loop (HuggingFace TRL + vLLM)
-│   └── emergence.py    # LO alignment, reflection detection, rule frequency
+├── training/
+│   ├── reward.py       compute_reward() — wraps the verifier
+│   ├── grpo.py         GRPO trainer (HuggingFace TRL)
+│   └── emergence.py    LO/IN alignment, reflection detection
 │
 ├── data/
-│   ├── generate_eval.py    # Pre-generate eval sets (run once)
-│   └── eval/               # phase1-5.jsonl + ood.jsonl
+│   ├── generate_eval.py     Generate held-out eval sets
+│   ├── generate_train.py    Generate training pools
+│   ├── generate_math500.py  Cross-domain eval data prep
+│   ├── generate_mmlu_prox.py
+│   ├── generate_ifeval.py
+│   ├── eval/                Output: phase{1-5}.jsonl, ood.jsonl, math500.jsonl, ...
+│   └── train/               Output: phase{1-5}.jsonl
 │
 ├── scripts/
-│   ├── sanity_check.py     # Run this first. Always.
-│   └── train.py            # Training entry point
+│   ├── sanity_check.py      Run before any training
+│   ├── train.py             Training entry point
+│   ├── evaluate_phase.py    In-domain solve rate
+│   ├── evaluate_math500.py  Cross-domain (math)
+│   ├── evaluate_mmlu_prox.py
+│   ├── evaluate_ifeval.py
+│   └── analyze_metrics.py   LO alignment, thought-dropout statistics
 │
-├── aws_setup.sh            # One-command AWS setup
-└── pyproject.toml
+├── pyproject.toml
+└── requirements.txt
 ```
 
 ---
 
-## Training Config
+## Curriculum
 
-Default config targets a single H100 (80GB). Key parameters:
+Phases advance automatically when `solve_rate@1 ≥ 0.75` on the 200-instance held-out eval set. Rule counts are fixed per phase; depth and step count are sampled within the listed ranges.
 
-| Parameter | Default | Notes |
-|-----------|---------|-------|
-| model | Qwen2.5-1.5B-Instruct | Can upgrade to 3B/7B |
-| lora_rank | 16 | Increase to 32 for more capacity |
-| group_size | 8 | GRPO rollouts per problem |
-| max_new_tokens | 768 | TRS proofs need more room than SAT |
-| temperature | 0.9 | Higher than SAT — more exploration |
-| learning_rate | 8e-6 | Conservative for sequential task |
-| max_steps | 8000 | ~2-3 days total across all phases |
+| Phase | Rules | Depth | Steps  | Domain                   |
+|-------|-------|-------|--------|--------------------------|
+| 1     | 3     | ≤2    | 1      | Boolean                  |
+| 2     | 5     | ≤3    | 2–4    | Boolean                  |
+| 3     | 7     | ≤5    | 4–8    | Boolean                  |
+| 4     | 9     | ≤8    | 8–15   | Boolean + Arithmetic     |
+| 5     | 12    | ≤10   | 10–20  | Boolean + Arithmetic + Abstract (combinators) |
 
----
-
-## Curriculum (Fully Automated)
-
-Phases advance automatically when `solve_rate@1 >= 0.75` on the eval set.
-
-| Phase | Rules | Depth | Steps | Domain |
-|-------|-------|-------|-------|--------|
-| 1 | 3 | 1-2 | 1 | boolean |
-| 2 | 5 | 2-3 | 2-4 | boolean |
-| 3 | 7 | 3-5 | 4-8 | boolean |
-| 4 | 9 | 5-8 | 8-15 | boolean+arithmetic |
-| 5 | 12 | 6-10 | 10-20 | mixed |
+Rule sets are listed in Appendix B of the paper.
 
 ---
 
-## What Makes This Work
+## Instance generation: backward construction
 
-**The key insight:** We generate training problems *backwards* from the solution.
+Training and evaluation instances are generated by *reverse rewriting*:
 
-1. Sample a normal form `NF` (expression where no rule fires)
-2. Apply rules in reverse `n_steps` times to build a `start` expression
-3. The `start → NF` proof is guaranteed to exist — we built it
+1. Sample a normal form `NF` (an expression on which no rule fires).
+2. Apply rules **in reverse** for `n_steps` to construct a start expression.
+3. Return `(rules, start, NF, witness_proof)`.
 
-This means:
-- Zero manual annotation
-- Infinite training data
-- Every problem is solvable by construction
-- The model never sees the proof trace
+This guarantees solvability by construction. The witness proof is held by the generator — the model never sees it during training. See `generator/instance.py`.
 
 ---
 
-## Reward Signal
+## Reward function
 
-```
-R_total = 0.2 × (valid_steps / total_steps) + 0.8 × R_final
+The reward is computed by `rewritelang/verifier.py:verify_proof` (the same code used at evaluation time):
+
+```python
+R_total = 0.4 * step_reward + 0.4 * final_reward + 0.2 * proximity
 ```
 
-- **60% weight on reaching normal form** — the actual goal
-- **40% weight on step validity** — partial credit for getting individual steps right
-- This prevents the agent from learning to game the format
+where:
+
+- `step_reward = valid_steps / n` — fraction of intermediate rewrite steps that are valid single rule applications under the rule set.
+- `final_reward = 1 if final_expression == target else 0` — outcome correctness.
+- `proximity = 1 / (1 + |applicable rules at final state|)` — partial credit for arriving at an expression close to a normal form.
+
+Section 7.1 of the paper compares this formulation to a proximity-only variant (which causes reward hacking).
 
 ---
 
-## Success Criteria
+## Hardware
 
-The experiment succeeds if ANY of these hold:
-1. LO alignment score increases monotonically with training
-2. Reflection behavior appears and correlates with harder problems  
-3. OOD solve rate > zero-shot baseline
-4. Think trace length grows with proof complexity
+Training was performed on 8× NVIDIA H100 80GB GPUs. A single H100 is sufficient for Phase 1–3 reproduction; Phases 4–5 think mode benefit from multi-GPU due to the longer 3072-token completion budget.
 
-If none hold → also publishable (strong negative result).
+Approximate wall-clock per phase (8× H100): no-think Phases 1–5 ≈ 6h each; think Phases 4–5 ≈ 12h each. Total full-curriculum run ≈ 2 days.
 
 ---
 
-## Math Benchmark Suite (AIME / AMC / Putnam)
+## Dependencies
 
-For the TRS-RL paper we benchmark transfer to standard math contest datasets,
-following the SATURN paper convention. The pipeline supports the base model
-and the trained checkpoint with thinking ON or OFF.
+Pinned in `requirements.txt` and `pyproject.toml`. Core stack: `torch >= 2.2`, `transformers >= 4.40`, `peft >= 0.10`, `trl >= 0.8`, `vllm >= 0.4` (for fast rollouts). Tested on Python 3.10 with CUDA 12.1.
 
-### Datasets
+---
 
-| Benchmark | Source | N problems | Answer type |
-|-----------|--------|------------|-------------|
-| AIME 2026 | `evalscope/aime26` (or HF mirrors) | 30 | integer 0-999 |
-| AMC 12 (2022/23) | `AI-MO/aimo-validation-amc` | 83 | integer |
-| Putnam | `amitayusht/PutnamBench` | 271 (numerical-answer subset) | free-form |
+## License
 
-Generate all datasets with:
-```bash
-python3 data/generate_aime26.py
-python3 data/generate_amc.py
-python3 data/generate_putnam.py
-```
-
-### Single-benchmark runs
-
-```bash
-# Base model on AMC
-python3 scripts/evaluate_amc.py \
-    --eval-file data/eval/amc.jsonl \
-    --output-file results/amc_base.json
-
-# Phase 5 checkpoint on AIME, thinking ON
-python3 scripts/evaluate_aime.py \
-    --checkpoint runs/.../phase5/checkpoint-XXXX \
-    --eval-file data/eval/aime26.jsonl \
-    --output-file results/aime_phase5_think_on.json
-
-# Phase 5 checkpoint on Putnam, thinking OFF
-python3 scripts/evaluate_putnam.py \
-    --checkpoint runs/.../phase5/checkpoint-XXXX \
-    --no-think \
-    --eval-file data/eval/putnam.jsonl \
-    --output-file results/putnam_phase5_think_off.json
-```
-
-### Run everything (recommended)
-
-```bash
-# Base only
-bash scripts/run_all_benchmarks.sh
-
-# Base + Phase 5 (think ON and OFF) = 9 JSONs total
-bash scripts/run_all_benchmarks.sh runs/.../phase5/checkpoint-XXXX
-```
-
-Results go to `results/<timestamp>/` with the naming pattern
-`<benchmark>_<mode>.json` (e.g., `aime_phase5_think_on.json`).
-
-### Notes on Putnam grading
-
-Putnam answers are often free-form (fractions, expressions, yes/no), so the
-grader uses normalized string matching with a substring fallback rather than
-strict integer equality. This is approximate — for final paper numbers we may
-want LLM-as-judge. SATURN itself only reports AMC/AIME, so Putnam is bonus.
+MIT (see `LICENSE`). External assets used: Qwen3.5-2B-Instruct (Qwen license), MATH500, MMLU-Pro, IFEval (research-permitted), `lm-evaluation-harness` (MIT).
